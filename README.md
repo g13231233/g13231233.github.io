@@ -1,3 +1,2 @@
-# 杜岚哥个人主页
-www.longyan.love
-!tiktok
+# 杜岚哥社交主页
+【www.longyan.love】
