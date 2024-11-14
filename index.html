@@ -1,40 +1,59 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="ZH-CN">
 <head>
-	<title>野生之地：杜兰戈WIKI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>荒野杜兰戈WiKi</title>
+    <style>
+        /* 导航条样式添加 */
+        .nav{
+            height: 40px;
+            background: #333;
+            /* 给它个阴影 */
+            box-shadow: 0 1px 2px #666 ;
+        }
+        /* 去掉各种不必要 */
+        *{
+            /* 内外边距为0 */
+            margin: 0;
+            padding: 0;
+            /* 各种列表样式为空 */
+            text-decoration: none;
+            list-style: none;
+        }
+        .btli{
+            /* 左浮动，让它们横排 */
+            float: left;
+            /* 设置宽和行高 */
+            width: 100px;
+            line-height: 40px;
+            /* 对齐方式是水平居中 */
+            text-align: center;
+        }
+        .navlist a{
+            /* 超链接的字为白色 */
+            color: #fff;
+            /* 让它以块模式来显示 */
+            display: block;
+        }
+        /* 鼠标悬停时背景变色 */
+        .navlist a:hover{
+            background: #666;
+        }
+
+    </style>
 </head>
-
-<body class="is-preload">
-	<div id="wrapper">
-		<div id="bg"></div>
-		<div id="overlay"></div>
-		<div id="main">
-
-			<!-- Header -->
-			<header id="header">
-				<h1>【游戏新闻】</h1>
-				<p>&nbsp;&bull;&nbsp; 【2024.10.30日杜兰戈终于发布了新CG】 &nbsp;&bull;&nbsp;</p>
-				<p>&nbsp;&bull;&nbsp; 【玩家交流QQ群：283995579】 &nbsp;&bull;&nbsp;</p>
-				<nav>
-					<ul>
-						
-						<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113394216600583&bvid=BV1WdSeYTEmb&cid=26528646713&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-						
-					</ul>
-				</nav>
-				
-			</header>
-
-
-		</div>
-	</div>
-
-
-
-<audio id="player" autoplay loop>
-    <source src="https://www.joy127.com/audio/116873.mp3" type="audio/mpeg">您的浏览器不支持播放音乐!
-</audio>
-	
+<body>
+    <!-- 我们先做出导航条 -->
+    <div class="nav">
+        <ul class="navlist">
+            <li class="btli"><a href="#">首页</a></li>
+            <li class="btli"><a href="#">新闻</a></li>
+            <li class="btli"><a href="#">攻略</a></li>
+            <li class="btli"><a href="#">部落</a></li>
+            <li class="btli"><a href="#">下载</a></li>
+            <li class="btli"><a href="#">赞助</a></li>
+        </ul>
+    </div>
 </body>
-
 </html>
