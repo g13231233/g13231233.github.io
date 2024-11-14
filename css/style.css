@@ -1,0 +1,48 @@
+        /* 导航条样式添加 */
+        .nav{
+            height: 50px;
+            background: #000000;
+            /* 给它个阴影 */
+            box-shadow: 0 1px 2px #666;
+        }
+        /* 去掉各种不必要 */
+        *{
+            /* 内外边距为0 */
+            margin: 0;
+            padding: 0;
+            /* 各种列表样式为空 */
+            text-decoration: none;
+            list-style: none;
+        }
+        .btli{
+            /* 左浮动，让它们横排 */
+            float: left;
+            /* 设置宽和行高 */
+            width: 100px;
+            line-height: 50px;
+            /* 对齐方式是水平居中 */
+            text-align: center;
+        }
+        .navlist a{
+            /* 超链接的字为白色 */
+            color: #ffffff;
+            /* 让它以块模式来显示 */
+            display: block;
+        }
+        /* 鼠标悬停时背景变色 */
+        .navlist a:hover{
+            background: #666;
+        }
+
+        .zz{
+        text-align: center;
+        }
+        .zz img{
+        float: left;
+        width: 50%;
+         line-height: 50%;
+        }
+        .zz p{
+            font-size: 20px;
+            color: rgb(90, 255, 167);
+        }
