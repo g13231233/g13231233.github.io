@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>骗子酒馆左轮枪</title>
+    <title>左轮枪游戏</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="revolver-game">
-        <h1 id="cardDisplay">主牌：&nbsp;</h1>
-        <h2>左轮枪</h2>
-        <button id="shootButton">射击</button>
-        <p id="shotsFired">已射击：0</p>
+    <div class="game-container">
+        <div class="roulette">
+            <h1 id="cardDisplay">扑克牌：&nbsp;</h1>
+            <div class="gun">
+                <div class="chamber"></div>
+                <div class="chamber"></div>
+                <div class="chamber"></div>
+                <div class="chamber"></div>
+                <div class="chamber"></div>
+                <div class="chamber bullet"></div>
+            </div>
+            <button id="shootButton">射击</button>
+            <p id="shotsFired">已射击：0</p>
+        </div>
     </div>
 
     <script src="script.js"></script>
