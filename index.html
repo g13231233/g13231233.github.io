@@ -1,56 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>骗子酒馆排行榜</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>卡牌收藏系统</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <div class="ranking-container">
-        <h2 class="ranking-title">骗子酒馆排行榜</h2>
-        <ul class="ranking-list">
-            <li>
-                <span class="ranking-position top-three">1</span>
-                <div class="avatar"><img src="jpg/1.jpg" alt="头像1"></div>
-                <span class="ranking-name">关会文</span>
-                <span class="ranking-value">【胜2场】</span>
-                <a href="zl.html"><button>查看资料</button></a>
-            </li>
-            <li>
-                <span class="ranking-position top-three">2</span>
-                <div class="avatar"><img src="jpg/1.jpg" alt="头像1"></div>
-                <span class="ranking-name">龙燕</span>
-                <span class="ranking-value">【胜3场】</span>
-                <a href="zl.html"><button>查看资料</button></a>
-            </li>
-            <li>
-                <span class="ranking-position top-three">3</span>
-                <div class="avatar"><img src="jpg/1.jpg" alt="头像1"></div>
-                <span class="ranking-name">关余蕾</span>
-                <span class="ranking-value">【胜0场】</span>
-                <a href="zl.html"><button>查看资料</button></a>
-            </li>
-            <li>
-                <span class="ranking-position top-three">4</span>
-                <div class="avatar"><img src="jpg/1.jpg" alt="头像1"></div>
-                <span class="ranking-name">关兆蕾</span>
-                <span class="ranking-value">【胜0场】</span>
-                <a href="zl.html"><button>查看资料</button></a>
-            </li>
-            <li>
-                <span class="ranking-position top-three">5</span>
-                <div class="avatar"><img src="jpg/1.jpg" alt="头像1"></div>
-                <span class="ranking-name">关鹏</span>
-                <span class="ranking-value">【胜0场】</span>
-                <a href="zl.html"><button>查看资料</button></a>
-            </li>
-            <!-- 其他列表项 -->
-        </ul>
+    <div class="container">
+        <div id="loginRegister" class="login-register">
+            <h2>登录/注册</h2>
+            <input type="text" id="usernameInput" placeholder="用户名">
+            <input type="password" id="passwordInput" placeholder="密码">
+            <button id="registerButton">注册</button>
+            <button id="loginButton">登录</button>
+        </div>
+        <div id="cardCollection" class="card-collection" style="display: none;">
+            <h1>我的背包</h1>
+            <button id="drawCardButton">抽卡</button>
+            <ul id="cardPack"></ul>
+        </div>
     </div>
-
-
+    <script src="script.js"></script>
 </body>
 </html>
