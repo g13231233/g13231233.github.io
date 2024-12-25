@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function refreshCard() {
         const pokerCards = ['J', 'Q', 'K', 'A'];
         const randomCard = pokerCards[Math.floor(Math.random() * pokerCards.length)];
-        cardDisplay.textContent = `扑克牌：${randomCard}`;
+        cardDisplay.textContent = `主牌：${randomCard}`;
     }
 
     shootButton.addEventListener('click', function() {
