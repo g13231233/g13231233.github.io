@@ -8,10 +8,17 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column;
 }
 
 .revolver-game {
     text-align: center;
+}
+
+#cardDisplay {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 button {
