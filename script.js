@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const cardElement = document.createElement('div');
         cardElement.className = `card ${card.rarity}`;
         cardElement.innerHTML = `
-            <h3>${card.name} #${count}</h3>
+            <h3>${card.name} 玩家${count}</h3>
             <p>${card.description}</p>
         `;
         cardContainer.appendChild(cardElement);
