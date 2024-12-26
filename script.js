@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const drawButton = document.getElementById('drawButton');
     const cardContainer = document.getElementById('cardContainer');
-    let cardCount = 0; // 记录抽卡的序号，但不再显示
-    const maxDraws = 3; // 最大抽卡次数
+    let cardCount = 0;
+    const maxDraws = 4;
 
     const cards = [
         { name: '白银[坑下家]', description: '随机抽取下家1张牌。', rarity: 'silver', probability: 0.6 },
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '白银[禁言]', description: '选择一个人禁止出牌1回合。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[禁言]', description: '选择一个人禁止出牌2回合。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[禁言]', description: '选择一个人禁止出牌3回合。', rarity: 'vibrant', probability: 0.1 },
-        
     ];
 
     function drawCard() {
@@ -45,27 +44,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const totalProbability = cards.reduce((acc, card) => acc + card.probability, 0);
         const random = Math.random() * totalProbability;
-        
         let cumulativeProbability = 0;
-        
+
         for (const card of cards) {
             cumulativeProbability += card.probability;
             if (random <= cumulativeProbability) {
-                showCard(card);
+                showCard(card, ++cardCount);
                 break;
             }
         }
     }
 
-    function showCard(card) {
+    function showCard(card, count) {
         const cardElement = document.createElement('div');
         cardElement.className = `card ${card.rarity}`;
         cardElement.innerHTML = `
-            <h3>${card.name}</h3> <!-- 移除了序号 -->
+            <h3>${card.name} #${count}</h3>
             <p>${card.description}</p>
         `;
         cardContainer.appendChild(cardElement);
-        cardCount++; // 仍然记录抽卡次数，但不显示
     }
 
     drawButton.addEventListener('click', drawCard);
