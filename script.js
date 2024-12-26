@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '白银[溜了溜了]', description: '选择1张手牌扔掉。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[溜了溜了]', description: '选择2张手牌扔掉。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[溜了溜了]', description: '选择3张手牌扔掉。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[公平交易]', description: '选择一个人互相交易1张牌。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[公平交易]', description: '选择一个人互相交易2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[公平交易]', description: '选择一个人互相交易3张牌。', rarity: 'vibrant', probability: 0.1 },
+        
     ];
 
     function drawCard() {
