@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金', description: '随机抽取牌库中2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩', description: '随机抽取牌库中3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银', description: '收取其中一人手中1个炸弹，没有炸弹就收取失败。', rarity: 'silver', probability: 0.6 },
+        { name: '白银', description: '收取其中一人手中1个炸弹，没有炸弹收取失败后倒贴一个炸弹给对方，自己也没有就作废。', rarity: 'silver', probability: 0.6 },
         { name: '黄金', description: '收取所有人手中1个炸弹，其他人没有炸弹就收取失败。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩', description: '收取所有人手中1个炸弹，没有炸弹用最大的四张牌代替。', rarity: 'vibrant', probability: 0.1 },
 
