@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[公平交易]', description: '选择一个人互相交换2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[公平交易]', description: '选择一个人互相交换3张牌。', rarity: 'vibrant', probability: 0.1 },
 
+        { name: '白银[坐牢]', description: '本局没有任何海克斯效果。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[坐牢]', description: '本局没有任何海克斯效果。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[坐牢]', description: '本局没有任何海克斯效果。', rarity: 'vibrant', probability: 0.1 },
+
         { name: '白银[禁言]', description: '选择一个人禁止出牌1回合，但被禁言的人每回合可以从牌库中抽1张牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[禁言]', description: '选择一个人禁止出牌2回合，但被禁言的人每回合可以从牌库中抽2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[禁言]', description: '选择一个人禁止出牌3回合，但被禁言的人每回合可以从牌库中抽3张牌。', rarity: 'vibrant', probability: 0.1 },
