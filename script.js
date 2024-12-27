@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[溜了溜了]', description: '选择2张牌扔掉。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[溜了溜了]', description: '选择3张牌扔掉。', rarity: 'vibrant', probability: 0.1 },
 
+        { name: '白银[炸弹翻倍]', description: '本局使用1次炸弹积分翻1倍。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[炸弹翻倍]', description: '本局使用2次炸弹积分翻2倍。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[炸弹翻倍]', description: '本局使用3次炸弹积分翻3倍。', rarity: 'vibrant', probability: 0.1 },
+
         { name: '白银[公平交易]', description: '选择一个人互相交换1张牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[公平交易]', description: '选择一个人互相交换2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[公平交易]', description: '选择一个人互相交换3张牌。', rarity: 'vibrant', probability: 0.1 },
