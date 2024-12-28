@@ -65,6 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '白银[军火商]', description: '可以使用5积分当作无敌炸弹，一局能使用1次。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[军火商]', description: '可以使用5积分当作无敌炸弹，一局能使用2次。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[军火商]', description: '可以使用5积分当作无敌炸弹，一局能使用3次。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[妮寇复制器]', description: '可以使用5积分复制1次已出牌库中的任意1张牌，一局能使用1次。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[妮寇复制器]', description: '可以使用5积分复制1次已出牌库中的任意2张牌，一局能使用1次。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[妮寇复制器]', description: '可以使用5积分复制1次已出牌库中的任意3张牌，一局能使用1次。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
