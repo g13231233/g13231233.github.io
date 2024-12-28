@@ -101,6 +101,26 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '白银[进化]', description: '任意1个炸弹变为王炸。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[进化]', description: '任意2个炸弹变为王炸。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[进化]', description: '任意3个炸弹变为王炸。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[炸翻积分池]', description: '本局每使用一次炸弹积分加5。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[炸翻积分池]', description: '本局每使用一次炸弹积分加10。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[炸翻积分池]', description: '本局每使用一次炸弹积分加20。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[强制交易]', description: '强制使用5积分购买上家1个炸弹，如果没有炸弹或者炸弹不够则交易失败。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[强制交易]', description: '强制使用10积分购买上家2个炸弹，如果没有炸弹或者炸弹不够则交易失败。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[强制交易]', description: '强制使用15积分购买上家3个炸弹，如果没有炸弹或者炸弹不够则交易失败。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[吸血鬼]', description: '每回合自选上家1张牌，上家没有则吸血失败。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[吸血鬼]', description: '每回合自选上家2张牌，上家没有则吸血失败。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[吸血鬼]', description: '每回合自选上家3张牌，上家没有则吸血失败。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[丢垃圾]', description: '每回合丢弃1张牌，没人要的牌收回，请按顺序捡垃圾。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[丢垃圾]', description: '每回合丢弃2张牌，没人要的牌收回，请按顺序捡垃圾。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[丢垃圾]', description: '每回合丢弃3张牌，没人要的牌收回，请按顺序捡垃圾。', rarity: 'vibrant', probability: 0.1 },
+
+        
+
+
         
     ];
 
