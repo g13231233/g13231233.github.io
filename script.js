@@ -74,9 +74,23 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[搞破坏]', description: '随机扔掉上家2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[搞破坏]', description: '随机扔掉上家3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[拆卸器]', description: '拆除上家抽到的海克斯科技为己用，但上家可以从你的牌中随机抽1张牌作为补偿。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[拆卸器]', description: '拆除上家抽到的海克斯科技为己用，但上家可以从你的牌中随机抽2张牌作为补偿。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[拆卸器]', description: '拆除上家抽到的海克斯科技为己用，但上家可以从你的牌中随机抽3张牌作为补偿。', rarity: 'vibrant', probability: 0.1 },
+        { name: '白银[拆卸器]', description: '拆除上家抽到的海克斯科技为己用。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[拆卸器]', description: '把上家和下家的海克斯科技全部拆走。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[拆卸器]', description: '拆走全部人的海克斯科技并禁用刷新。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[模仿秀]', description: '模仿1次其他人出的牌型。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[模仿秀]', description: '模仿2次其他人出的牌型。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[模仿秀]', description: '模仿3次其他人出的牌型。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[贼不走空]', description: '偷上家5积分。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[贼不走空]', description: '偷上家10积分。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[贼不走空]', description: '偷上家20积分。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[黏性炸药]', description: '第一次出炸弹的时候可以额外带1张牌。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[黏性炸药]', description: '第一次出炸弹的时候可以额外带2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[黏性炸药]', description: '第一次出炸弹的时候可以额外带3张牌。', rarity: 'vibrant', probability: 0.1 },
+
+        
         
     ];
 
