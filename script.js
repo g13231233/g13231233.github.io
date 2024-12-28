@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const cards = [
         
-        { name: '白银[坑上家]', description: '随机抽取上家1张牌。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[坑上家]', description: '随机抽取上家2张牌。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[坑上家]', description: '随机抽取上家3张牌。', rarity: 'vibrant', probability: 0.1 },
+        { name: '🤍白银🤍[坑上家]', description: '随机抽取上家1张牌。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[坑上家]', description: '随机抽取上家2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[坑上家]', description: '随机抽取上家3张牌。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '白银[抓咸菜]', description: '随机抽取牌库中1张牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[抓咸菜]', description: '随机抽取牌库中2张牌。', rarity: 'gold', probability: 0.3 },
