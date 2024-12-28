@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[抓咸菜]', description: '随机抽取牌库中2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[抓咸菜]', description: '随机抽取牌库中3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[心态炸了]', description: '收取上家1个炸弹，返还3张或3张以上自己不要的牌，如果选择的人没有炸弹的话倒贴一个炸弹给对方，自己也没有炸弹海克斯作废。', rarity: 'silver', probability: 0.6 },
+        { name: '白银[心态炸了]', description: '收取上家1个炸弹，返还3张或3张以上自己不要的牌，如果选择的人没有炸弹的话倒贴1个炸弹给对方，自己也没有炸弹海克斯作废。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[心态炸了]', description: '收取上家1个炸弹，返还3张或3张以上自己不要的牌，如果选择的人没有炸弹就收取失败。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[心态炸了]', description: '收取上家1个炸弹，返还3张或3张以上自己不要的牌，如果没有炸弹用最大的3张牌代替。', rarity: 'vibrant', probability: 0.1 },
 
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[禁言]', description: '禁止出牌2回合，但可以从已出牌库中选2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[禁言]', description: '禁止出牌3回合，但可以从已出牌库中选3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[预言家]', description: '你的上家只对你一个人明牌。', rarity: 'silver', probability: 0.6 },
+        { name: '白银[预言家]', description: '你的上家只对你1个人明牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[预言家]', description: '你的上家对所有人明牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[预言家]', description: '你的上家和下家都对所有人明牌。', rarity: 'vibrant', probability: 0.1 },
 
