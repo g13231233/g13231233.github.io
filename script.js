@@ -38,9 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[禁言]', description: '上家禁止出牌2回合，但被禁言的人可以从已出牌库中随机抽2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[禁言]', description: '上家禁止出牌3回合，但被禁言的人可以从已出牌库中随机抽3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[预言家]', description: '看上家牌3秒。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[预言家]', description: '除了自己外其他全部玩家名牌5秒。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[预言家]', description: '随机选择一个人从头到尾明牌。', rarity: 'vibrant', probability: 0.1 },
+        { name: '白银[预言家]', description: '你的上家只对你一个人明牌。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[预言家]', description: '你的上家对所有人明牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[预言家]', description: '你的上家和下家都对所有人明牌。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '白银[妙手回春]', description: '给上家1张自己不想要的牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[妙手回春]', description: '给上家2张自己不想要的牌。', rarity: 'gold', probability: 0.3 },
