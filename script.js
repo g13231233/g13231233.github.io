@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[炒冷饭]', description: '开局2回合后在已出的牌库中随机摸2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[炒冷饭]', description: '开局3回合后在已出的牌库中任意选3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[我先来]', description: '开局优先抓牌，其他不变。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[我先来]', description: '开局优先抓牌，不管上局谁赢都优先出牌。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[我先来]', description: '开局在三分之一的牌库中任意选一张牌，优先抓牌和出牌。', rarity: 'vibrant', probability: 0.1 },
+        { name: '白银[连胜优势]', description: '开局优先抓牌，如果上局赢了则在牌库中随机摸1张牌。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[连胜优势]', description: '开局优先抓牌和出牌，如果上局赢了则在牌库中随机摸2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[连胜优势]', description: '开局优先抓牌和出牌，如果上局赢了则在牌库中任意选2张牌。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
