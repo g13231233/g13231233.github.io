@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '棱彩[妙手回春]', description: '随机给一个人3张自己不想要的牌。', rarity: 'vibrant', probability: 0.1 },
         
         { name: '白银[炒冷饭]', description: '开局1回合后在已出的牌库中随机摸1张牌。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[炒冷饭]', description: '开局1回合后在已出的牌库中任意选1张牌。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[炒冷饭]', description: '开局1回合后在已出的牌库中任意选2张牌。', rarity: 'vibrant', probability: 0.1 },
+        { name: '黄金[炒冷饭]', description: '开局2回合后在已出的牌库中随机摸2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[炒冷饭]', description: '开局3回合后在已出的牌库中任意选3张牌。', rarity: 'vibrant', probability: 0.1 },
     ];
 
     function drawCard() {
