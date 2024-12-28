@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[坐牢]', description: '本局没有任何海克斯效果，但奖励10积分。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[坐牢]', description: '重置所有人的海克斯科技，但是没有任何奖励。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[禁言]', description: '上家禁止出牌1回合，但被禁言的人可以从已出牌库中随机抽1张牌。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[禁言]', description: '上家禁止出牌2回合，但被禁言的人可以从已出牌库中随机抽2张牌。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[禁言]', description: '上家禁止出牌3回合，但被禁言的人可以从已出牌库中随机抽3张牌。', rarity: 'vibrant', probability: 0.1 },
+        { name: '白银[禁言]', description: '禁止出牌1回合，但可以从已出牌库中选1张牌。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[禁言]', description: '禁止出牌2回合，但可以从已出牌库中选2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[禁言]', description: '禁止出牌3回合，但可以从已出牌库中选3张牌。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '白银[预言家]', description: '你的上家只对你一个人明牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[预言家]', description: '你的上家对所有人明牌。', rarity: 'gold', probability: 0.3 },
@@ -50,9 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[炒冷饭]', description: '任何时候都可以在已出的牌库中选2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[炒冷饭]', description: '任何时候都可以在已出的牌库中选3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[先手优势]', description: '开局优先抓牌和出牌，在牌库中随机摸1张牌。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[先手优势]', description: '开局优先抓牌和出牌，在牌库中随机摸2张牌。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[先手优势]', description: '开局优先抓牌和出牌，在牌库中任意选2张牌。', rarity: 'vibrant', probability: 0.1 },
+        { name: '白银[先手优势]', description: '开局优先抓牌和出牌，在牌库中选1张牌。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[先手优势]', description: '开局优先抓牌和出牌，在牌库中选2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[先手优势]', description: '开局优先抓牌和出牌，在牌库中选3张牌。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '白银[小偷小摸]', description: '出1次炸弹可以随机偷1次积分池中的积分。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[小偷小摸]', description: '出1次炸弹可以随机偷2次积分池中的积分。', rarity: 'gold', probability: 0.3 },
