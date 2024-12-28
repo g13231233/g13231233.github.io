@@ -56,6 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '白银[连胜优势]', description: '开局优先抓牌，如果上局赢了则在牌库中随机摸1张牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[连胜优势]', description: '开局优先抓牌和出牌，如果上局赢了则在牌库中随机摸2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[连胜优势]', description: '开局优先抓牌和出牌，如果上局赢了则在牌库中任意选2张牌。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[小偷小摸]', description: '出1次炸弹可以随机偷1次积分池中的积分。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[小偷小摸]', description: '出1次炸弹可以随机偷2次积分池中的积分。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[小偷小摸]', description: '出1次炸弹可以随机偷3次积分池中的积分。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
