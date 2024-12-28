@@ -69,6 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '白银[妮寇复制器]', description: '可以使用5积分复制1次已出牌库中的任意1张牌，一局能使用1次。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[妮寇复制器]', description: '可以使用5积分复制1次已出牌库中的任意2张牌，一局能使用1次。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[妮寇复制器]', description: '可以使用5积分复制1次已出牌库中的任意3张牌，一局能使用1次。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[搞破坏]', description: '随机扔掉上家1张牌。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[搞破坏]', description: '随机扔掉上家2张牌。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[搞破坏]', description: '随机扔掉上家3张牌。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[拆卸器]', description: '拆除上家抽到的海克斯科技为己用，但上家可以从你的牌中随机抽1张牌作为补偿。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[拆卸器]', description: '拆除上家抽到的海克斯科技为己用，但上家可以从你的牌中随机抽2张牌作为补偿。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[拆卸器]', description: '拆除上家抽到的海克斯科技为己用，但上家可以从你的牌中随机抽3张牌作为补偿。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
