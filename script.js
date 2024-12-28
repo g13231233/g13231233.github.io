@@ -90,7 +90,17 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[黏性炸药]', description: '第一次出炸弹的时候可以额外带2张牌。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[黏性炸药]', description: '第一次出炸弹的时候可以额外带3张牌。', rarity: 'vibrant', probability: 0.1 },
 
-        
+        { name: '白银[盗版炸弹]', description: '任意三张牌当炸弹用，只能用来炸普通牌，对正版炸弹不生效。一局只能使用1次。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[盗版炸弹]', description: '任意三张牌当炸弹用，只能用来炸普通牌，对正版炸弹不生效。一局只能使用2次。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[盗版炸弹]', description: '任意三张牌当炸弹用，只能用来炸普通牌，对正版炸弹不生效。一局只能使用3次。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[执法官]', description: '强制在已出的牌库中拿走1个最小的炸弹。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[执法官]', description: '强制在已出的牌库中拿走1个最大的炸弹。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[执法官]', description: '强制在已出的牌库中拿走任意2个的炸弹。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '白银[进化]', description: '任意1个炸弹变为王炸。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[进化]', description: '任意2个炸弹变为王炸。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[进化]', description: '任意3个炸弹变为王炸。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
