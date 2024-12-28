@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '黄金[公平交易]', description: '和上家互相交换2张牌，双方不允许交流，选好牌背面朝上交易。', rarity: 'gold', probability: 0.3 },
         { name: '棱彩[公平交易]', description: '和上家互相交换3张牌，双方不允许交流，选好牌背面朝上交易。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '白银[坐牢]', description: '本局没有任何海克斯效果。', rarity: 'silver', probability: 0.6 },
-        { name: '黄金[坐牢]', description: '可以在任何一回合随机偷一张牌，也可以放弃偷牌。', rarity: 'gold', probability: 0.3 },
-        { name: '棱彩[坐牢]', description: '重置所有人的海克斯科技。', rarity: 'vibrant', probability: 0.1 },
+        { name: '白银[坐牢]', description: '本局没有任何海克斯效果，但奖励5积分。', rarity: 'silver', probability: 0.6 },
+        { name: '黄金[坐牢]', description: '本局没有任何海克斯效果，但奖励10积分。', rarity: 'gold', probability: 0.3 },
+        { name: '棱彩[坐牢]', description: '重置所有人的海克斯科技，但是没有任何奖励。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '白银[禁言]', description: '上家禁止出牌1回合，但被禁言的人可以从已出牌库中随机抽1张牌。', rarity: 'silver', probability: 0.6 },
         { name: '黄金[禁言]', description: '上家禁止出牌2回合，但被禁言的人可以从已出牌库中随机抽2张牌。', rarity: 'gold', probability: 0.3 },
