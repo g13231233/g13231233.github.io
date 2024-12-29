@@ -126,9 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[有内鬼终止交易]', description: '本局只要出1个炸弹，扣除10积分。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[有内鬼终止交易]', description: '本局只要出1个炸弹，扣除20积分。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '🖤白银🖤[超级加倍]', description: '把自己任意数量的积分放到积分池，只要第1名收获翻1倍。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[超级加倍]', description: '把自己任意数量的积分放到积分池，只要第1名收获翻2倍。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[超级加倍]', description: '把自己任意数量的积分放到积分池，只要第1名收获翻3倍。', rarity: 'vibrant', probability: 0.1 },
+        { name: '🖤白银🖤[超级加倍]', description: '把自己任意数量的积分放到积分池，挑战获得第1名积分翻1倍，挑战失败积分消失，不可放弃挑战，可刷新海克斯。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[超级加倍]', description: '把自己任意数量的积分放到积分池，挑战获得第1名积分翻2倍，挑战失败积分消失，不可放弃挑战，可刷新海克斯。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[超级加倍]', description: '把自己任意数量的积分放到积分池，挑战获得第1名积分翻3倍，挑战失败积分消失，不可放弃挑战，可刷新海克斯。', rarity: 'vibrant', probability: 0.1 },
 
         
 
