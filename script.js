@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const drawButton = document.getElementById('drawButton');
     const cardContainer = document.getElementById('cardContainer');
     let cardCount = 0;
-    const maxDraws = 4;
+    const maxDraws = 5;
 
     const cards = [
         
