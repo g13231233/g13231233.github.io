@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (cardCount >= maxDraws) {
             cardContainer.innerHTML = '';
             cardCount = 0;
-            alert('抽卡记录已重置！');
+            alert('本局游戏结束，重置海克斯！');
             return;
         }
 
