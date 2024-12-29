@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[小偷小摸]', description: '出1次炸弹可以随机偷2次积分池中的积分。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[小偷小摸]', description: '出1次炸弹可以随机偷3次积分池中的积分。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '🖤白银🖤[走为上策]', description: '第2个出完牌的话，积分另外加5。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[走为上策]', description: '第2个出完牌的话，积分另外加10。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[走为上策]', description: '第2个出完牌的话，积分另外加20。', rarity: 'vibrant', probability: 0.1 },
+        { name: '🖤白银🖤[走为上策]', description: '第1个出完牌的话，积分另外加5。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[走为上策]', description: '第1个出完牌的话，积分另外加10。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[走为上策]', description: '第1个出完牌的话，积分另外加20。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[军火商]', description: '可以使用5积分当作无敌炸弹，一局能使用1次。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[军火商]', description: '可以使用5积分当作无敌炸弹，一局能使用2次。', rarity: 'gold', probability: 0.3 },
