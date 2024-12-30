@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[小偷小摸]', description: '出1次炸弹可以随机偷2次积分池中的积分。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[小偷小摸]', description: '出1次炸弹可以随机偷3次积分池中的积分。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '🖤白银🖤[走为上策]', description: '第1个出完牌的话，积分另外加5。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[走为上策]', description: '第1个出完牌的话，积分另外加10。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[走为上策]', description: '第1个出完牌的话，积分另外加20。', rarity: 'vibrant', probability: 0.1 },
+        { name: '🖤白银🖤[锦上添花]', description: '第1个出完牌的话，积分另外加5。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[锦上添花]', description: '第1个出完牌的话，积分另外加10。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[锦上添花]', description: '第1个出完牌的话，积分另外加20。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[军火商]', description: '可以使用5积分当作无敌炸弹，1局能使用1次。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[军火商]', description: '可以使用5积分当作无敌炸弹，1局能使用2次。', rarity: 'gold', probability: 0.3 },
@@ -161,6 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '🖤白银🖤[克隆实验室]', description: '克隆任意1个人的海克斯。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[克隆实验室]', description: '克隆任意2个人的海克斯。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[克隆实验室]', description: '克隆任意3个人的海克斯，遇见不想克隆的可以放弃。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '🖤白银🖤[老八保底]', description: '如果自己是最后1名，保底积分加5，如果不是最后1名则失效。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[老八保底]', description: '如果自己是最后1名，保底积分加10，如果不是最后1名则失效。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[老八保底]', description: '如果自己是最后1名，保底积分加20，如果不是最后1名则失效。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
