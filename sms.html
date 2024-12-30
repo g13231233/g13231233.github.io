@@ -3,42 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>游戏说明</title>
+    <title>金牌牌之战说明书</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #eef2f7;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
         .card {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 90%;
-            max-width: 400px; /* 限制最大宽度 */
+            max-width: 500px; /* 限制最大宽度 */
+            margin: 10px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
         .card h2 {
             color: #333;
-            text-align: center; /* 保持h2标签居中 */
-            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 500;
         }
         .card p {
-            color: #666;
-            font-size: 14px;
-            text-align: left; /* 段落文本靠左对齐 */
+            color: #555;
+            font-size: 16px;
+            text-align: left;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .card a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+        .card a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .card hr {
+            border: none;
+            height: 1px;
+            background: #ccc;
+            width: 100%;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
     <div class="card">
-<h2>金牌牌之战说明书</h2>
-
+        <h2>金牌牌之战说明书</h2>
+        <hr>
 <p>
             1.玩家人数3-4人，用一充扑克牌就足够<p>
             2.顺子最少三张，连对最少三对，炸弹最低三张或三张以上的牌<p>
@@ -50,15 +78,3 @@
     </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
