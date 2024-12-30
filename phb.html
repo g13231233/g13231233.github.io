@@ -1,93 +1,125 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>积分排行榜</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玩家积分排行榜</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
-            text-align: center;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        h1 {
-            color: #007bff;
-            font-size: 2.5em;
-            margin-bottom: 0.5em;
-        }
-        .leaderboard {
+
+        .leaderboard-container {
             background-color: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 80%;
-            max-width: 600px;
-            margin: 20px auto;
+            width: 100%;
+            max-width: 800px;
         }
-        .leaderboard ol {
-            counter-reset: li; /* Initiate a counter */
-            list-style: none; /* Remove default numbering */
+
+        .leaderboard-header {
+            font-size: 28px;
+            color: #34495e;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .leaderboard-list {
+            list-style: none;
             padding: 0;
         }
-        .leaderboard li {
-            position: relative;
-            counter-increment: li;
-            padding: 10px;
-            border-bottom: 1px solid #eaeaea;
+
+        .leaderboard-item {
+            background-color: #eef2f7;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .leaderboard li:last-child {
-            border-bottom: none;
+
+        .leaderboard-item:last-child {
+            margin-bottom: 0;
         }
-        .leaderboard li::before {
-            content: counter(li) ". ";
+
+        .leaderboard-rank {
+            font-size: 18px;
+            color: #34495e;
             font-weight: bold;
-            color: #007bff;
+            width: 50px; /* Fixed width for rank */
+            text-align: center;
         }
-        .leaderboard li strong {
-            color: #333;
+
+        .leaderboard-player {
+            font-size: 18px;
+            color: #333333;
+            flex-grow: 1;
+            text-align: center;
         }
-        .leaderboard li span {
-            color: #ff6600;
+
+        .leaderboard-points {
+            font-size: 18px;
+            color: #34495e;
             font-weight: bold;
+            width: 80px; /* Fixed width for points */
+            text-align: center;
         }
-        .leaderboard li:nth-child(1)::before {
-            color: #ff6600;
+
+        /* 特殊颜色标记前三名 */
+        .leaderboard-item:nth-child(1) .leaderboard-player {
+            color: #9b59b6; /* 紫色 */
         }
-        .leaderboard li:nth-child(2)::before {
-            color: #ff6600;
+
+        .leaderboard-item:nth-child(2) .leaderboard-player {
+            color: #f1c40f; /* 橙黄色 */
         }
-        .leaderboard li:nth-child(3)::before {
-            color: #ff6600;
+
+        .leaderboard-item:nth-child(3) .leaderboard-player {
+            color: #bdc3c7; /* 银色 */
         }
     </style>
 </head>
 <body>
-    <h1>积分排行榜</h1>
-    <div class="leaderboard">
-        <ol>
-            <li><strong>迎冬</strong> - 积分：<span>990</span></li>
-            <li><strong>羊羊</strong> - 积分：<span>505</span></li>
-            <li><strong>金杰</strong> - 积分：<span>420</span></li>
-            <li><strong>可可</strong> - 积分：<span>410</span></li>
-            <li><strong>金超</strong> - 积分：<span>125</span></li>
-
-            
-            
-            
-            
-        </ol>
-        有好的海克斯想法联系我微信：X92049或者QQ：1109987551，一经采纳这个海克斯将在介绍结尾处留下你的大名！
-        <h6>
-            当前海克斯科技总数量：39个【海克斯科技图鉴】<p>
-            金牌牌之战游戏规则：玩家人数3-4人，用一充扑克牌就足够<p>
-            顺子最少三张，连对最少三对，炸弹最低三张或三张以上的牌<p>
-            大小王两张一起出可以当作王炸出，也可以把它当作任意一张牌出。<p>
-            可花费50积分重置全部玩家海克斯，禁止三带一三带二咱这不是斗地主。<p>
-            四个人玩第一名加20积分，第二名加10，第三名加5，第四名没积分。<p>
-        
-        </h6>
+    <div class="leaderboard-container">
+        <div class="leaderboard-header">玩家积分排行榜</div>
+        <ul class="leaderboard-list">
+            <li class="leaderboard-item">
+                <div class="leaderboard-rank">1</div>
+                <div class="leaderboard-player">迎冬</div>
+                <div class="leaderboard-points">990</div>
+            </li>
+            <li class="leaderboard-item">
+                <div class="leaderboard-rank">2</div>
+                <div class="leaderboard-player">羊羊</div>
+                <div class="leaderboard-points">505</div>
+            </li>
+            <li class="leaderboard-item">
+                <div class="leaderboard-rank">3</div>
+                <div class="leaderboard-player">金杰</div>
+                <div class="leaderboard-points">420</div>
+            </li>
+            <li class="leaderboard-item">
+                <div class="leaderboard-rank">4</div>
+                <div class="leaderboard-player">可可</div>
+                <div class="leaderboard-points">410</div>
+            </li>
+            <li class="leaderboard-item">
+                <div class="leaderboard-rank">5</div>
+                <div class="leaderboard-player">金超</div>
+                <div class="leaderboard-points">125</div>
+            </li>
+            <!-- 复制上面的 .leaderboard-item 来添加更多的排行榜项 -->
+        </ul>
     </div>
 </body>
 </html>
