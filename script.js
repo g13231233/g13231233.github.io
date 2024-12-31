@@ -214,9 +214,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '🖤白银🖤[慈善家]', description: '本局如果没拿前2名，送在场每人5积分。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[慈善家]', description: '本局如果没拿前2名，送在场每人10积分。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[慈善家]', description: '本局如果没拿前2名，送在场每人20积分。', rarity: 'vibrant', probability: 0.1 },
+        { name: '🖤白银🖤[权势滔天]', description: '本局4人打的话随机抽14张牌丢弃，3个人打丢9张，有大王或小王的人可以在丢弃的牌库中自选1张牌，大王优先选，大小王都在1个人手里的话可以拿走所有丢弃的牌。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[权势滔天]', description: '本局4人打的话随机抽14张牌丢弃，3个人打丢9张，有大王或小王的人可以在丢弃的牌库中自选2张牌，大王优先选，大小王都在1个人手里的话可以拿走所有丢弃的牌。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[权势滔天]', description: '本局4人打的话随机抽14张牌丢弃，3个人打丢9张，有大王或小王的人可以在丢弃的牌库中自选3张牌，大王优先选，大小王都在1个人手里的话可以拿走所有丢弃的牌。', rarity: 'vibrant', probability: 0.1 },
 
 
 
