@@ -186,6 +186,18 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[买定离手]', description: '无论谁使用了炸弹你都可以在刚出的炸弹中任意选择1张牌，让其他人猜花色，猜对的人给他5积分，猜错的人给你5积分，每局只能使用2次。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[买定离手]', description: '无论谁使用了炸弹你都可以在刚出的炸弹中任意选择1张牌，让其他人猜花色，猜对的人给他5积分，猜错的人给你5积分，每局只能使用3次。', rarity: 'vibrant', probability: 0.1 },
 
+        { name: '🖤白银🖤[最强防御]', description: '可以选择性防御其他人对自己使用的一切负面被动效果，每局能防御1次。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[最强防御]', description: '可以选择性防御其他人对自己使用的一切负面被动效果，每局能防御2次。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[最强防御]', description: '可以选择性防御其他人对自己使用的一切负面被动效果，每局能防御3次。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '🖤白银🖤[灵魂互换]', description: '强制你和上家交换所有手牌。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[灵魂互换]', description: '强制所有人互相交换手牌给上家。。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[灵魂互换]', description: '强制所有人互相交换手牌给上家，任何人都可以选择不换。', rarity: 'vibrant', probability: 0.1 },
+
+
+
+
+        
         
         
     ];
