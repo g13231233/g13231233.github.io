@@ -194,11 +194,17 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[灵魂互换]', description: '强制所有人互相交换手牌给上家。。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[灵魂互换]', description: '强制所有人互相交换手牌给上家，任何人都可以选择不换。', rarity: 'vibrant', probability: 0.1 },
 
+        { name: '🖤白银🖤[变形重组器]', description: '任何时候都可以把手中的牌放入已出牌库中打乱重新抓同样数量的牌，每局能使用1次。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[变形重组器]', description: '任何时候都可以把手中的牌放入已出牌库中打乱重新抓同样数量的牌，每局能使用2次。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[变形重组器]', description: '任何时候都可以把手中的牌放入已出牌库中打乱重新抓同样数量的牌，每局能使用3次。', rarity: 'vibrant', probability: 0.1 },
 
-
-
+        { name: '🖤白银🖤[魔法攻击]', description: '本局只能通过花色来出牌，无论别人出了多大的牌，无论什么牌型，你需要出同样数量同样花色的牌就能管上，比如：上家出345，你出任意3张牌只要花色一样就行，每回合都需要报牌，大小王不能王炸但可以是任意花色。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[魔法攻击]', description: '本局只能通过花色来出牌，无论别人出了多大的牌，无论什么牌型，你只需要出同样数量的牌就能管上，不用看花色，比如：上家出345，你出任意3张牌就行，每回合都需要报牌，大小王不能炸功能全部失效。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[魔法攻击]', description: '本局只能通过花色来出牌，无论别人出了多大的牌，无论什么牌型，你只需要出同样数量的牌就能管上，比如：上家出345，你出任意3张牌就行，不需要报牌，大小王不能炸功能全部失效。', rarity: 'vibrant', probability: 0.1 },
         
-        
+        { name: '🖤白银🖤[进化]', description: '。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[进化]', description: '任意2个炸弹变为王炸。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[进化]', description: '任意3个炸弹变为王炸。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
