@@ -181,6 +181,11 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '🖤白银🖤[卧底炸弹]', description: '其他人出的炸弹可以说是自己出的卧底炸弹，别人压不上的话，自己就可以接着出任意牌型，每局能用1次。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[卧底炸弹]', description: '其他人出的炸弹可以说是自己出的卧底炸弹，别人压不上的话，自己就可以接着出任意牌型，每局能用2次。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[卧底炸弹]', description: '其他人出的炸弹可以说是自己出的卧底炸弹，别人压不上的话，自己就可以接着出任意牌型，每局能用3次。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '🖤白银🖤[买定离手]', description: '无论谁使用了炸弹你都可以在刚出的炸弹中任意选择1张牌，让其他人猜花色，猜对的人给他5积分，猜错的人给你5积分，每局只能使用1次。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[买定离手]', description: '无论谁使用了炸弹你都可以在刚出的炸弹中任意选择1张牌，让其他人猜花色，猜对的人给他5积分，猜错的人给你5积分，每局只能使用2次。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[买定离手]', description: '无论谁使用了炸弹你都可以在刚出的炸弹中任意选择1张牌，让其他人猜花色，猜对的人给他5积分，猜错的人给你5积分，每局只能使用3次。', rarity: 'vibrant', probability: 0.1 },
+
         
         
     ];
