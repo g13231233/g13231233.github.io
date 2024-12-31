@@ -205,6 +205,22 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '🖤白银🖤[慈善家]', description: '本局如果没拿前2名，送在场每人5积分。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[慈善家]', description: '本局如果没拿前2名，送在场每人10积分。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[慈善家]', description: '本局如果没拿前2名，送在场每人20积分。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '🖤白银🖤[撤股跑路]', description: '拿走第1名本局总积分收益的50%。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[撤股跑路]', description: '拿走前2名本局总积分收益的50%。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[撤股跑路]', description: '拿走所有人本局获得的积分。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '🖤白银🖤[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'vibrant', probability: 0.1 },
+
+        { name: '🖤白银🖤[慈善家]', description: '本局如果没拿前2名，送在场每人5积分。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[慈善家]', description: '本局如果没拿前2名，送在场每人10积分。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[慈善家]', description: '本局如果没拿前2名，送在场每人20积分。', rarity: 'vibrant', probability: 0.1 },
+
+
+
+
         
     ];
 
