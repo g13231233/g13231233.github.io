@@ -178,6 +178,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[真假美猴王]', description: '选择任意1张牌可以当做小王使用，小王的功能它都有，但不能当王炸出，每局可以使用2次。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[真假美猴王]', description: '选择任意1张牌可以当做小王使用，小王的功能它都有，但不能当王炸出，每局可以使用3次。', rarity: 'vibrant', probability: 0.1 },
 
+        { name: '🖤白银🖤[卧底炸弹]', description: '其他人出的炸弹可以说是自己出的卧底炸弹，别人压不上的话，自己就可以接着出任意牌型，每局能用1次。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[卧底炸弹]', description: '其他人出的炸弹可以说是自己出的卧底炸弹，别人压不上的话，自己就可以接着出任意牌型，每局能用2次。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[卧底炸弹]', description: '其他人出的炸弹可以说是自己出的卧底炸弹，别人压不上的话，自己就可以接着出任意牌型，每局能用3次。', rarity: 'vibrant', probability: 0.1 },
+        
         
     ];
 
