@@ -158,8 +158,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[幸运大奖]', description: '在积分池随机抽出3个积分币，如果抽出3个同样面额的积分币就可以拿走其中1个积分币，其他情况积分币都放回积分池。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[幸运大奖]', description: '在积分池随机抽出3个积分币，如果抽出3个同样面额的积分币就可以拿走其中1个积分币，其他情况积分币都放回积分池。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '🖤白银🖤[克隆实验室]', description: '克隆任意1个人的海克斯。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[克隆实验室]', description: '克隆任意2个人的海克斯。', rarity: 'gold', probability: 0.3 },
+        { name: '🖤白银🖤[克隆实验室]', description: '克隆任意1个人的海克斯，遇见不想克隆的可以放弃。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[克隆实验室]', description: '克隆任意2个人的海克斯，遇见不想克隆的可以放弃。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[克隆实验室]', description: '克隆任意3个人的海克斯，遇见不想克隆的可以放弃。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[老八保底]', description: '如果自己是最后1名，保底积分加5，如果不是最后1名则失效。', rarity: 'silver', probability: 0.6 },
