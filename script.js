@@ -171,8 +171,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💜棱彩💜[约德尔人]', description: '每回合必须从已出牌库中拿走3张最小的牌。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[两极反转]', description: '除了炸弹外，强制改变牌型，比如：上家出了连子，你可以出任意对子改变牌型，不能出同牌型，每局能使用1次。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[两极反转]', description: '除了炸弹外，强制改变牌型，比如：上家出了连子，你可以出任意对子改变牌型，不能出同牌型，每局能使用2次。',。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[两极反转]', description: '除了炸弹外，强制改变牌型，比如：上家出了连子，你可以出任意对子改变牌型，不能出同牌型，每局能使用3次。',。', rarity: 'vibrant', probability: 0.1 },
+        { name: '💛黄金💛[两极反转]', description: '除了炸弹外，强制改变牌型，比如：上家出了连子，你可以出任意对子改变牌型，不能出同牌型，每局能使用2次。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[两极反转]', description: '除了炸弹外，强制改变牌型，比如：上家出了连子，你可以出任意对子改变牌型，不能出同牌型，每局能使用3次。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[真假美猴王]', description: '选择任意1张牌可以当做小王使用，小王的功能它都有，但不能当王炸出，每局可以使用1次。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[真假美猴王]', description: '选择任意1张牌可以当做小王使用，小王的功能它都有，但不能当王炸出，每局可以使用2次。', rarity: 'gold', probability: 0.3 },
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💜棱彩💜[最强防御]', description: '可以选择性防御其他人对自己使用的一切负面被动效果，每局能防御3次。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[灵魂互换]', description: '强制你和上家交换所有手牌。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[灵魂互换]', description: '强制所有人互相交换手牌给上家。。', rarity: 'gold', probability: 0.3 },
+        { name: '💛黄金💛[灵魂互换]', description: '强制所有人互相交换手牌给上家。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[灵魂互换]', description: '强制所有人互相交换手牌给上家，任何人都可以选择不换。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[变形重组器]', description: '任何时候都可以把手中的牌放入已出牌库中打乱重新抓同样数量的牌，每局能使用1次。', rarity: 'silver', probability: 0.6 },
