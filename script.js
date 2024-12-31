@@ -202,9 +202,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[魔法攻击]', description: '本局只能通过花色来出牌，无论别人出了多大的牌，无论什么牌型，你只需要出同样数量的牌就能管上，不用看花色，比如：上家出345，你出任意3张牌就行，每回合都需要报牌，大小王不能炸功能全部失效。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[魔法攻击]', description: '本局只能通过花色来出牌，无论别人出了多大的牌，无论什么牌型，你只需要出同样数量的牌就能管上，比如：上家出345，你出任意3张牌就行，不需要报牌，大小王不能炸功能全部失效。', rarity: 'vibrant', probability: 0.1 },
         
-        { name: '🖤白银🖤[进化]', description: '。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[进化]', description: '任意2个炸弹变为王炸。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[进化]', description: '任意3个炸弹变为王炸。', rarity: 'vibrant', probability: 0.1 },
+        { name: '🖤白银🖤[慈善家]', description: '本局如果没拿前2名，送在场每人5积分。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[慈善家]', description: '本局如果没拿前2名，送在场每人10积分。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[慈善家]', description: '本局如果没拿前2名，送在场每人20积分。', rarity: 'vibrant', probability: 0.1 },
         
     ];
 
