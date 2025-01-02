@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏个人资料</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .profile-header {
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px; /* 正方形头像 */
+        }
+
+        .name {
+            font-size: 24px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .equipment {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .equipment-slot {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .equipment-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #equipment-details {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 400px;
+            z-index: 100;
+        }
+
+        #equipment-details.visible {
+            display: block;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            float: right;
+            border: none;
+            background: none;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .details-content {
+            margin-top: 20px;
+        }
+
+        .details-image {
+            width: 100px; /* 调整图片宽度 */
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .details-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .details-text {
+            font-size: 16px;
+            color: #666;
+            font-weight: bold; /* 加粗文本 */
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="img/avatar.png" alt="头像" class="avatar">
+            <h1 class="name">迎冬</h1>
+        </div>
+        <div class="equipment">
+            <div class="equipment-slot" onclick="showDetails('未携带装备，没有任何效果', 'img/equipment1.png')">
+                <img src="img/default_equipment1.png" alt="装备1">
+            </div>
+            <div class="equipment-slot" onclick="showDetails('未携带装备，没有任何效果', 'img/equipment2.png')">
+                <img src="img/default_equipment2.png" alt="装备2">
+            </div>
+            <div class="equipment-slot" onclick="showDetails('未携带装备，没有任何效果', 'img/equipment3.png')">
+                <img src="img/default_equipment3.png" alt="装备3">
+            </div>
+        </div>
+    </div>
+
+    <div id="equipment-details">
+        <button class="close-btn" onclick="closeDetails()">X</button>
+        <h2 class="details-title" id="details-title"></h2>
+        <img class="details-image" id="details-image" src="" alt="装备介绍">
+        <p class="details-text" id="details-content"></p>
+    </div>
+
+    <script>
+        function showDetails(info, imgSrc) {
+            const details = document.getElementById('equipment-details');
+            const title = document.getElementById('details-title');
+            const image = document.getElementById('details-image');
+            const content = document.getElementById('details-content');
+            
+            title.textContent = '装备介绍';
+            image.src = imgSrc;
+            content.textContent = info;
+            details.classList.add('visible');
+        }
+
+        function closeDetails() {
+            const details = document.getElementById('equipment-details');
+            details.classList.remove('visible');
+        }
+    </script>
+</body>
+</html>
