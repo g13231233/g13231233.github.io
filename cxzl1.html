@@ -12,49 +12,53 @@
             font-family: 'Arial', sans-serif;
             background-color: #f0f0f0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
         .profile-container {
             background-color: #fff;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 300px;
+            width: 100%;
+            max-width: 400px; /* 限制最大宽度 */
             text-align: center;
         }
 
         .profile-header {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .avatar {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
             border-radius: 4px; /* 正方形头像 */
         }
 
         .name {
-            font-size: 24px;
+            font-size: 20px;
             color: #333;
             margin-top: 10px;
         }
 
         .equipment {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .equipment-slot {
-            width: 60px;
-            height: 60px;
+            width: calc(50% - 5px); /* 两个装备栏位一行 */
+            height: 80px;
             border: 1px solid #ddd;
             border-radius: 4px;
             overflow: hidden;
             cursor: pointer;
+            margin-bottom: 10px;
         }
 
         .equipment-slot img {
@@ -66,14 +70,15 @@
         #equipment-details {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            width: 400px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow-y: auto;
             z-index: 100;
         }
 
@@ -91,7 +96,7 @@
         }
 
         .details-content {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .details-image {
@@ -102,13 +107,13 @@
         }
 
         .details-title {
-            font-size: 24px;
+            font-size: 20px;
             color: #333;
             margin-bottom: 5px;
         }
 
         .details-text {
-            font-size: 16px;
+            font-size: 14px;
             color: #666;
             font-weight: bold; /* 加粗文本 */
         }
@@ -117,18 +122,18 @@
 <body>
     <div class="profile-container">
         <div class="profile-header">
-            <img src="img/avatar.png" alt="头像" class="avatar">
-            <h1 class="name">迎冬</h1>
+            <img src="avatar.png" alt="头像" class="avatar">
+            <h1 class="name">玩家姓名</h1>
         </div>
         <div class="equipment">
-            <div class="equipment-slot" onclick="showDetails('未携带装备，没有任何效果', 'img/equipment1.png')">
-                <img src="img/default_equipment1.png" alt="装备1">
+            <div class="equipment-slot" onclick="showDetails('装备1详情', 'equipment1.png')">
+                <img src="default_equipment1.png" alt="装备1">
             </div>
-            <div class="equipment-slot" onclick="showDetails('未携带装备，没有任何效果', 'img/equipment2.png')">
-                <img src="img/default_equipment2.png" alt="装备2">
+            <div class="equipment-slot" onclick="showDetails('装备2详情', 'equipment2.png')">
+                <img src="default_equipment2.png" alt="装备2">
             </div>
-            <div class="equipment-slot" onclick="showDetails('未携带装备，没有任何效果', 'img/equipment3.png')">
-                <img src="img/default_equipment3.png" alt="装备3">
+            <div class="equipment-slot" onclick="showDetails('装备3详情', 'equipment3.png')">
+                <img src="default_equipment3.png" alt="装备3">
             </div>
         </div>
     </div>
@@ -136,7 +141,7 @@
     <div id="equipment-details">
         <button class="close-btn" onclick="closeDetails()">X</button>
         <h2 class="details-title" id="details-title"></h2>
-        <img class="details-image" id="details-image" src="" alt="装备介绍">
+        <img class="details-image" id="details-image" src="" alt="装备详情">
         <p class="details-text" id="details-content"></p>
     </div>
 
@@ -147,7 +152,7 @@
             const image = document.getElementById('details-image');
             const content = document.getElementById('details-content');
             
-            title.textContent = '装备介绍';
+            title.textContent = '装备详情';
             image.src = imgSrc;
             content.textContent = info;
             details.classList.add('visible');
