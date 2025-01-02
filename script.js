@@ -190,9 +190,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💛黄金💛[最强防御]', description: '可以选择性防御其他人对自己使用的一切负面被动效果，每局能防御2次。', rarity: 'gold', probability: 0.3 },
         { name: '💜棱彩💜[最强防御]', description: '可以选择性防御其他人对自己使用的一切负面被动效果，每局能防御3次。', rarity: 'vibrant', probability: 0.1 },
 
-        { name: '🖤白银🖤[灵魂互换]', description: '强制你和上家交换所有手牌。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[灵魂互换]', description: '强制所有人互相交换手牌给上家。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[灵魂互换]', description: '所有人互相交换手牌给上家，任何人都可以选择不换。', rarity: 'vibrant', probability: 0.1 },
+        { name: '🖤白银🖤[灵魂互换]', description: '所有人互相交换手牌给上家，任何人都可以选择不换。', rarity: 'silver', probability: 0.6 },
+        { name: '💛黄金💛[灵魂互换]', description: '强制所有人互相交换手牌给上家，海克斯归属者可以自由选择换与不换。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[灵魂互换]', description: '强制所有人互相交换手牌给上家，海克斯归属者可以自由选择任何人换，不可被拒绝。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[变形重组器]', description: '任何时候都可以把手中的牌放入已出牌库中打乱重新抓同样数量的牌，每局能使用1次。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[变形重组器]', description: '任何时候都可以把手中的牌放入已出牌库中打乱重新抓同样数量的牌，每局能使用2次。', rarity: 'gold', probability: 0.3 },
@@ -211,8 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '💜棱彩💜[撤股跑路]', description: '拿走所有人本局获得的积分。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'silver', probability: 0.6 },
-        { name: '💛黄金💛[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'gold', probability: 0.3 },
-        { name: '💜棱彩💜[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分的拿走，第2名把全部面额是10积分的拿走，第3名把全部面额是5积分的拿走，第4没有。', rarity: 'vibrant', probability: 0.1 },
+        { name: '💛黄金💛[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额是20积分和10积分的拿走，第2名把全部面额是5积分的拿走，第3名和第4没有。', rarity: 'gold', probability: 0.3 },
+        { name: '💜棱彩💜[梭哈]', description: '本局没有系统积分奖励，所有人把桌面上的积分都放在一起，第1名把全部面额的积分拿走，第2名第3名第4名都没有积分。', rarity: 'vibrant', probability: 0.1 },
 
         { name: '🖤白银🖤[权势滔天]', description: '本局4人打的话随机抽14张牌丢弃，3个人打丢9张，有大王或小王的人可以在丢弃的牌库中自选1张牌，大王优先选，大小王都在1个人手里的话可以拿走所有丢弃的牌。', rarity: 'silver', probability: 0.6 },
         { name: '💛黄金💛[权势滔天]', description: '本局4人打的话随机抽14张牌丢弃，3个人打丢9张，有大王或小王的人可以在丢弃的牌库中自选2张牌，大王优先选，大小王都在1个人手里的话可以拿走所有丢弃的牌。', rarity: 'gold', probability: 0.3 },
