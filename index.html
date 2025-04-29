@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <title>奶牛地下城开箱模拟器1.0【欢迎大佬拿代码二次开发】</title>
+    <title>地下城开宝箱模拟器</title>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -14,6 +14,7 @@
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -42,6 +43,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: 20px;
         }
 
         button {
@@ -196,6 +198,20 @@
         .custom-option:hover {
             background-color: #f0f0f0;
         }
+
+        #profit-loss {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            width: 80%;
+            max-width: 500px;
+            margin: 20px auto;
+        }
     </style>
 </head>
 
@@ -207,16 +223,16 @@
                 <img src="https://milkywayidle.wiki.gg/images/e/e4/Chimerical_chest.svg?380518" alt="宝箱图标"> 奇幻宝箱
             </div>
             <div class="custom-options">
-                <div class="custom-option" data-value="fantasy">
+                <div class="custom-option" data-value="fantasy" data-cost="3300000">
                     <img src="https://milkywayidle.wiki.gg/images/e/e4/Chimerical_chest.svg?380518" alt="宝箱图标"> 奇幻宝箱
                 </div>
-                <div class="custom-option" data-value="gloomy">
+                <div class="custom-option" data-value="gloomy" data-cost="5500000">
                     <img src="https://milkywayidle.wiki.gg/images/4/4f/Sinister_chest.svg?6a9b11" alt="宝箱图标"> 阴森宝箱
                 </div>
-                <div class="custom-option" data-value="magic">
+                <div class="custom-option" data-value="magic" data-cost="7800000">
                     <img src="https://milkywayidle.wiki.gg/images/5/5a/Enchanted_chest.svg?758ff7" alt="宝箱图标"> 秘法宝箱
                 </div>
-                <div class="custom-option" data-value="pirate">
+                <div class="custom-option" data-value="pirate" data-cost="10000000">
                     <img src="https://milkywayidle.wiki.gg/images/f/f6/Large_treasure_chest.svg?744486" alt="宝箱图标"> 海盗宝箱
                 </div>
             </div>
@@ -228,116 +244,117 @@
         <div class="modal-content">
             <!-- 物品图标将在这里动态添加 -->
         </div>
+        <div id="profit-loss"></div>
     </div>
     <script>
         const fantasyItems = [
-            { name: '奇幻精华', min: 400, max: 800, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/8/8d/Chimerical_essence.svg?46ab37' },
-            { name: '奇幻精华', min: 2000, max: 4000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/8/8d/Chimerical_essence.svg?46ab37' },
-            { name: '奇幻代币', min: 250, max: 500, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/2/2d/Chimerical_token.svg?4c413a' },
-            { name: '奇幻代币', min: 1500, max: 3000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/2/2d/Chimerical_token.svg?4c413a' },
-            { name: '大宝箱', min: 1, max: 5, probability: 0.3, icon: 'https://milkywayidle.wiki.gg/images/f/f6/Large_treasure_chest.svg?744486' },
-            { name: '翡翠', min: 5, max: 20, probability: 0.6, icon: 'https://milkywayidle.wiki.gg/images/b/bf/Jade.svg?662261' },
-            { name: '太阳石', min: 1, max: 1, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/0b/Sunstone.svg?e69536' },
-            { name: '盾击', min: 1, max: 2, probability: 0.5, icon: '' },
-            { name: '致残斩', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/3/30/Crippling_slash.svg?64c433' },
-            { name: '疫病射击', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/6/6b/Pestilent_shot.svg?a1d1fa' },
-            { name: '狮鹫之皮', min: 1, max: 1, probability: 0.1, icon: 'https://milkywayidle.wiki.gg/images/0/06/Griffin_leather.svg?210a37' },
-            { name: '蝎狮之刺', min: 1, max: 1, probability: 0.06, icon: 'https://milkywayidle.wiki.gg/images/9/92/Manticore_sting.svg?8eb5fd' },
-            { name: '鹿角兔之角', min: 1, max: 1, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/5/5b/Jackalope_antler.svg?82ec1c' },
-            { name: '渡渡驼之翎', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/1/1a/Dodocamel_plume.svg?6dfdf0' },
-            { name: '狮鹫之爪', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/b/be/Griffin_talon.svg?647b18' },
-            { name: '奇幻宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/8/89/Chimerical_chest_key.svg?dc64ce' },
-            { name: '奇幻箭袋', min: 1, max: 1, probability: 0.03, icon: 'https://milkywayidle.wiki.gg/images/a/aa/Chimerical_quiver.svg?51468a' },
-            { name: '狮鹫皮衣', min: 1, max: 1, probability: 0.003, icon: 'https://milkywayidle.wiki.gg/images/3/39/Griffin_tunic.svg?ac4772' },
-            { name: '狮鹫皮裤', min: 1, max: 1, probability: 0.003, icon: 'https://milkywayidle.wiki.gg/images/1/1a/Griffin_chaps.svg?5e5af8' },
-            { name: '蝎狮盾', min: 1, max: 1, probability: 0.003, icon: 'https://milkywayidle.wiki.gg/images/f/fe/Manticore_shield.svg?aa5de8' },
-            { name: '鹿角兔之杖', min: 1, max: 1, probability: 0.002, icon: 'https://milkywayidle.wiki.gg/images/a/ac/Jackalope_staff.svg?882404' },
-            { name: '渡渡驼护手', min: 1, max: 1, probability: 0.0015, icon: 'https://milkywayidle.wiki.gg/images/f/fb/Dodocamel_gauntlets.svg?cea4d3' },
-            { name: '狮鹫重盾', min: 1, max: 1, probability: 0.0005, icon: 'https://milkywayidle.wiki.gg/images/9/98/Griffin_bulwark.svg?d39770' }
+            { name: '奇幻精华', min: 400, max: 800, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/8/8d/Chimerical_essence.svg?46ab37', price: 600  },
+            { name: '奇幻精华', min: 2000, max: 4000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/8/8d/Chimerical_essence.svg?46ab37', price: 600  },
+            { name: '奇幻代币', min: 250, max: 500, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/2/2d/Chimerical_token.svg?4c413a' , price: 1 },
+            { name: '奇幻代币', min: 1500, max: 3000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/2/2d/Chimerical_token.svg?4c413a' , price: 1 },
+            { name: '大宝箱', min: 1, max: 5, probability: 0.3, icon: 'https://milkywayidle.wiki.gg/images/f/f6/Large_treasure_chest.svg?744486' , price: 200000 },
+            { name: '翡翠', min: 5, max: 20, probability: 0.6, icon: 'https://milkywayidle.wiki.gg/images/b/bf/Jade.svg?662261' , price: 40000 },
+            { name: '太阳石', min: 1, max: 1, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/0b/Sunstone.svg?e69536' , price: 600000 },
+            { name: '盾击', min: 1, max: 2, probability: 0.5, icon: '' , price: 100000 },
+            { name: '致残斩', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/3/30/Crippling_slash.svg?64c433', price: 100000 },
+            { name: '疫病射击', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/6/6b/Pestilent_shot.svg?a1d1fa' , price: 100000 },
+            { name: '狮鹫之皮', min: 1, max: 1, probability: 0.1, icon: 'https://milkywayidle.wiki.gg/images/0/06/Griffin_leather.svg?210a37' , price: 1500000 },
+            { name: '蝎狮之刺', min: 1, max: 1, probability: 0.06, icon: 'https://milkywayidle.wiki.gg/images/9/92/Manticore_sting.svg?8eb5fd' , price: 3100000 },
+            { name: '鹿角兔之角', min: 1, max: 1, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/5/5b/Jackalope_antler.svg?82ec1c' , price: 3700000 },
+            { name: '渡渡驼之翎', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/1/1a/Dodocamel_plume.svg?6dfdf0' , price: 9200000 },
+            { name: '狮鹫之爪', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/b/be/Griffin_talon.svg?647b18' , price: 4100000 },
+            { name: '奇幻宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/8/89/Chimerical_chest_key.svg?dc64ce' , price: 3000000 },
+            { name: '奇幻箭袋', min: 1, max: 1, probability: 0.03, icon: 'https://milkywayidle.wiki.gg/images/a/aa/Chimerical_quiver.svg?51468a' , price: 1 },
+            { name: '狮鹫皮衣', min: 1, max: 1, probability: 0.003, icon: 'https://milkywayidle.wiki.gg/images/3/39/Griffin_tunic.svg?ac4772' , price: 14000000 },
+            { name: '狮鹫皮裤', min: 1, max: 1, probability: 0.003, icon: 'https://milkywayidle.wiki.gg/images/1/1a/Griffin_chaps.svg?5e5af8' , price: 13000000 },
+            { name: '蝎狮盾', min: 1, max: 1, probability: 0.003, icon: 'https://milkywayidle.wiki.gg/images/f/fe/Manticore_shield.svg?aa5de8' , price: 32000000 },
+            { name: '鹿角兔之杖', min: 1, max: 1, probability: 0.002, icon: 'https://milkywayidle.wiki.gg/images/a/ac/Jackalope_staff.svg?882404' , price: 70000000 },
+            { name: '渡渡驼护手', min: 1, max: 1, probability: 0.0015, icon: 'https://milkywayidle.wiki.gg/images/f/fb/Dodocamel_gauntlets.svg?cea4d3' , price: 58000000 },
+            { name: '狮鹫重盾', min: 1, max: 1, probability: 0.0005, icon: 'https://milkywayidle.wiki.gg/images/9/98/Griffin_bulwark.svg?d39770', price: 125000000  }
         ];
 
         const gloomyItems = [
-            { name: '阴森精华', min: 400, max: 800, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/2/2e/Sinister_essence.svg?dde845' },
-            { name: '阴森精华', min: 2000, max: 4000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/2/2e/Sinister_essence.svg?dde845' },
-            { name: '阴森代币', min: 250, max: 500, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/4/47/Sinister_token.svg?db3872' },
-            { name: '阴森代币', min: 1500, max: 3000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/4/47/Sinister_token.svg?db3872' },
-            { name: '大宝箱', min: 1, max: 6, probability: 0.3, icon: 'https://milkywayidle.wiki.gg/images/f/f6/Large_treasure_chest.svg?744486' },
-            { name: '石榴石', min: 5, max: 20, probability: 0.6, icon: 'https://milkywayidle.wiki.gg/images/2/2f/Garnet.svg?fd8011' },
-            { name: '太阳石', min: 1, max: 3, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/0b/Sunstone.svg?e69536' },
-            { name: '贯心之刺', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/6/6f/Penetrating_strike.svg?3ba888' },
-            { name: '疫病射击', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/6/6b/Pestilent_shot.svg?a1d1fa' },
-            { name: '烟爆灭影', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/09/Smoke_burst.svg?ccea7c' },
-            { name: '杂技师彩带', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/6/6f/Acrobats_ribbon.svg?b0286f' },
-            { name: '魔术师织物', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/5/51/Magicians_cloth.svg?1b6ca4' },
-            { name: '混沌锁链', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/d/d5/Chaotic_chain.svg?51b93c' },
-            { name: '诅咒之球', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/c/cd/Cursed_ball.svg?a8e5c8' },
-            { name: '阴森宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/4/4c/Sinister_chest_key.svg?f177ea' },
-            { name: '阴森斗篷', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/a/ae/Sinister_cape.svg?1935fd' },
-            { name: '杂技师兜帽', min: 1, max: 1, probability: 0.0002, icon: 'https://milkywayidle.wiki.gg/images/c/c6/Acrobatic_hood.svg?fb7f1f' },
-            { name: '魔术师帽', min: 1, max: 1, probability: 0.0002, icon: 'https://milkywayidle.wiki.gg/images/4/4a/Magicians_hat.svg?39b777' },
-            { name: '混沌连枷', min: 1, max: 1, probability: 0.00005, icon: 'https://milkywayidle.wiki.gg/images/e/ed/Chaotic_flail.svg?9d3553' },
-            { name: '咒怨之弓', min: 1, max: 1, probability: 0.00005, icon: 'https://milkywayidle.wiki.gg/images/0/02/Cursed_bow.svg?276ffd' }
+            { name: '阴森精华', min: 400, max: 800, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/2/2e/Sinister_essence.svg?dde845', price: 980 },
+            { name: '阴森精华', min: 2000, max: 4000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/2/2e/Sinister_essence.svg?dde845' , price: 980},
+            { name: '阴森代币', min: 250, max: 500, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/4/47/Sinister_token.svg?db3872' , price: 1},
+            { name: '阴森代币', min: 1500, max: 3000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/4/47/Sinister_token.svg?db3872' , price: 1},
+            { name: '大宝箱', min: 1, max: 6, probability: 0.3, icon: 'https://milkywayidle.wiki.gg/images/f/f6/Large_treasure_chest.svg?744486' , price: 200000},
+            { name: '石榴石', min: 5, max: 20, probability: 0.6, icon: 'https://milkywayidle.wiki.gg/images/2/2f/Garnet.svg?fd8011' , price: 41000},
+            { name: '太阳石', min: 1, max: 3, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/0b/Sunstone.svg?e69536' , price: 600000},
+            { name: '贯心之刺', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/6/6f/Penetrating_strike.svg?3ba888' , price: 110000},
+            { name: '疫病射击', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/6/6b/Pestilent_shot.svg?a1d1fa' , price: 105000},
+            { name: '烟爆灭影', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/09/Smoke_burst.svg?ccea7c' , price: 150000},
+            { name: '杂技师彩带', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/6/6f/Acrobats_ribbon.svg?b0286f' , price: 13500000},
+            { name: '魔术师织物', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/5/51/Magicians_cloth.svg?1b6ca4' , price: 13500000},
+            { name: '混沌锁链', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/d/d5/Chaotic_chain.svg?51b93c' , price: 12500000},
+            { name: '诅咒之球', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/c/cd/Cursed_ball.svg?a8e5c8' , price: 10000000},
+            { name: '阴森宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/4/4c/Sinister_chest_key.svg?f177ea' , price: 5200000},
+            { name: '阴森斗篷', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/a/ae/Sinister_cape.svg?1935fd' , price: 1},
+            { name: '杂技师兜帽', min: 1, max: 1, probability: 0.0002, icon: 'https://milkywayidle.wiki.gg/images/c/c6/Acrobatic_hood.svg?fb7f1f' , price: 155000000},
+            { name: '魔术师帽', min: 1, max: 1, probability: 0.0002, icon: 'https://milkywayidle.wiki.gg/images/4/4a/Magicians_hat.svg?39b777' , price: 130000000},
+            { name: '混沌连枷', min: 1, max: 1, probability: 0.00005, icon: 'https://milkywayidle.wiki.gg/images/e/ed/Chaotic_flail.svg?9d3553' , price: 280000000},
+            { name: '咒怨之弓', min: 1, max: 1, probability: 0.00005, icon: 'https://milkywayidle.wiki.gg/images/0/02/Cursed_bow.svg?276ffd', price: 300000000 }
         ];
 
         const magicItems = [
-            { name: '秘法精华', min: 400, max: 800, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/a/a9/Enchanted_essence.svg?6c1b33' },
-            { name: '秘法精华', min: 2000, max: 4000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/a/a9/Enchanted_essence.svg?6c1b33' },
-            { name: '秘法代币', min: 250, max: 500, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/2/2f/Enchanted_token.svg?6321ff' },
-            { name: '秘法代币', min: 1500, max: 3000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/2/2f/Enchanted_token.svg?6321ff' },
-            { name: '大宝箱', min: 1, max: 7, probability: 0.3, icon: 'https://milkywayidle.wiki.gg/images/f/f6/Large_treasure_chest.svg?744486' },
-            { name: '紫水晶', min: 5, max: 20, probability: 0.6, icon: 'https://milkywayidle.wiki.gg/images/f/fe/Amethyst.svg?8a1a17' },
-            { name: '太阳石', min: 1, max: 5, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/0b/Sunstone.svg?e69536' },
-            { name: '致残斩', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/3/30/Crippling_slash.svg?64c433' },
-            { name: '贯穿射击', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/2/27/Penetrating_shot.svg?706702' },
-            { name: '奥术反射', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/9/9f/Arcane_reflection.svg?2bc95e' },
-            { name: '法力喷泉', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/9/9a/Mana_spring.svg?3add55' },
-            { name: '骑士之锭', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/1/1f/Knights_ingot.svg?182b69' },
-            { name: '主教卷轴', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/a/a6/Bishops_scroll.svg?965a06' },
-            { name: '皇家织物', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/a/a9/Royal_cloth.svg?c2907d' },
-            { name: '君王宝石', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/b/b3/Regal_jewel.svg?49aba6' },
-            { name: '裂空宝石', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/4/47/Sundering_jewel.svg?eb9d2b' },
-            { name: '秘法宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/1/14/Enchanted_chest_key.svg?c07935' },
-            { name: '秘法披风', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/6/6d/Enchanted_cloak.svg?13d0c3' },
-            { name: '骑士盾', min: 1, max: 1, probability: 0.002, icon: 'https://milkywayidle.wiki.gg/images/b/b5/Knights_aegis.svg?921547' },
-            { name: '主教法典', min: 1, max: 1, probability: 0.002, icon: 'https://milkywayidle.wiki.gg/images/a/a6/Bishops_codex.svg?96be4e' },
-            { name: '皇家水系袍服', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/1/1b/Royal_water_robe_top.svg?e8a899' },
-            { name: '皇家水系袍裙', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/b/b6/Royal_water_robe_bottoms.svg?a832e2' },
-            { name: '皇家自然系袍服', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/e/e0/Royal_nature_robe_top.svg?1a57f8' },
-            { name: '皇家自然系袍裙', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/d/dd/Royal_nature_robe_bottoms.svg?c9ffd9' },
-            { name: '皇家火系袍服', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/1/1a/Royal_fire_robe_top.svg?32c12c' },
-            { name: '皇家火系袍裙', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/6/63/Royal_fire_robe_bottoms.svg?17fbd2' },
-            { name: '狂怒长枪', min: 1, max: 1, probability: 0.0003, icon: '' },
-            { name: '君王之剑', min: 1, max: 1, probability: 0.0003, icon: 'https://milkywayidle.wiki.gg/images/5/50/Regal_sword.svg?ffb283' },
-            { name: '裂空之弩', min: 1, max: 1, probability: 0.0003, icon: 'https://milkywayidle.wiki.gg/images/b/b1/Sundering_crossbow.svg?c53ccc' }
+            { name: '秘法精华', min: 400, max: 800, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/a/a9/Enchanted_essence.svg?6c1b33' , price: 2000},
+            { name: '秘法精华', min: 2000, max: 4000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/a/a9/Enchanted_essence.svg?6c1b33' , price: 2000},
+            { name: '秘法代币', min: 250, max: 500, probability: 1, icon: 'https://milkywayidle.wiki.gg/images/2/2f/Enchanted_token.svg?6321ff' , price: 1},
+            { name: '秘法代币', min: 1500, max: 3000, probability: 0.05, icon: 'https://milkywayidle.wiki.gg/images/2/2f/Enchanted_token.svg?6321ff' , price: 1},
+            { name: '大宝箱', min: 1, max: 7, probability: 0.3, icon: 'https://milkywayidle.wiki.gg/images/f/f6/Large_treasure_chest.svg?744486' , price: 200000},
+            { name: '紫水晶', min: 5, max: 20, probability: 0.6, icon: 'https://milkywayidle.wiki.gg/images/f/fe/Amethyst.svg?8a1a17' , price: 41000},
+            { name: '太阳石', min: 1, max: 5, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/0/0b/Sunstone.svg?e69536' , price: 600000},
+            { name: '致残斩', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/3/30/Crippling_slash.svg?64c433' , price: 105000},
+            { name: '贯穿射击', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/2/27/Penetrating_shot.svg?706702' , price: 420000},
+            { name: '奥术反射', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/9/9f/Arcane_reflection.svg?2bc95e' , price: 105000},
+            { name: '法力喷泉', min: 1, max: 2, probability: 0.5, icon: 'https://milkywayidle.wiki.gg/images/9/9a/Mana_spring.svg?3add55' , price: 390000},
+            { name: '骑士之锭', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/1/1f/Knights_ingot.svg?182b69' , price: 13500000},
+            { name: '主教卷轴', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/a/a6/Bishops_scroll.svg?965a06' , price: 14000000},
+            { name: '皇家织物', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/a/a9/Royal_cloth.svg?c2907d' , price: 14500000},
+            { name: '君王宝石', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/b/b3/Regal_jewel.svg?49aba6' , price: 15500000},
+            { name: '裂空宝石', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/4/47/Sundering_jewel.svg?eb9d2b' , price: 19500000},
+            { name: '秘法宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: 'https://milkywayidle.wiki.gg/images/1/14/Enchanted_chest_key.svg?c07935' , price: 74000000},
+            { name: '秘法披风', min: 1, max: 1, probability: 0.04, icon: 'https://milkywayidle.wiki.gg/images/6/6d/Enchanted_cloak.svg?13d0c3' , price: 1},
+            { name: '骑士盾', min: 1, max: 1, probability: 0.002, icon: 'https://milkywayidle.wiki.gg/images/b/b5/Knights_aegis.svg?921547' , price: 145000000},
+            { name: '主教法典', min: 1, max: 1, probability: 0.002, icon: 'https://milkywayidle.wiki.gg/images/a/a6/Bishops_codex.svg?96be4e' , price: 145000000},
+            { name: '皇家水系袍服', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/1/1b/Royal_water_robe_top.svg?e8a899', price: 125000000 },
+            { name: '皇家水系袍裙', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/b/b6/Royal_water_robe_bottoms.svg?a832e2' , price: 125000000},
+            { name: '皇家自然系袍服', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/e/e0/Royal_nature_robe_top.svg?1a57f8' , price: 120000000},
+            { name: '皇家自然系袍裙', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/d/dd/Royal_nature_robe_bottoms.svg?c9ffd9' , price: 108000000},
+            { name: '皇家火系袍服', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/1/1a/Royal_fire_robe_top.svg?32c12c' , price: 180000000},
+            { name: '皇家火系袍裙', min: 1, max: 1, probability: 0.0004, icon: 'https://milkywayidle.wiki.gg/images/6/63/Royal_fire_robe_bottoms.svg?17fbd2' , price: 120000000},
+            { name: '狂怒长枪', min: 1, max: 1, probability: 0.0003, icon: '' , price: 30000000},
+            { name: '君王之剑', min: 1, max: 1, probability: 0.0003, icon: 'https://milkywayidle.wiki.gg/images/5/50/Regal_sword.svg?ffb283' , price: 27500000},
+            { name: '裂空之弩', min: 1, max: 1, probability: 0.0003, icon: 'https://milkywayidle.wiki.gg/images/b/b1/Sundering_crossbow.svg?c53ccc', price: 43000000 }
         ];
 
         const pirateItems = [
-            { name: '海盗精华', min: 400, max: 800, probability: 1, icon: '' },
-            { name: '海盗精华', min: 2000, max: 4000, probability: 0.05, icon: '' },
-            { name: '海盗代币', min: 250, max: 500, probability: 1, icon: '' },
-            { name: '海盗代币', min: 1500, max: 3000, probability: 0.05, icon: '' },
-            { name: '大宝箱', min: 1, max: 8, probability: 0.3, icon: '' },
-            { name: '月亮石', min: 5, max: 20, probability: 0.5, icon: '' },
-            { name: '太阳石', min: 1, max: 7, probability: 0.5, icon: '' },
-            { name: '盾击', min: 1, max: 2, probability: 0.5, icon: '' },
-            { name: '碎裂冲击', min: 1, max: 2, probability: 0.5, icon: '' },
-            { name: '生命吸取', min: 1, max: 1, probability: 0.5, icon: '' },
-            { name: '神射胸针', min: 1, max: 1, probability: 0.03, icon: '' },
-            { name: '掠夺者徽章', min: 1, max: 1, probability: 0.03, icon: '' },
-            { name: '破损船锚', min: 1, max: 1, probability: 0.03, icon: '' },
-            { name: '怒涛甲片', min: 1, max: 1, probability: 0.03, icon: '' },
-            { name: '克拉肯皮革', min: 1, max: 1, probability: 0.03, icon: '' },
-            { name: '克拉肯之牙', min: 1, max: 1, probability: 0.03, icon: '' },
-            { name: '海盗宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: '' },
-            { name: '神射护腕', min: 1, max: 1, probability: 0.002, icon: '' },
-            { name: '掠夺者头盔', min: 1, max: 1, probability: 0.002, icon: '' },
-            { name: '锚定胸甲', min: 1, max: 1, probability: 0.0004, icon: '' },
-            { name: '锚定腿甲', min: 1, max: 1, probability: 0.0004, icon: '' },
-            { name: '克拉肯皮衣', min: 1, max: 1, probability: 0.004, icon: '' },
-            { name: '克拉肯皮裤', min: 1, max: 1, probability: 0.004, icon: '' },
-            { name: '涟漪三叉戟', min: 1, max: 1, probability: 0.003, icon: '' },
-            { name: '绽放三叉戟', min: 1, max: 1, probability: 0.003, icon: '' },
-            { name: '炽焰三叉戟', min: 1, max: 1, probability: 0.003, icon: '' }
+             { name: '海盗精华', min: 400, max: 800, probability: 1, icon: '' , price: 4400},
+            { name: '海盗精华', min: 2000, max: 4000, probability: 0.05, icon: '' , price: 4400},
+            { name: '海盗代币', min: 250, max: 500, probability: 1, icon: '' , price: 1},
+            { name: '海盗代币', min: 1500, max: 3000, probability: 0.05, icon: '' , price: 1},
+            { name: '大宝箱', min: 1, max: 8, probability: 0.3, icon: '' , price: 200000},
+            { name: '月亮石', min: 5, max: 20, probability: 0.5, icon: '' , price: 60000},
+            { name: '太阳石', min: 1, max: 7, probability: 0.5, icon: '' , price: 600000},
+            { name: '盾击', min: 1, max: 2, probability: 0.5, icon: '' , price: 10000},
+            { name: '碎裂冲击', min: 1, max: 2, probability: 0.5, icon: '' , price: 105000},
+            { name: '生命吸取', min: 1, max: 1, probability: 0.5, icon: '' , price: 200000},
+            { name: '神射胸针', min: 1, max: 1, probability: 0.03, icon: '' , price: 14000000},
+            { name: '掠夺者徽章', min: 1, max: 1, probability: 0.03, icon: '' , price: 14000000},
+            { name: '破损船锚', min: 1, max: 1, probability: 0.03, icon: '' , price: 11500000},
+            { name: '怒涛甲片', min: 1, max: 1, probability: 0.03, icon: '' , price: 14000000},
+            { name: '克拉肯皮革', min: 1, max: 1, probability: 0.03, icon: '' , price: 14000000},
+            { name: '克拉肯之牙', min: 1, max: 1, probability: 0.03, icon: '' , price: 21000000},
+            { name: '海盗宝箱钥匙', min: 1, max: 1, probability: 0.02, icon: '' , price: 9600000},
+            { name: '神射护腕', min: 1, max: 1, probability: 0.002, icon: '' , price: 130000000},
+            { name: '掠夺者头盔', min: 1, max: 1, probability: 0.002, icon: '' , price: 145000000},
+            { name: '锚定胸甲', min: 1, max: 1, probability: 0.0004, icon: '' , price: 105000000},
+            { name: '锚定腿甲', min: 1, max: 1, probability: 0.0004, icon: '' , price: 105000000},
+            { name: '克拉肯皮衣', min: 1, max: 1, probability: 0.004, icon: '' , price: 155000000},
+            { name: '克拉肯皮裤', min: 1, max: 1, probability: 0.004, icon: '' , price: 120000000},
+            { name: '涟漪三叉戟', min: 1, max: 1, probability: 0.003, icon: '' , price: 430000000},
+            { name: '绽放三叉戟', min: 1, max: 1, probability: 0.003, icon: '' , price: 520000000},
+            { name: '炽焰三叉戟', min: 1, max: 1, probability: 0.003, icon: '', price: 480000000 }
         ];
 
         const openBoxBtn = document.getElementById('openBoxBtn');
@@ -347,6 +364,7 @@
         const customOptions = document.querySelectorAll('.custom-option');
         const modal = document.getElementById('myModal');
         const modalContent = document.querySelector('.modal-content');
+        const profitLossElement = document.getElementById('profit-loss');
 
         // 显示/隐藏下拉选项
         customSelectTrigger.addEventListener('click', function (event) {
@@ -361,8 +379,10 @@
                 event.stopPropagation();
                 const selectedText = this.textContent;
                 const selectedValue = this.dataset.value;
+                const selectedCost = parseInt(this.dataset.cost);
                 customSelectTrigger.innerHTML = this.innerHTML;
                 customSelectTrigger.dataset.value = selectedValue;
+                customSelectTrigger.dataset.cost = selectedCost;
                 const options = customSelect.querySelector('.custom-options');
                 options.style.display = 'none';
             });
@@ -379,6 +399,7 @@
         openBoxBtn.addEventListener('click', function () {
             const boxCount = parseInt(boxCountInput.value) || 1;
             const chestType = customSelectTrigger.dataset.value;
+            const boxCost = parseInt(customSelectTrigger.dataset.cost);
             let itemsToUse;
 
             switch (chestType) {
@@ -411,7 +432,8 @@
                             allObtainedItems[item.name] = {
                                 name: item.name,
                                 quantity: quantity,
-                                icon: item.icon
+                                icon: item.icon,
+                                price: item.price
                             };
                         }
                     }
@@ -448,6 +470,18 @@
                 });
             }
 
+            // 计算成本和总价值
+            const totalCost = boxCount * boxCost;
+            let totalValue = 0;
+            obtainedItemsArray.forEach(item => {
+                totalValue += item.quantity * item.price;
+            });
+
+            const profitLoss = totalValue - totalCost;
+
+            // 显示成本、总价值和盈亏
+            profitLossElement.innerHTML = `开箱成本: ${totalCost} 金币<br>开箱物品总价值: ${totalValue} 金币<br>本次开箱盈亏: ${profitLoss} 金币<br>以上盈亏数据仅供参考，价格数据没有实时更新功能`;
+
             modal.style.display = 'block';
         });
 
@@ -459,4 +493,4 @@
     </script>
 </body>
 
-</html>
+</html>    
