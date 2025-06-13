@@ -1,1 +1,907 @@
-表叔你看这是我自己做的网站
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宠物扭蛋乐园</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Marker Felt', 'Arial Rounded MT Bold', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #5a3921;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border: 4px solid #ff9e6d;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            color: #ff6b6b;
+            text-shadow: 3px 3px 0 #ffd166;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .coin-count {
+            background: #ffd166;
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .claim-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border: 4px solid #06d6a0;
+        }
+        
+        .timer {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            color: #ef476f;
+            font-weight: bold;
+        }
+        
+        .claim-btn {
+            background: linear-gradient(to right, #ff9e6d, #ff6b6b);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 6px 12px rgba(255,107,107,0.4);
+        }
+        
+        .claim-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(255,107,107,0.6);
+        }
+        
+        .claim-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #118ab2;
+            text-align: center;
+            border-bottom: 3px dashed #ffd166;
+            padding-bottom: 10px;
+        }
+        
+        .eggs-container, .pets-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            min-height: 200px;
+        }
+        
+        .egg-item, .pet-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .egg-item:hover, .pet-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .egg-icon {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .pet-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .rarity {
+            font-size: 0.9rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            color: white;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .common { background: #8a8a8a; }
+        .rare { background: #4ea8de; }
+        .epic { background: #9b5de5; }
+        .legendary { background: #f15bb5; }
+        
+        .market, .shop {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        
+        .market-items, .shop-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        
+        .market-item, .shop-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #d4af37;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+        
+        .action-btn {
+            background: #06d6a0;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 15px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .action-btn:hover {
+            background: #05b88a;
+        }
+        
+        .empty-msg {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 30px;
+            grid-column: 1 / -1;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #06d6a0;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(200%);
+            transition: transform 0.5s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .egg-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 10rem;
+            z-index: 999;
+            transition: transform 0.5s, opacity 0.5s;
+            opacity: 0;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+        
+        .egg-animation.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .pet-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1000;
+            transition: transform 0.5s;
+            width: 300px;
+        }
+        
+        .pet-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .pet-popup .pet-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6b6b;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .market-items, .shop-items {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-egg"></i> 宠物扭蛋乐园</h1>
+            <p>收集可爱的宠物，在集市交易，建立你的宠物王国！</p>
+            <div class="stats">
+                <div class="coin-count">
+                    <i class="fas fa-coins"></i>
+                    <span id="coins">500</span> 金币
+                </div>
+            </div>
+        </header>
+        
+        <section class="claim-section">
+            <h2>免费扭蛋领取</h2>
+            <div class="timer" id="timer">00:10:00</div>
+            <button class="claim-btn" id="claim-btn" disabled>领取扭蛋</button>
+        </section>
+        
+        <div class="main-content">
+            <div class="section">
+                <h3 class="section-title"><i class="fas fa-basketball-ball"></i> 蛋背包</h3>
+                <div class="eggs-container" id="eggs-container">
+                    <!-- 蛋会动态添加到这里 -->
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title"><i class="fas fa-paw"></i> 宠物背包</h3>
+                <div class="pets-container" id="pets-container">
+                    <!-- 宠物会动态添加到这里 -->
+                </div>
+            </div>
+        </div>
+        
+        <section class="market">
+            <h3 class="section-title"><i class="fas fa-store"></i> 集市</h3>
+            <p class="timer">下次价格更新: <span id="market-timer">00:10:00</span></p>
+            <div class="market-items" id="market-items">
+                <!-- 集市物品会动态添加到这里 -->
+            </div>
+        </section>
+        
+        <section class="shop">
+            <h3 class="section-title"><i class="fas fa-shopping-cart"></i> 宠物蛋商店</h3>
+            <p class="timer">下次价格更新: <span id="shop-timer">00:10:00</span></p>
+            <div class="shop-items" id="shop-items">
+                <!-- 商店物品会动态添加到这里 -->
+            </div>
+        </section>
+    </div>
+    
+    <div class="egg-animation" id="egg-animation">🥚</div>
+    
+    <div class="pet-popup" id="pet-popup">
+        <div class="close-btn" id="close-popup">×</div>
+        <div class="pet-icon" id="popup-pet-icon">🐶</div>
+        <h3 id="popup-pet-name">宠物名字</h3>
+        <div class="rarity" id="popup-pet-rarity">稀有度</div>
+        <p>恭喜你获得了新宠物！</p>
+    </div>
+    
+    <div class="notification" id="notification">成功领取了扭蛋！</div>
+    
+    <script>
+        // 游戏数据
+        const gameData = {
+            coins: 500,
+            eggs: [],
+            pets: [],
+            lastClaim: null,
+            lastMarketUpdate: null,
+            lastShopUpdate: null,
+            
+            // 蛋的稀有度及概率
+            eggRarities: [
+                { name: "普通", chance: 60, icon: "🥚", colorClass: "common" },
+                { name: "稀有", chance: 25, icon: "🥚", colorClass: "rare" },
+                { name: "史诗", chance: 10, icon: "🥚", colorClass: "epic" },
+                { name: "传说", chance: 5, icon: "🥚", colorClass: "legendary" }
+            ],
+            
+            // 宠物数据
+            petTypes: [
+                { name: "小猫咪", rarity: "普通", icon: "🐱", colorClass: "common" },
+                { name: "小狗", rarity: "普通", icon: "🐶", colorClass: "common" },
+                { name: "兔子", rarity: "普通", icon: "🐰", colorClass: "common" },
+                { name: "小熊猫", rarity: "稀有", icon: "🐼", colorClass: "rare" },
+                { name: "狐狸", rarity: "稀有", icon: "🦊", colorClass: "rare" },
+                { name: "刺猬", rarity: "稀有", icon: "🦔", colorClass: "rare" },
+                { name: "独角兽", rarity: "史诗", icon: "🦄", colorClass: "epic" },
+                { name: "凤凰", rarity: "史诗", icon: "🦚", colorClass: "epic" },
+                { name: "龙", rarity: "传说", icon: "🐉", colorClass: "legendary" },
+                { name: "麒麟", rarity: "传说", icon: "🦒", colorClass: "legendary" }
+            ],
+            
+            // 集市价格范围
+            marketPrices: {
+                "普通": { min: 10, max: 30 },
+                "稀有": { min: 50, max: 100 },
+                "史诗": { min: 150, max: 300 },
+                "传说": { min: 500, max: 1000 }
+            },
+            
+            // 商店价格范围
+            shopPrices: {
+                "普通": { min: 15, max: 25 },
+                "稀有": { min: 60, max: 90 },
+                "史诗": { min: 200, max: 280 },
+                "传说": { min: 600, max: 900 }
+            },
+            
+            // 当前价格
+            currentMarketPrices: {},
+            currentShopPrices: {}
+        };
+        
+        // DOM 元素
+        const elements = {
+            coins: document.getElementById('coins'),
+            timer: document.getElementById('timer'),
+            marketTimer: document.getElementById('market-timer'),
+            shopTimer: document.getElementById('shop-timer'),
+            claimBtn: document.getElementById('claim-btn'),
+            eggsContainer: document.getElementById('eggs-container'),
+            petsContainer: document.getElementById('pets-container'),
+            marketItems: document.getElementById('market-items'),
+            shopItems: document.getElementById('shop-items'),
+            eggAnimation: document.getElementById('egg-animation'),
+            petPopup: document.getElementById('pet-popup'),
+            closePopup: document.getElementById('close-popup'),
+            popupPetIcon: document.getElementById('popup-pet-icon'),
+            popupPetName: document.getElementById('popup-pet-name'),
+            popupPetRarity: document.getElementById('popup-pet-rarity'),
+            notification: document.getElementById('notification')
+        };
+        
+        // 初始化游戏
+        function initGame() {
+            // 尝试从 localStorage 加载游戏数据
+            const savedData = localStorage.getItem('petGachaGame');
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                Object.assign(gameData, parsedData);
+            } else {
+                // 初始化价格
+                updateMarketPrices();
+                updateShopPrices();
+            }
+            
+            // 更新UI
+            updateUI();
+            
+            // 设置定时器
+            startTimers();
+            
+            // 设置事件监听器
+            setupEventListeners();
+        }
+        
+        // 更新UI
+        function updateUI() {
+            // 更新金币
+            elements.coins.textContent = gameData.coins;
+            
+            // 更新蛋背包
+            renderEggs();
+            
+            // 更新宠物背包
+            renderPets();
+            
+            // 更新集市
+            renderMarket();
+            
+            // 更新商店
+            renderShop();
+        }
+        
+        // 渲染蛋背包
+        function renderEggs() {
+            elements.eggsContainer.innerHTML = '';
+            
+            if (gameData.eggs.length === 0) {
+                elements.eggsContainer.innerHTML = '<div class="empty-msg">蛋背包空空如也，快去领取扭蛋吧！</div>';
+                return;
+            }
+            
+            gameData.eggs.forEach((egg, index) => {
+                const eggElement = document.createElement('div');
+                eggElement.className = 'egg-item';
+                eggElement.innerHTML = `
+                    <div class="egg-icon">${egg.icon}</div>
+                    <div>${egg.name}</div>
+                    <div class="rarity ${egg.colorClass}">${egg.rarity}</div>
+                `;
+                
+                eggElement.addEventListener('click', () => hatchEgg(index));
+                elements.eggsContainer.appendChild(eggElement);
+            });
+        }
+        
+        // 渲染宠物背包
+        function renderPets() {
+            elements.petsContainer.innerHTML = '';
+            
+            if (gameData.pets.length === 0) {
+                elements.petsContainer.innerHTML = '<div class="empty-msg">还没有宠物，快去孵化扭蛋吧！</div>';
+                return;
+            }
+            
+            gameData.pets.forEach((pet, index) => {
+                const petElement = document.createElement('div');
+                petElement.className = 'pet-item';
+                petElement.innerHTML = `
+                    <div class="pet-icon">${pet.icon}</div>
+                    <div>${pet.name}</div>
+                    <div class="rarity ${pet.colorClass}">${pet.rarity}</div>
+                `;
+                
+                petElement.addEventListener('click', () => sellPet(index));
+                elements.petsContainer.appendChild(petElement);
+            });
+        }
+        
+        // 渲染集市
+        function renderMarket() {
+            elements.marketItems.innerHTML = '';
+            
+            const rarityGroups = {};
+            
+            // 按稀有度分组宠物
+            gameData.pets.forEach(pet => {
+                if (!rarityGroups[pet.rarity]) {
+                    rarityGroups[pet.rarity] = [];
+                }
+                rarityGroups[pet.rarity].push(pet);
+            });
+            
+            // 为每个稀有度创建市场项
+            Object.keys(rarityGroups).forEach(rarity => {
+                const group = rarityGroups[rarity];
+                const price = gameData.currentMarketPrices[rarity];
+                
+                const marketItem = document.createElement('div');
+                marketItem.className = 'market-item';
+                marketItem.innerHTML = `
+                    <div class="pet-icon">${group[0].icon}</div>
+                    <h3>${rarity}宠物</h3>
+                    <div>库存: ${group.length}</div>
+                    <div class="price">${price} 金币</div>
+                    <button class="action-btn sell-all-btn" data-rarity="${rarity}">全部出售</button>
+                `;
+                
+                elements.marketItems.appendChild(marketItem);
+            });
+            
+            // 添加事件监听器
+            document.querySelectorAll('.sell-all-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const rarity = btn.getAttribute('data-rarity');
+                    sellAllPetsByRarity(rarity);
+                });
+            });
+        }
+        
+        // 渲染商店
+        function renderShop() {
+            elements.shopItems.innerHTML = '';
+            
+            gameData.eggRarities.forEach(rarity => {
+                const price = gameData.currentShopPrices[rarity.name];
+                
+                const shopItem = document.createElement('div');
+                shopItem.className = 'shop-item';
+                shopItem.innerHTML = `
+                    <div class="egg-icon">${rarity.icon}</div>
+                    <h3>${rarity.name}蛋</h3>
+                    <div class="price">${price} 金币</div>
+                    <button class="action-btn buy-btn" data-rarity="${rarity.name}">购买</button>
+                `;
+                
+                elements.shopItems.appendChild(shopItem);
+            });
+            
+            // 添加事件监听器
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const rarity = btn.getAttribute('data-rarity');
+                    buyEgg(rarity);
+                });
+            });
+        }
+        
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 领取扭蛋按钮
+            elements.claimBtn.addEventListener('click', claimEgg);
+            
+            // 关闭宠物弹窗
+            elements.closePopup.addEventListener('click', () => {
+                elements.petPopup.classList.remove('show');
+            });
+        }
+        
+        // 开始计时器
+        function startTimers() {
+            // 主计时器
+            setInterval(() => {
+                updateTimers();
+            }, 1000);
+            
+            updateTimers();
+        }
+        
+        // 更新计时器
+        function updateTimers() {
+            const now = Date.now();
+            
+            // 扭蛋领取计时器
+            if (!gameData.lastClaim || now - gameData.lastClaim >= 600000) {
+                elements.timer.textContent = "00:00:00";
+                elements.claimBtn.disabled = false;
+            } else {
+                const remaining = 600000 - (now - gameData.lastClaim);
+                const timeStr = formatTime(remaining);
+                elements.timer.textContent = timeStr;
+                elements.claimBtn.disabled = true;
+            }
+            
+            // 市场更新计时器
+            if (!gameData.lastMarketUpdate || now - gameData.lastMarketUpdate >= 600000) {
+                updateMarketPrices();
+                gameData.lastMarketUpdate = now;
+                elements.marketTimer.textContent = "00:00:00";
+            } else {
+                const remaining = 600000 - (now - gameData.lastMarketUpdate);
+                elements.marketTimer.textContent = formatTime(remaining);
+            }
+            
+            // 商店更新计时器
+            if (!gameData.lastShopUpdate || now - gameData.lastShopUpdate >= 600000) {
+                updateShopPrices();
+                gameData.lastShopUpdate = now;
+                elements.shopTimer.textContent = "00:00:00";
+            } else {
+                const remaining = 600000 - (now - gameData.lastShopUpdate);
+                elements.shopTimer.textContent = formatTime(remaining);
+            }
+            
+            // 保存游戏状态
+            saveGame();
+        }
+        
+        // 格式化时间
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // 领取扭蛋
+        function claimEgg() {
+            // 随机获取稀有度
+            const randomNum = Math.random() * 100;
+            let cumulative = 0;
+            let selectedRarity;
+            
+            for (const rarity of gameData.eggRarities) {
+                cumulative += rarity.chance;
+                if (randomNum <= cumulative) {
+                    selectedRarity = rarity;
+                    break;
+                }
+            }
+            
+            // 创建新蛋
+            const newEgg = {
+                id: Date.now(),
+                name: `${selectedRarity.name}蛋`,
+                rarity: selectedRarity.name,
+                icon: selectedRarity.icon,
+                colorClass: selectedRarity.colorClass
+            };
+            
+            // 添加到蛋背包
+            gameData.eggs.push(newEgg);
+            gameData.lastClaim = Date.now();
+            
+            // 显示动画
+            showEggAnimation(newEgg);
+            
+            // 更新UI
+            updateUI();
+        }
+        
+        // 显示蛋动画
+        function showEggAnimation(egg) {
+            elements.eggAnimation.textContent = egg.icon;
+            elements.eggAnimation.className = 'egg-animation show';
+            elements.eggAnimation.style.color = getRarityColor(egg.rarity);
+            
+            // 显示通知
+            showNotification(`获得了${egg.rarity}蛋！`);
+            
+            // 3秒后隐藏动画
+            setTimeout(() => {
+                elements.eggAnimation.className = 'egg-animation';
+            }, 3000);
+        }
+        
+        // 孵化蛋
+        function hatchEgg(eggIndex) {
+            const egg = gameData.eggs[eggIndex];
+            
+            // 根据蛋的稀有度筛选宠物
+            const availablePets = gameData.petTypes.filter(pet => pet.rarity === egg.rarity);
+            
+            // 随机选择一个宠物
+            const randomIndex = Math.floor(Math.random() * availablePets.length);
+            const newPet = {...availablePets[randomIndex]};
+            newPet.id = Date.now();
+            
+            // 添加到宠物背包
+            gameData.pets.push(newPet);
+            
+            // 从蛋背包移除
+            gameData.eggs.splice(eggIndex, 1);
+            
+            // 显示宠物弹窗
+            showPetPopup(newPet);
+            
+            // 更新UI
+            updateUI();
+        }
+        
+        // 显示宠物弹窗
+        function showPetPopup(pet) {
+            elements.popupPetIcon.textContent = pet.icon;
+            elements.popupPetName.textContent = pet.name;
+            elements.popupPetRarity.textContent = pet.rarity;
+            elements.popupPetRarity.className = `rarity ${pet.colorClass}`;
+            elements.petPopup.classList.add('show');
+            
+            // 显示通知
+            showNotification(`孵出了${pet.rarity}宠物：${pet.name}！`);
+        }
+        
+        // 出售宠物
+        function sellPet(petIndex) {
+            const pet = gameData.pets[petIndex];
+            const price = gameData.currentMarketPrices[pet.rarity];
+            
+            // 增加金币
+            gameData.coins += price;
+            
+            // 移除宠物
+            gameData.pets.splice(petIndex, 1);
+            
+            // 显示通知
+            showNotification(`出售了${pet.rarity}宠物${pet.name}，获得${price}金币！`);
+            
+            // 更新UI
+            updateUI();
+        }
+        
+        // 按稀有度出售所有宠物
+        function sellAllPetsByRarity(rarity) {
+            const petsToSell = gameData.pets.filter(pet => pet.rarity === rarity);
+            const price = gameData.currentMarketPrices[rarity];
+            const total = petsToSell.length * price;
+            
+            if (petsToSell.length === 0) {
+                showNotification(`没有${rarity}宠物可出售！`);
+                return;
+            }
+            
+            // 增加金币
+            gameData.coins += total;
+            
+            // 移除宠物
+            gameData.pets = gameData.pets.filter(pet => pet.rarity !== rarity);
+            
+            // 显示通知
+            showNotification(`出售了${petsToSell.length}只${rarity}宠物，获得${total}金币！`);
+            
+            // 更新UI
+            updateUI();
+        }
+        
+        // 购买蛋
+        function buyEgg(rarity) {
+            const price = gameData.currentShopPrices[rarity];
+            
+            // 检查金币是否足够
+            if (gameData.coins < price) {
+                showNotification('金币不足！');
+                return;
+            }
+            
+            // 扣除金币
+            gameData.coins -= price;
+            
+            // 获取蛋数据
+            const eggRarity = gameData.eggRarities.find(r => r.name === rarity);
+            const newEgg = {
+                id: Date.now(),
+                name: `${rarity}蛋`,
+                rarity: rarity,
+                icon: eggRarity.icon,
+                colorClass: eggRarity.colorClass
+            };
+            
+            // 添加到蛋背包
+            gameData.eggs.push(newEgg);
+            
+            // 显示动画
+            showEggAnimation(newEgg);
+            
+            // 更新UI
+            updateUI();
+        }
+        
+        // 更新市场价格
+        function updateMarketPrices() {
+            Object.keys(gameData.marketPrices).forEach(rarity => {
+                const range = gameData.marketPrices[rarity];
+                gameData.currentMarketPrices[rarity] = 
+                    Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+            });
+            
+            // 更新UI
+            renderMarket();
+        }
+        
+        // 更新商店价格
+        function updateShopPrices() {
+            Object.keys(gameData.shopPrices).forEach(rarity => {
+                const range = gameData.shopPrices[rarity];
+                gameData.currentShopPrices[rarity] = 
+                    Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+            });
+            
+            // 更新UI
+            renderShop();
+        }
+        
+        // 显示通知
+        function showNotification(message) {
+            elements.notification.textContent = message;
+            elements.notification.classList.add('show');
+            
+            setTimeout(() => {
+                elements.notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 根据稀有度获取颜色
+        function getRarityColor(rarity) {
+            const rarityData = gameData.eggRarities.find(r => r.name === rarity);
+            if (rarityData) {
+                switch (rarityData.colorClass) {
+                    case 'common': return '#8a8a8a';
+                    case 'rare': return '#4ea8de';
+                    case 'epic': return '#9b5de5';
+                    case 'legendary': return '#f15bb5';
+                    default: return '#000000';
+                }
+            }
+            return '#000000';
+        }
+        
+        // 保存游戏
+        function saveGame() {
+            localStorage.setItem('petGachaGame', JSON.stringify({
+                coins: gameData.coins,
+                eggs: gameData.eggs,
+                pets: gameData.pets,
+                lastClaim: gameData.lastClaim,
+                lastMarketUpdate: gameData.lastMarketUpdate,
+                lastShopUpdate: gameData.lastShopUpdate,
+                currentMarketPrices: gameData.currentMarketPrices,
+                currentShopPrices: gameData.currentShopPrices
+            }));
+        }
+        
+        // 初始化游戏
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
