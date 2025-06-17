@@ -253,7 +253,6 @@
             border-radius: 15px;
             width: 0%;
             transition: width 0.1s linear;
-            position: relative;
         }
         
         .progress-text {
@@ -264,6 +263,9 @@
             color: white;
             font-weight: bold;
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            z-index: 10;
+            width: 100%;
+            text-align: center;
         }
         
         .auto-scavenge {
@@ -741,8 +743,8 @@
             </ul>
             
             <div class="logo" style="margin-top: auto; border-top: 1px solid #34495e; border-bottom: none;">
-                <p>当前版本: 3.1</p>
-                <p>修复自动搜刮 & 离线收益</p>
+                <p>当前版本: 3.2</p>
+                <p>优化倒计时显示</p>
             </div>
         </div>
         
@@ -778,9 +780,8 @@
                     </button>
                     
                     <div class="progress-container">
-                        <div class="progress-bar" id="scavengeProgress">
-                            <div class="progress-text" id="progressText">0%</div>
-                        </div>
+                        <div class="progress-bar" id="scavengeProgress"></div>
+                        <div class="progress-text" id="progressText">准备搜刮</div>
                     </div>
                     
                     <div class="auto-scavenge" id="autoSection" style="display: none;">
@@ -1001,6 +1002,7 @@
             },
             scavengeStartTime: 0,
             currentScavengeTime: 0,
+            currentScavengeTimeSeconds: 0,
             isScavenging: false,
             autoScavenge: false,
             autoInterval: null,
@@ -1108,7 +1110,11 @@
                 
                 this.isScavenging = true;
                 this.scavengeStartTime = Date.now();
-                this.currentScavengeTime = this.getScavengeTime() * 1000;
+                this.currentScavengeTimeSeconds = this.getScavengeTime();
+                this.currentScavengeTime = this.currentScavengeTimeSeconds * 1000;
+                
+                // 设置初始倒计时文本
+                document.getElementById('progressText').textContent = this.currentScavengeTimeSeconds + "秒";
                 
                 updateUI();
             },
@@ -1139,7 +1145,7 @@
                 
                 // 重置进度条
                 document.getElementById('scavengeProgress').style.width = '0%';
-                document.getElementById('progressText').textContent = '0%';
+                document.getElementById('progressText').textContent = '准备搜刮';
                 
                 return gainedItems;
             },
@@ -1264,6 +1270,10 @@
                 // 隐藏自动搜刮区域
                 document.getElementById('autoSection').style.display = 'none';
                 
+                // 重置进度条
+                document.getElementById('scavengeProgress').style.width = '0%';
+                document.getElementById('progressText').textContent = '准备搜刮';
+                
                 showNotification("游戏已重置", false);
             },
             
@@ -1296,6 +1306,15 @@
                 
                 const elapsed = Date.now() - this.scavengeStartTime;
                 return Math.min(100, (elapsed / this.currentScavengeTime) * 100);
+            },
+            
+            // 获取剩余时间（秒）
+            getRemainingTime: function() {
+                if (!this.isScavenging) return 0;
+                
+                const elapsed = Date.now() - this.scavengeStartTime;
+                const remaining = Math.max(0, this.currentScavengeTime - elapsed);
+                return Math.ceil(remaining / 1000);
             },
             
             // 处理离线期间的自动搜刮
@@ -1407,7 +1426,10 @@
             if (GameData.isScavenging) {
                 const progress = GameData.getScavengeProgress();
                 document.getElementById('scavengeProgress').style.width = progress + '%';
-                document.getElementById('progressText').textContent = Math.floor(progress) + '%';
+                
+                // 更新倒计时文本
+                const remainingTime = GameData.getRemainingTime();
+                document.getElementById('progressText').textContent = remainingTime + "秒";
                 
                 // 检查是否完成搜刮
                 if (progress >= 100) {
@@ -1440,6 +1462,18 @@
                 // 显示自动搜刮解锁区域
                 if (GameData.scavengeCount >= 10) {
                     document.getElementById('autoSection').style.display = 'block';
+                }
+                
+                // 恢复搜刮状态
+                if (GameData.isScavenging) {
+                    const elapsed = Date.now() - GameData.scavengeStartTime;
+                    if (elapsed < GameData.currentScavengeTime) {
+                        // 继续搜刮
+                        GameData.isScavenging = true;
+                    } else {
+                        // 搜刮已完成但未处理
+                        GameData.completeScavenge();
+                    }
                 }
             }
         }
