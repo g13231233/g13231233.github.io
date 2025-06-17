@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>梦幻钓鱼AI制作版</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>物资搜刮者 - 完整版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -14,113 +14,170 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0f1a30, #1e3a5f);
-            color: #e0f7ff;
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: #ecf0f1;
             min-height: 100vh;
+            padding: 20px;
             display: flex;
-            overflow: hidden;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            background: linear-gradient(to right, #f39c12, #e74c3c, #9b59b6, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .header p {
+            color: #bdc3c7;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .container {
-            display: flex;
             width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            height: 100vh;
+            max-width: 1200px;
+            display: flex;
+            background: rgba(25, 35, 60, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            margin-top: 10px;
         }
         
-        /* 侧边栏样式 */
         .sidebar {
             width: 250px;
-            background: rgba(5, 25, 50, 0.95);
+            background: rgba(20, 30, 48, 0.95);
             padding: 20px 0;
-            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+            border-right: 1px solid #34495e;
             display: flex;
             flex-direction: column;
-            z-index: 10;
-            border-right: 1px solid rgba(79, 195, 220, 0.2);
         }
         
         .logo {
             text-align: center;
-            padding: 20px;
-            border-bottom: 1px solid rgba(79, 195, 220, 0.3);
+            padding: 20px 0;
             margin-bottom: 20px;
+            border-bottom: 1px solid #34495e;
         }
         
-        .logo h1 {
-            font-size: 1.8rem;
-            color: #4fc3dc;
-            text-shadow: 0 2px 10px rgba(79, 195, 220, 0.5);
-            margin-bottom: 5px;
+        .logo h2 {
+            font-size: 24px;
+            color: #f39c12;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .logo p {
-            font-size: 0.9rem;
-            opacity: 0.7;
+        .menu {
+            list-style: none;
+            padding: 0 15px;
+            flex-grow: 1;
         }
         
-        .nav-item {
+        .menu li {
+            margin-bottom: 10px;
+        }
+        
+        .menu button {
+            width: 100%;
+            padding: 15px;
+            background: rgba(44, 62, 80, 0.7);
+            border: none;
+            border-radius: 8px;
+            color: #ecf0f1;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            padding: 15px 25px;
-            margin: 8px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-            background: rgba(10, 40, 70, 0.4);
+            position: relative;
+            overflow: hidden;
         }
         
-        .nav-item i {
-            margin-right: 15px;
-            font-size: 1.3rem;
-            width: 24px;
-            text-align: center;
-            color: #4fc3dc;
+        .menu button i {
+            margin-right: 12px;
+            font-size: 20px;
         }
         
-        .nav-item:hover {
-            background: rgba(79, 195, 220, 0.25);
+        .menu button:hover {
+            background: rgba(52, 152, 219, 0.8);
             transform: translateX(5px);
         }
         
-        .nav-item.active {
-            background: linear-gradient(90deg, rgba(79, 195, 220, 0.6), rgba(42, 157, 143, 0.4));
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        .menu button.active {
+            background: #3498db;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
         }
         
-        /* 主内容区域样式 */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: rgba(0, 10, 20, 0.7);
-            position: relative;
-        }
-        
-        .main-content::before {
-            content: "";
+        .menu button::after {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,50 Q25,40 50,50 T100,50 L100,100 L0,100 Z" fill="rgba(79,195,220,0.03)"/></svg>');
-            background-size: 200px 200px;
-            opacity: 0.3;
-            z-index: -1;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+        }
+        
+        .menu button:hover::after {
+            transform: translateX(100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(30, 40, 60, 0.9);
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            min-width: 120px;
+            margin: 5px 0;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f39c12;
+            margin-top: 5px;
         }
         
         .panel {
-            background: rgba(5, 25, 45, 0.8);
-            border-radius: 15px;
+            flex: 1;
+            background: rgba(30, 40, 60, 0.9);
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            margin-bottom: 30px;
-            border: 1px solid rgba(79, 195, 220, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             display: none;
-            backdrop-filter: blur(5px);
+            overflow: auto;
         }
         
         .panel.active {
@@ -129,1854 +186,1441 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
         .panel-title {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
+            font-size: 24px;
+            margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #4fc3dc;
-            color: #4fc3dc;
+            border-bottom: 2px solid #3498db;
+            color: #3498db;
             display: flex;
             align-items: center;
-            gap: 15px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
         
         .panel-title i {
-            font-size: 1.8rem;
+            margin-right: 10px;
         }
         
-        /* 材料采集区 */
-        .material {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            background: rgba(10, 50, 90, 0.5);
-            border-radius: 10px;
+        .scavenge-area {
+            text-align: center;
+        }
+        
+        .scavenge-btn {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 22px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(79, 195, 220, 0.1);
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+            position: relative;
+            overflow: hidden;
         }
         
-        .material:hover {
-            background: rgba(15, 70, 120, 0.7);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .scavenge-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 7px 20px rgba(231, 76, 60, 0.6);
         }
         
-        .material-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .material-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 0 15px rgba(79, 195, 220, 0.2);
-        }
-        
-        .grass-icon { background: rgba(100, 200, 100, 0.3); }
-        .worm-icon { background: rgba(200, 180, 50, 0.3); }
-        .minnow-icon { background: rgba(50, 150, 200, 0.3); }
-        .pearl-icon { background: rgba(255, 100, 200, 0.3); }
-        .coin-icon { 
-            background: rgba(255, 215, 0, 0.2);
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        
-        .material-details h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-        
-        .material-details p {
-            font-size: 1rem;
-            opacity: 0.8;
-        }
-        
-        .material-amount {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #4fc3dc;
-            text-shadow: 0 0 10px rgba(79, 195, 220, 0.5);
-        }
-        
-        .coin-amount {
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        .scavenge-btn:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         
         .progress-container {
             width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            margin-top: 10px;
+            height: 30px;
+            background: rgba(52, 73, 94, 0.7);
+            border-radius: 15px;
+            margin: 25px 0;
             overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
         }
         
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #4fc3dc, #2a9d8f);
-            border-radius: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 15px;
             width: 0%;
-            transition: width 0.5s ease;
-            box-shadow: 0 0 10px rgba(79, 195, 220, 0.5);
-        }
-        
-        /* 鱼饵制作区 */
-        .bait-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .bait-card {
-            background: rgba(40, 30, 80, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            transition: all 0.3s ease;
+            transition: width 0.1s linear;
             position: relative;
-            border: 1px solid rgba(79, 195, 220, 0.1);
         }
         
-        .bait-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .bait-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .bait-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .common { color: #a0a0a0; }
-        .uncommon { color: #7fff7f; }
-        .rare { color: #87cefa; }
-        .epic { color: #da70d6; }
-        
-        .bait-rarity {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .bait-materials {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 10px 0;
-            opacity: 0;
-            height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .bait-card:hover .bait-materials {
-            opacity: 1;
-            height: auto;
-        }
-        
-        .material-cost {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .craft-btn {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
             font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
-        .craft-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .craft-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-            opacity: 0.5;
-        }
-        
-        .auto-craft-toggle {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 0;
-            margin-top: 5px;
-        }
-        
-        .auto-craft-toggle input {
-            width: 40px;
-            height: 20px;
-            -webkit-appearance: none;
-            background: rgba(0, 40, 80, 0.5);
-            border-radius: 10px;
-            position: relative;
-            cursor: pointer;
-            outline: none;
-        }
-        
-        .auto-craft-toggle input:before {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            background: #4fc3dc;
-            transition: 0.3s;
-        }
-        
-        .auto-craft-toggle input:checked:before {
-            left: 22px;
-        }
-        
-        /* 钓鱼区 */
-        .fishing-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-        }
-        
-        .pond {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(to bottom, #1e5799, #207cca);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            border: 3px solid #0d3c6e;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-        
-        .water {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><path fill="rgba(255,255,255,0.1)" d="M0 30 Q50 10 100 30 T200 30 V100 H0 Z"/></svg>');
-            background-size: 200px 100px;
-            animation: waterFlow 10s linear infinite;
-        }
-        
-        @keyframes waterFlow {
-            0% { background-position: 0 0; }
-            100% { background-position: 200px 0; }
-        }
-        
-        .bobber {
-            width: 30px;
-            height: 30px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 40px;
-            animation: bob 2s infinite ease-in-out;
-            z-index: 2;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
-        }
-        
-        @keyframes bob {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        .bait-selector {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .bait-selector select {
-            background: rgba(0, 30, 60, 0.7);
-            color: #e0f7ff;
-            border: 1px solid #4fc3dc;
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            min-width: 200px;
-        }
-        
-        .fish-btn {
-            background: linear-gradient(135deg, #4fc3dc, #2a9d8f);
-            color: #fff;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin: 10px 0;
-        }
-        
-        .fish-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(135deg, #5fd3ec, #3aad9d);
-        }
-        
-        .auto-fish-toggle {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 0;
-        }
-        
-        .auto-fish-toggle input {
-            width: 40px;
-            height: 20px;
-            -webkit-appearance: none;
-            background: rgba(0, 40, 80, 0.5);
-            border-radius: 10px;
-            position: relative;
-            cursor: pointer;
-            outline: none;
-        }
-        
-        .auto-fish-toggle input:before {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            background: #4fc3dc;
-            transition: 0.3s;
-        }
-        
-        .auto-fish-toggle input:checked:before {
-            left: 22px;
-        }
-        
-        .fishing-progress {
-            width: 100%;
-            background: rgba(0, 40, 80, 0.4);
+        .auto-scavenge {
+            background: rgba(46, 204, 113, 0.2);
             padding: 15px;
             border-radius: 10px;
-            margin: 15px 0;
+            margin-top: 25px;
+            border: 1px solid #2ecc71;
         }
         
-        .fishing-progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+        .auto-scavenge button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s ease;
         }
         
-        .result-container {
-            width: 100%;
-            min-height: 120px;
-            background: rgba(0, 20, 40, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(79, 195, 220, 0.2);
+        .auto-scavenge button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
         }
         
-        .fish-result {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 15px 0;
-            min-height: 2.5rem;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        
-        /* 背包区 */
         .inventory-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
         }
         
-        .category-title {
-            font-size: 1.5rem;
-            margin: 25px 0 15px;
-            color: #4fc3dc;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(79, 195, 220, 0.5);
-            grid-column: 1 / -1;
-        }
-        
-        .inventory-item {
-            background: rgba(10, 50, 90, 0.5);
-            border-radius: 15px;
-            padding: 20px 15px;
+        .item-card {
+            background: rgba(40, 50, 70, 0.8);
+            border-radius: 10px;
+            padding: 15px;
             text-align: center;
             transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid rgba(79, 195, 220, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        .inventory-item:hover {
+        .item-card:hover {
             transform: translateY(-5px);
-            background: rgba(15, 70, 120, 0.7);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .item-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(79, 195, 220, 0.2);
-        }
-        
-        .grass-icon { background: rgba(100, 200, 100, 0.3); }
-        .worm-icon { background: rgba(200, 180, 50, 0.3); }
-        .minnow-icon { background: rgba(50, 150, 200, 0.3); }
-        .pearl-icon { background: rgba(255, 100, 200, 0.3); }
-        .fish-icon { background: rgba(255, 215, 0, 0.2); }
-        .bait-icon { background: rgba(150, 100, 200, 0.3); }
-        .coin-icon { 
-            background: rgba(255, 215, 0, 0.2);
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
         
         .item-name {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            font-weight: 500;
+            font-weight: 600;
+            margin: 10px 0;
+            font-size: 18px;
         }
         
-        .item-count {
-            font-size: 1.4rem;
+        .item-rarity {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .item-quantity {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.6);
+            color: white;
             font-weight: bold;
-            color: #4fc3dc;
-            text-shadow: 0 0 8px rgba(79, 195, 220, 0.5);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 14px;
         }
         
-        /* 市场面板 */
-        .market-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        .item-price {
+            color: #f39c12;
+            font-weight: 700;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        
+        .sell-btn {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .sell-btn:hover {
+            background: linear-gradient(to right, #c0392b, #a52714);
+        }
+        
+        .skill-list {
+            display: flex;
+            flex-direction: column;
             gap: 20px;
         }
         
-        .market-card {
-            background: rgba(40, 30, 80, 0.5);
-            border-radius: 15px;
+        .skill-item {
+            background: rgba(40, 50, 70, 0.8);
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            border: 1px solid rgba(79, 195, 220, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        .market-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .market-item {
+        .skill-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 15px;
         }
         
-        .market-item:last-child {
-            border-bottom: none;
+        .skill-name {
+            font-size: 20px;
+            font-weight: 600;
         }
         
-        .market-price {
-            font-weight: bold;
-            font-size: 1.2rem;
+        .skill-level {
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
         }
         
-        .price-up {
-            color: #7fff7f;
+        .skill-desc {
+            color: #bdc3c7;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
         
-        .price-down {
-            color: #ff6b6b;
+        .skill-progress {
+            height: 10px;
+            background: #34495e;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
         }
         
-        .market-actions {
-            display: flex;
-            gap: 10px;
+        .skill-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
         }
         
-        .market-btn {
-            background: rgba(0, 0, 0, 0.3);
+        .skill-cost {
+            color: #f39c12;
+            font-weight: 700;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        
+        .upgrade-btn {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 12px 20px;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+            font-size: 16px;
+            transition: all 0.2s ease;
         }
         
-        .market-btn:hover {
-            background: rgba(79, 195, 220, 0.3);
+        .upgrade-btn:hover {
+            background: linear-gradient(to right, #27ae60, #219653);
+            transform: translateY(-2px);
         }
         
-        .sell-all-btn {
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            color: #333;
+        .upgrade-btn:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .reset-section {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .reset-warning {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .reset-btn {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-top: 15px;
+            padding: 15px 50px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
-        .sell-all-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .reset-btn:hover {
+            background: linear-gradient(to right, #c0392b, #a52714);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
         }
         
-        .coin-balance {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
+        .guide-content {
+            line-height: 1.8;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .guide-section {
+            margin-bottom: 25px;
+            background: rgba(40, 50, 70, 0.5);
             padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
         }
         
-        .coin-value {
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        .guide-section h3 {
+            color: #3498db;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
         }
         
-        /* 稀有度颜色 */
-        .common { color: #e0f7ff; } /* 普通白色 */
-        .uncommon { color: #7fff7f; } /* 精良绿色 */
-        .rare { color: #87cefa; } /* 稀有蓝色 */
-        .epic { color: #da70d6; } /* 史诗紫色 */
-        .legendary { 
-            color: #fffacd; /* 柔和金色 */
-            text-shadow: 0 0 8px rgba(255, 250, 205, 0.7);
-            animation: glow 2s infinite alternate;
+        .guide-section h3 i {
+            margin-right: 10px;
         }
         
-        @keyframes glow {
-            from { text-shadow: 0 0 5px rgba(255, 250, 205, 0.5); }
-            to { text-shadow: 0 0 15px rgba(255, 250, 205, 0.9); }
+        .guide-section p {
+            margin-bottom: 8px;
         }
         
-        /* 响应式设计 */
-        @media (max-width: 900px) {
-            .container {
-                flex-direction: column;
-                height: auto;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                flex-wrap: wrap;
-                padding: 10px;
-            }
-            
-            .logo {
-                width: 100%;
-                padding: 15px;
-            }
-            
-            .nav-item {
-                padding: 12px 15px;
-                margin: 5px;
-                font-size: 1rem;
-            }
-            
-            .nav-item i {
-                margin-right: 8px;
-            }
+        .guide-section ul {
+            padding-left: 25px;
+            margin-top: 10px;
         }
         
-        @media (max-width: 600px) {
-            .bait-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .inventory-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            }
-            
-            .bait-selector {
-                flex-direction: column;
-            }
-            
-            .fish-btn {
-                padding: 12px 25px;
-                font-size: 1.1rem;
-            }
-            
-            .market-container {
-                grid-template-columns: 1fr;
-            }
+        .guide-section li {
+            margin-bottom: 8px;
         }
         
-        /* 通知样式 */
+        .rarity-0 { color: #95a5a6; } /* 普通 - 灰色 */
+        .rarity-1 { color: #2ecc71; } /* 优秀 - 绿色 */
+        .rarity-2 { color: #3498db; } /* 精良 - 蓝色 */
+        .rarity-3 { color: #9b59b6; } /* 史诗 - 紫色 */
+        .rarity-4 { color: #e74c3c; } /* 传奇 - 红色 */
+        .rarity-5 { /* 神话 - 彩虹色 */
+            background: linear-gradient(to right, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #0000ff, #9900ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+        
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
             padding: 15px 25px;
-            background: rgba(40, 167, 69, 0.9);
             border-radius: 8px;
+            background: rgba(25, 35, 45, 0.95);
+            border-left: 5px solid #2ecc71;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
             transform: translateX(200%);
-            transition: transform 0.5s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            max-width: 350px;
         }
         
         .notification.show {
             transform: translateX(0);
         }
         
+        .notification.error {
+            border-left-color: #e74c3c;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+        }
+        
         .notification i {
-            font-size: 1.5rem;
+            font-size: 24px;
+            margin-right: 15px;
         }
         
-        /* 闪光动画 */
-        @keyframes flash {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
+        /* 离线收益弹窗 */
+        .offline-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
         
-        .flash {
-            animation: flash 0.5s 3;
+        .offline-modal.active {
+            opacity: 1;
+            visibility: visible;
         }
         
-        /* 全局进度条 */
-        .global-progress {
-            margin-bottom: 25px;
-            background: rgba(0, 40, 80, 0.4);
+        .offline-content {
+            background: linear-gradient(135deg, #2c3e50, #1a2a6c);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #3498db;
+            position: relative;
+        }
+        
+        .offline-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .offline-header h2 {
+            font-size: 28px;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        
+        .offline-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(30, 40, 60, 0.8);
             padding: 15px;
             border-radius: 10px;
+            margin-bottom: 20px;
         }
         
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+        .offline-stat {
+            text-align: center;
         }
         
-        /* 重置按钮 */
-        .reset-btn {
-            background: rgba(200, 50, 50, 0.3);
-            color: #ff9999;
-            border: 1px solid rgba(200, 50, 50, 0.5);
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .offline-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        
+        .offline-items {
             margin-top: 20px;
         }
         
-        .reset-btn:hover {
-            background: rgba(200, 50, 50, 0.5);
+        .offline-items h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .offline-item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+        
+        .offline-item {
+            background: rgba(40, 50, 70, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close-offline {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #34495e;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-item {
+                margin: 10px 0;
+            }
+            
+            .offline-stat {
+                margin: 0 5px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>物资搜刮者</h1>
+        <p>搜刮稀有物资，升级你的技能，成为最富有的搜刮者！</p>
+    </div>
+    
     <div class="container">
-        <!-- 左侧侧边栏 -->
         <div class="sidebar">
             <div class="logo">
-                <h1><i class="fas fa-fish"></i> 梦幻钓鱼</h1>
-                <p>市场功能版</p>
+                <h2><i class="fas fa-treasure-chest"></i> 搜刮行动</h2>
             </div>
+            <ul class="menu">
+                <li>
+                    <button id="scavengeBtn" class="active">
+                        <i class="fas fa-search"></i> 搜刮物资
+                    </button>
+                </li>
+                <li>
+                    <button id="inventoryBtn">
+                        <i class="fas fa-shopping-bag"></i> 物资背包
+                    </button>
+                </li>
+                <li>
+                    <button id="skillsBtn">
+                        <i class="fas fa-trophy"></i> 技能升级
+                    </button>
+                </li>
+                <li>
+                    <button id="guideBtn">
+                        <i class="fas fa-book"></i> 游戏说明
+                    </button>
+                </li>
+                <li>
+                    <button id="resetBtn">
+                        <i class="fas fa-redo"></i> 重置游戏
+                    </button>
+                </li>
+            </ul>
             
-            <div class="nav-item active" data-target="material-panel">
-                <i class="fas fa-seedling"></i>
-                <span>材料采集</span>
-            </div>
-            
-            <div class="nav-item" data-target="craft-panel">
-                <i class="fas fa-tools"></i>
-                <span>鱼饵制作</span>
-            </div>
-            
-            <div class="nav-item" data-target="fishing-panel">
-                <i class="fas fa-tools"></i>
-                <span>钓鱼区域</span>
-            </div>
-            
-            <div class="nav-item" data-target="inventory-panel">
-                <i class="fas fa-shopping-bag"></i>
-                <span>我的背包</span>
-            </div>
-            
-            <div class="nav-item" data-target="market-panel">
-                <i class="fas fa-coins"></i>
-                <span>市场交易</span>
-            </div>
-            
-            <div class="nav-item" style="margin-top: auto;">
-                <i class="fas fa-info-circle"></i>
-                <span>游戏说明</span>
+            <div class="logo" style="margin-top: auto; border-top: 1px solid #34495e; border-bottom: none;">
+                <p>当前版本: 3.1</p>
+                <p>修复自动搜刮 & 离线收益</p>
             </div>
         </div>
         
-        <!-- 主内容区域 -->
         <div class="main-content">
-            <!-- 材料采集面板 -->
-            <div class="panel active" id="material-panel">
-                <h2 class="panel-title">
-                    <i class="fas fa-seedling"></i>
-                    <span>材料采集区</span>
-                </h2>
-                <p style="margin-bottom: 20px; font-size: 1.1rem; opacity: 0.9;">
-                    材料会自动采集，每5秒获得一种随机材料，稀有材料出现概率较低
-                </p>
-                
-                <div class="global-progress">
-                    <div class="progress-label">
-                        <span>采集进度</span>
-                        <span id="progress-percent">0%</span>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="global-progress"></div>
-                    </div>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div><i class="fas fa-coins"></i> 金币</div>
+                    <div class="stat-value" id="gold">0</div>
                 </div>
-
-                <div class="material">
-                    <div class="material-info">
-                        <div class="material-icon grass-icon">🌿</div>
-                        <div class="material-details">
-                            <h3 class="common">普通水草</h3>
-                            <p>基础材料 · 常见</p>
-                        </div>
-                    </div>
-                    <div class="material-amount" id="grass-count">0</div>
+                <div class="stat-item">
+                    <div><i class="fas fa-sync-alt"></i> 搜刮次数</div>
+                    <div class="stat-value" id="scavengeCount">0</div>
                 </div>
-                
-                <div class="material">
-                    <div class="material-info">
-                        <div class="material-icon worm-icon">🐛</div>
-                        <div class="material-details">
-                            <h3 class="uncommon">发光虫</h3>
-                            <p>精良材料 · 较稀有</p>
-                        </div>
-                    </div>
-                    <div class="material-amount" id="worm-count">0</div>
+                <div class="stat-item">
+                    <div><i class="fas fa-box-open"></i> 物品数量</div>
+                    <div class="stat-value" id="itemCount">0</div>
                 </div>
-                
-                <div class="material">
-                    <div class="material-info">
-                        <div class="material-icon minnow-icon">🐟</div>
-                        <div class="material-details">
-                            <h3 class="rare">水晶鱼</h3>
-                            <p>稀有材料 · 珍贵</p>
-                        </div>
-                    </div>
-                    <div class="material-amount" id="minnow-count">0</div>
-                </div>
-                
-                <div class="material">
-                    <div class="material-info">
-                        <div class="material-icon pearl-icon">✨</div>
-                        <div class="material-details">
-                            <h3 class="epic">彩虹珍珠</h3>
-                            <p>传说材料 · 极其稀有</p>
-                        </div>
-                    </div>
-                    <div class="material-amount" id="pearl-count">0</div>
-                </div>
-                
-                <div class="material">
-                    <div class="material-info">
-                        <div class="material-icon coin-icon">💰</div>
-                        <div class="material-details">
-                            <h3 class="legendary">鱼币</h3>
-                            <p>货币材料 · 极其稀有</p>
-                        </div>
-                    </div>
-                    <div class="material-amount coin-amount" id="coin-count">0</div>
+                <div class="stat-item">
+                    <div><i class="fas fa-robot"></i> 自动搜刮</div>
+                    <div class="stat-value" id="autoStatus">关闭</div>
                 </div>
             </div>
             
-            <!-- 鱼饵制作面板 -->
-            <div class="panel" id="craft-panel">
-                <h2 class="panel-title">
-                    <i class="fas fa-tools"></i>
-                    <span>鱼饵制作区</span>
-                </h2>
-                
-                <div class="bait-cards">
-                    <div class="bait-card">
-                        <div class="bait-header">
-                            <div class="bait-name common">普通鱼饵</div>
-                            <div class="bait-rarity common">普通</div>
-                        </div>
-                        <div class="bait-materials">
-                            <div class="material-cost">🌿 普通水草 x 2</div>
-                        </div>
-                        <button class="craft-btn" id="craft-basic">制作</button>
-                        <div class="auto-craft-toggle">
-                            <label>自动制作:</label>
-                            <input type="checkbox" id="auto-basic">
-                        </div>
-                    </div>
+            <!-- 搜刮面板 -->
+            <div id="scavengePanel" class="panel active">
+                <h2 class="panel-title"><i class="fas fa-search"></i> 物资搜刮</h2>
+                <div class="scavenge-area">
+                    <p>点击按钮开始搜刮物资，每次搜刮需要一定时间</p>
+                    <p>物资稀有度越高，价值越大！</p>
                     
-                    <div class="bait-card">
-                        <div class="bait-header">
-                            <div class="bait-name uncommon">高级鱼饵</div>
-                            <div class="bait-rarity uncommon">精良</div>
-                        </div>
-                        <div class="bait-materials">
-                            <div class="material-cost">🌿 普通水草 x 3</div>
-                            <div class="material-cost">🐛 发光虫 x 2</div>
-                        </div>
-                        <button class="craft-btn" id="craft-advanced">制作</button>
-                        <div class="auto-craft-toggle">
-                            <label>自动制作:</label>
-                            <input type="checkbox" id="auto-advanced">
-                        </div>
-                    </div>
-                    
-                    <div class="bait-card">
-                        <div class="bait-header">
-                            <div class="bait-name rare">稀有鱼饵</div>
-                            <div class="bait-rarity rare">稀有</div>
-                        </div>
-                        <div class="bait-materials">
-                            <div class="material-cost">🌿 普通水草 x 5</div>
-                            <div class="material-cost">🐛 发光虫 x 3</div>
-                            <div class="material-cost">🐟 水晶鱼 x 1</div>
-                        </div>
-                        <button class="craft-btn" id="craft-rare">制作</button>
-                        <div class="auto-craft-toggle">
-                            <label>自动制作:</label>
-                            <input type="checkbox" id="auto-rare">
-                        </div>
-                    </div>
-                    
-                    <div class="bait-card">
-                        <div class="bait-header">
-                            <div class="bait-name epic">史诗鱼饵</div>
-                            <div class="bait-rarity epic">史诗</div>
-                        </div>
-                        <div class="bait-materials">
-                            <div class="material-cost">🐛 发光虫 x 5</div>
-                            <div class="material-cost">🐟 水晶鱼 x 3</div>
-                            <div class="material-cost">✨ 彩虹珍珠 x 1</div>
-                        </div>
-                        <button class="craft-btn" id="craft-epic">制作</button>
-                        <div class="auto-craft-toggle">
-                            <label>自动制作:</label>
-                            <input type="checkbox" id="auto-epic">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 钓鱼区面板 -->
-            <div class="panel" id="fishing-panel">
-                <h2 class="panel-title">
-                    <i class="fas fa-fishing-rod"></i>
-                    <span>钓鱼区</span>
-                </h2>
-                
-                <div class="fishing-area">
-                    <div class="pond">
-                        <div class="water"></div>
-                        <div class="bobber"></div>
-                    </div>
-                    
-                    <div class="bait-selector">
-                        <p style="font-size: 1.2rem;">
-                            选择鱼饵: 
-                        </p>
-                        <select id="bait-selector">
-                            <option value="none">无</option>
-                        </select>
-                    </div>
-                    
-                    <button class="fish-btn" id="fish-btn">
-                        <i class="fas fa-water"></i> 开始钓鱼
+                    <button id="startScavenge" class="scavenge-btn">
+                        <i class="fas fa-play"></i> 开始搜刮
                     </button>
                     
-                    <div class="auto-fish-toggle">
-                        <label>自动钓鱼:</label>
-                        <input type="checkbox" id="auto-fish">
-                    </div>
-                    
-                    <div class="fishing-progress">
-                        <div class="fishing-progress-label">
-                            <span>钓鱼进度</span>
-                            <span id="fishing-percent">0%</span>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-bar" id="fishing-progress"></div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="scavengeProgress">
+                            <div class="progress-text" id="progressText">0%</div>
                         </div>
                     </div>
                     
-                    <div class="result-container">
-                        <div class="fish-result" id="fish-result">请选择鱼饵后开始钓鱼</div>
+                    <div class="auto-scavenge" id="autoSection" style="display: none;">
+                        <h3><i class="fas fa-robot"></i> 自动搜刮功能已解锁!</h3>
+                        <p>开启后系统将自动为你搜刮物资（即使关闭页面也会继续）</p>
+                        <button id="toggleAuto"><i class="fas fa-power-off"></i> 开启自动搜刮</button>
                     </div>
                 </div>
             </div>
             
             <!-- 背包面板 -->
-            <div class="panel" id="inventory-panel">
-                <h2 class="panel-title">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>背包</span>
-                </h2>
-                
-                <div class="inventory-grid">
-                    <div class="category-title">材料</div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon grass-icon">🌿</div>
-                        <div class="item-name common">普通水草</div>
-                        <div class="item-count" id="inv-grass">0</div>
-                    </div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon worm-icon">🐛</div>
-                        <div class="item-name uncommon">发光虫</div>
-                        <div class="item-count" id="inv-worm">0</div>
-                    </div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon minnow-icon">🐟</div>
-                        <div class="item-name rare">水晶鱼</div>
-                        <div class="item-count" id="inv-minnow">0</div>
-                    </div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon pearl-icon">✨</div>
-                        <div class="item-name epic">彩虹珍珠</div>
-                        <div class="item-count" id="inv-pearl">0</div>
-                    </div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon coin-icon">💰</div>
-                        <div class="item-name legendary">鱼币</div>
-                        <div class="item-count coin-value" id="inv-coin">0</div>
-                    </div>
-                    
-                    <div class="category-title">鱼饵</div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon bait-icon">🎣</div>
-                        <div class="item-name common">普通鱼饵</div>
-                        <div class="item-count" id="inv-basic-bait">0</div>
-                    </div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon bait-icon">🎣</div>
-                        <div class="item-name uncommon">高级鱼饵</div>
-                        <div class="item-count" id="inv-advanced-bait">0</div>
-                    </div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon bait-icon">🎣</div>
-                        <div class="item-name rare">稀有鱼饵</div>
-                        <div class="item-count" id="inv-rare-bait">0</div>
-                    </div>
-                    
-                    <div class="inventory-item">
-                        <div class="item-icon bait-icon">🎣</div>
-                        <div class="item-name epic">史诗鱼饵</div>
-                        <div class="item-count" id="inv-epic-bait">0</div>
-                    </div>
-                    
-                    <div class="category-title">钓到的鱼</div>
-                    
-                    <div id="fish-container" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px;">
-                        <!-- 钓到的鱼将动态添加到这里 -->
-                    </div>
+            <div id="inventoryPanel" class="panel">
+                <h2 class="panel-title"><i class="fas fa-backpack"></i> 物资背包</h2>
+                <div class="inventory-grid" id="inventoryGrid">
+                    <!-- 物品将通过JS动态添加 -->
                 </div>
-                
-                <button class="reset-btn" id="reset-btn">
-                    <i class="fas fa-trash-alt"></i> 重置游戏数据
-                </button>
             </div>
             
-            <!-- 市场面板 -->
-            <div class="panel" id="market-panel">
-                <h2 class="panel-title">
-                    <i class="fas fa-coins"></i>
-                    <span>市场交易</span>
-                </h2>
-                
-                <div class="coin-balance">
-                    当前鱼币: <span class="coin-value" id="market-coin">0</span>
-                </div>
-                
-                <p style="margin-bottom: 20px; font-size: 1.1rem; opacity: 0.9; text-align: center;">
-                    市场价格每5分钟随机波动，把握时机买卖赚取利润！
-                </p>
-                
-                <div class="market-container">
-                    <div class="market-card">
-                        <h3 style="text-align: center; margin-bottom: 15px; color: #4fc3dc;">鱼类市场</h3>
-                        <div id="fish-market">
-                            <!-- 鱼类市场项目将动态添加 -->
+            <!-- 技能面板 -->
+            <div id="skillsPanel" class="panel">
+                <h2 class="panel-title"><i class="fas fa-trophy"></i> 技能升级</h2>
+                <div class="skill-list">
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <div class="skill-name"><i class="fas fa-cubes"></i> 物资数量</div>
+                            <div class="skill-level">等级: <span id="quantityLevel">0</span>/30</div>
                         </div>
-                        <button class="sell-all-btn" id="sell-all-fish">
-                            <i class="fas fa-coins"></i> 出售所有鱼
+                        <div class="skill-desc">
+                            提升每次搜刮获得的物资数量范围。每升一级增加最大数量+1（如等级1:1-2个，等级2:1-3个）
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" id="quantityProgress" style="width: 0%"></div>
+                        </div>
+                        <div class="skill-cost">
+                            升级所需金币: <span id="quantityCost">100</span>
+                        </div>
+                        <button class="upgrade-btn" id="upgradeQuantity">
+                            <i class="fas fa-arrow-up"></i> 升级技能
                         </button>
                     </div>
                     
-                    <div class="market-card">
-                        <h3 style="text-align: center; margin-bottom: 15px; color: #4fc3dc;">材料市场</h3>
-                        <div id="material-market">
-                            <!-- 材料市场项目将动态添加 -->
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <div class="skill-name"><i class="fas fa-star"></i> 稀有概率</div>
+                            <div class="skill-level">等级: <span id="rarityLevel">0</span>/30</div>
                         </div>
-                        <button class="sell-all-btn" id="sell-all-materials">
-                            <i class="fas fa-coins"></i> 出售所有材料
+                        <div class="skill-desc">
+                            提高获得稀有物品的概率。每升一级提升0.5%概率。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" id="rarityProgress" style="width: 0%"></div>
+                        </div>
+                        <div class="skill-cost">
+                            升级所需金币: <span id="rarityCost">100</span>
+                        </div>
+                        <button class="upgrade-btn" id="upgradeRarity">
+                            <i class="fas fa-arrow-up"></i> 升级技能
+                        </button>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <div class="skill-name"><i class="fas fa-bolt"></i> 搜刮效率</div>
+                            <div class="skill-level">等级: <span id="speedLevel">0</span>/30</div>
+                        </div>
+                        <div class="skill-desc">
+                            减少每次搜刮所需时间。每升一级减少0.5秒。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" id="speedProgress" style="width: 0%"></div>
+                        </div>
+                        <div class="skill-cost">
+                            升级所需金币: <span id="speedCost">100</span>
+                        </div>
+                        <button class="upgrade-btn" id="upgradeSpeed">
+                            <i class="fas fa-arrow-up"></i> 升级技能
                         </button>
                     </div>
                 </div>
-                
-                <div style="margin-top: 30px; text-align: center;">
-                    <p id="market-refresh">下次价格刷新: <span id="refresh-timer">5:00</span></p>
+            </div>
+            
+            <!-- 游戏说明面板 -->
+            <div id="guidePanel" class="panel">
+                <h2 class="panel-title"><i class="fas fa-book"></i> 游戏说明</h2>
+                <div class="guide-content">
+                    <div class="guide-section">
+                        <h3><i class="fas fa-info-circle"></i> 游戏介绍</h3>
+                        <p>欢迎来到《物资搜刮者》！在这个游戏中，你将扮演一名搜刮者，在废墟中寻找有价值的物资。通过搜刮物资、出售物品、升级技能，成为最富有的搜刮者！</p>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3><i class="fas fa-gamepad"></i> 核心玩法</h3>
+                        <ul>
+                            <li><strong>搜刮物资</strong>：点击"搜刮物资"按钮开始搜刮，进度条满后获得物资</li>
+                            <li><strong>物资稀有度</strong>：物资分为6种稀有度，从普通到神话级</li>
+                            <li><strong>背包系统</strong>：查看所有搜刮到的物资，可随时出售</li>
+                            <li><strong>物资堆叠</strong>：相同类型的物资会自动堆叠，显示数量</li>
+                            <li><strong>市场价格波动</strong>：物资价格每5分钟变化一次</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3><i class="fas fa-cogs"></i> 技能系统</h3>
+                        <ul>
+                            <li><strong>物资数量</strong>：提升每次搜刮获得的物资数量范围（每级+1最大数量）</li>
+                            <li><strong>稀有概率</strong>：提高获得稀有物品的概率（每级+0.5%）</li>
+                            <li><strong>搜刮效率</strong>：减少每次搜刮所需时间（每级-0.5秒）</li>
+                            <li><strong>升级规则</strong>：每级所需金币翻倍，最高30级</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3><i class="fas fa-robot"></i> 自动搜刮</h3>
+                        <p>手动搜刮10次后解锁自动搜刮功能：</p>
+                        <ul>
+                            <li>开启后系统会自动为你搜刮物资</li>
+                            <li>即使关闭页面也会在后台继续搜刮</li>
+                            <li>下次打开页面时会计算离线期间获得的物资</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3><i class="fas fa-shopping-cart"></i> 背包与出售</h3>
+                        <ul>
+                            <li>背包中显示所有搜刮到的物资</li>
+                            <li>相同物资会自动堆叠，显示数量</li>
+                            <li>点击"出售"按钮出售物资获得金币</li>
+                            <li>物资价格会随着市场波动而变化</li>
+                            <li>稀有度越高的物资价值越高</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3><i class="fas fa-trophy"></i> 稀有度系统</h3>
+                        <ul>
+                            <li><span class="rarity-0">普通（灰色）</span>：最常见，价值最低</li>
+                            <li><span class="rarity-1">优秀（绿色）</span>：较常见</li>
+                            <li><span class="rarity-2">精良（蓝色）</span>：有一定价值</li>
+                            <li><span class="rarity-3">史诗（紫色）</span>：比较稀有</li>
+                            <li><span class="rarity-4">传奇（红色）</span>：非常稀有</li>
+                            <li><span class="rarity-5">神话（彩虹色）</span>：极其稀有，价值极高</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 重置面板 -->
+            <div id="resetPanel" class="panel">
+                <h2 class="panel-title"><i class="fas fa-redo"></i> 重置游戏</h2>
+                <div class="reset-section">
+                    <p>重置游戏将清除所有进度，包括金币、物品和技能等级</p>
+                    <p>此操作不可撤销，请谨慎操作！</p>
+                    
+                    <div class="reset-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>警告!</h3>
+                        <p>重置后所有游戏数据将被永久删除</p>
+                    </div>
+                    
+                    <button class="reset-btn" id="confirmReset">
+                        <i class="fas fa-trash-alt"></i> 确认重置游戏
+                    </button>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- 通知区域 -->
     <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span>材料已自动采集！</span>
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <div id="notificationText">搜刮完成！获得了 1 件物资</div>
+        </div>
     </div>
-
+    
+    <!-- 离线收益弹窗 -->
+    <div class="offline-modal" id="offlineModal">
+        <div class="offline-content">
+            <button class="close-offline" id="closeOffline"><i class="fas fa-times"></i></button>
+            <div class="offline-header">
+                <h2><i class="fas fa-history"></i> 离线收益</h2>
+                <p>您不在线期间自动搜刮获得的物资</p>
+            </div>
+            
+            <div class="offline-stats">
+                <div class="offline-stat">
+                    <div>搜刮次数</div>
+                    <div class="offline-stat-value" id="offlineCount">0</div>
+                </div>
+                <div class="offline-stat">
+                    <div>获得物品</div>
+                    <div class="offline-stat-value" id="offlineItems">0</div>
+                </div>
+                <div class="offline-stat">
+                    <div>离线时间</div>
+                    <div class="offline-stat-value" id="offlineTime">0分钟</div>
+                </div>
+            </div>
+            
+            <div class="offline-items">
+                <h3><i class="fas fa-gift"></i> 获得的物资</h3>
+                <div class="offline-item-grid" id="offlineItemsGrid">
+                    <!-- 离线物品将通过JS动态添加 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        // 游戏数据
-        const gameData = {
-            materials: {
-                grass: 5,
-                worm: 3,
-                minnow: 1,
-                pearl: 0,
-                coin: 100
+        // 游戏数据模型
+        const GameData = {
+            gold: 500,
+            scavengeCount: 0,
+            items: [], // 现在存储 {id, name, rarity, basePrice, currentPrice, quantity}
+            skills: {
+                quantity: 0,
+                rarity: 0,
+                speed: 0
             },
-            baits: {
-                basic: 2,
-                advanced: 1,
-                rare: 0,
-                epic: 0
+            scavengeStartTime: 0,
+            currentScavengeTime: 0,
+            isScavenging: false,
+            autoScavenge: false,
+            autoInterval: null,
+            lastPriceUpdate: Date.now(),
+            priceMultiplier: 1.0,
+            lastSavedTime: Date.now(),
+            offlineGains: [],
+            
+            // 物品名称库
+            itemNames: {
+                0: ["生锈的铁片", "破布", "木棍", "碎石块", "脏水瓶", "断裂的皮带", "磨损的皮革"],
+                1: ["皮革", "铜矿石", "亚麻布", "草药", "粗糙的宝石", "铁钉", "动物骨头"],
+                2: ["铁锭", "银矿石", "魔法粉尘", "蓝宝石", "能量水晶", "机械零件", "精制木材"],
+                3: ["金锭", "紫水晶", "附魔卷轴", "龙鳞", "星尘", "古代符文", "精灵丝绸"],
+                4: ["秘银锭", "红宝石", "灵魂石", "凤凰羽毛", "时间沙漏", "恶魔之角", "天使之羽"],
+                5: ["星辰碎片", "神之泪", "永恒结晶", "创世之种", "宇宙之心", "时空钥匙", "无限宝石"]
             },
-            fishes: {}, // 改为对象存储，key为鱼名，value为数量
-            currentBait: "none",
-            timers: {
-                material: null,
-                fishing: null,
-                market: null
+            
+            // 基础价格
+            basePrices: [5, 25, 100, 500, 2500, 10000],
+            
+            // 获取升级所需金币
+            getUpgradeCost: function(level) {
+                return 100 * Math.pow(2, level);
             },
-            progress: {
-                material: 0,
-                fishing: 0
+            
+            // 获取搜刮时间
+            getScavengeTime: function() {
+                return Math.max(5, 20 - this.skills.speed * 0.5);
             },
-            autoFishing: false,
-            autoCraft: {
-                basic: false,
-                advanced: false,
-                rare: false,
-                epic: false
+            
+            // 获取每次搜刮物品数量
+            getScavengeQuantity: function() {
+                // 随机数量：1 到 (1 + 技能等级)
+                return 1 + Math.floor(Math.random() * (1 + this.skills.quantity));
             },
-            marketPrices: {
-                // 鱼类价格
-                "小杂鱼": { base: 5, current: 5, trend: 0 },
-                "鲫鱼": { base: 8, current: 8, trend: 0 },
-                "鲤鱼": { base: 15, current: 15, trend: 0 },
-                "鲈鱼": { base: 30, current: 30, trend: 0 },
-                "金龙鱼": { base: 100, current: 100, trend: 0 },
-                "七彩神仙鱼": { base: 500, current: 500, trend: 0 },
+            
+            // 获取稀有物品概率
+            getRarityProbability: function() {
+                // 基础概率 + 技能加成
+                return Math.min(0.5, 0.005 + this.skills.rarity * 0.005);
+            },
+            
+            // 生成随机物品
+            generateItem: function() {
+                const rand = Math.random();
+                let rarity;
                 
-                // 材料价格
-                "普通水草": { base: 2, current: 2, trend: 0 },
-                "发光虫": { base: 4, current: 4, trend: 0 },
-                "水晶鱼": { base: 10, current: 10, trend: 0 },
-                "彩虹珍珠": { base: 50, current: 50, trend: 0 }
+                // 根据概率确定物品稀有度
+                if (rand < 0.0005 + this.getRarityProbability()) {
+                    rarity = 5; // 神话
+                } else if (rand < 0.025) {
+                    rarity = 4; // 传奇
+                } else if (rand < 0.07) {
+                    rarity = 3; // 史诗
+                } else if (rand < 0.15) {
+                    rarity = 2; // 精良
+                } else if (rand < 0.4) {
+                    rarity = 1; // 优秀
+                } else {
+                    rarity = 0; // 普通
+                }
+                
+                // 随机选择物品名称
+                const names = this.itemNames[rarity];
+                const name = names[Math.floor(Math.random() * names.length)];
+                
+                // 计算当前价格（受市场波动影响）
+                const basePrice = this.basePrices[rarity];
+                const currentPrice = Math.floor(basePrice * this.priceMultiplier);
+                
+                return {
+                    name: name,
+                    rarity: rarity,
+                    basePrice: basePrice,
+                    currentPrice: currentPrice
+                };
             },
-            marketRefresh: 300 // 5分钟
+            
+            // 添加物品到背包（支持堆叠）
+            addItemToInventory: function(newItem) {
+                // 查找是否有相同名称和稀有度的物品
+                const existingItem = this.items.find(item => 
+                    item.name === newItem.name && item.rarity === newItem.rarity);
+                
+                if (existingItem) {
+                    // 如果存在，增加数量
+                    existingItem.quantity += 1;
+                } else {
+                    // 否则添加新物品
+                    this.items.push({
+                        id: Date.now() + Math.random(),
+                        name: newItem.name,
+                        rarity: newItem.rarity,
+                        basePrice: newItem.basePrice,
+                        currentPrice: newItem.currentPrice,
+                        quantity: 1
+                    });
+                }
+            },
+            
+            // 开始搜刮
+            startScavenge: function() {
+                if (this.isScavenging) return;
+                
+                this.isScavenging = true;
+                this.scavengeStartTime = Date.now();
+                this.currentScavengeTime = this.getScavengeTime() * 1000;
+                
+                updateUI();
+            },
+            
+            // 完成搜刮
+            completeScavenge: function() {
+                const quantity = this.getScavengeQuantity();
+                const gainedItems = [];
+                
+                for (let i = 0; i < quantity; i++) {
+                    const item = this.generateItem();
+                    this.addItemToInventory(item);
+                    gainedItems.push(item);
+                }
+                
+                this.scavengeCount++;
+                this.isScavenging = false;
+                
+                // 检查是否解锁自动搜刮
+                if (this.scavengeCount >= 10 && !this.autoScavenge) {
+                    document.getElementById('autoSection').style.display = 'block';
+                }
+                
+                saveGame();
+                updateUI();
+                
+                showNotification(`搜刮完成！获得了 ${quantity} 件物资`, false);
+                
+                // 重置进度条
+                document.getElementById('scavengeProgress').style.width = '0%';
+                document.getElementById('progressText').textContent = '0%';
+                
+                return gainedItems;
+            },
+            
+            // 切换自动搜刮
+            toggleAutoScavenge: function() {
+                this.autoScavenge = !this.autoScavenge;
+                
+                if (this.autoScavenge) {
+                    this.startAutoScavenge();
+                    showNotification("自动搜刮已开启 - 即使关闭页面也会继续", false);
+                } else {
+                    this.stopAutoScavenge();
+                    showNotification("自动搜刮已关闭", false);
+                }
+                
+                saveGame();
+                updateUI();
+            },
+            
+            // 开始自动搜刮
+            startAutoScavenge: function() {
+                // 清除现有定时器（如果有）
+                this.stopAutoScavenge();
+                
+                // 确保不在搜刮中
+                if (this.isScavenging) return;
+                
+                // 立即开始一次搜刮
+                this.startScavenge();
+                
+                // 设置定时器
+                this.autoInterval = setInterval(() => {
+                    if (!this.isScavenging) {
+                        this.startScavenge();
+                    }
+                }, this.getScavengeTime() * 1000 + 100);
+            },
+            
+            // 停止自动搜刮
+            stopAutoScavenge: function() {
+                if (this.autoInterval) {
+                    clearInterval(this.autoInterval);
+                    this.autoInterval = null;
+                }
+            },
+            
+            // 出售物品
+            sellItem: function(itemId) {
+                const itemIndex = this.items.findIndex(item => item.id === itemId);
+                if (itemIndex !== -1) {
+                    const item = this.items[itemIndex];
+                    
+                    // 计算总价值
+                    const totalValue = item.currentPrice * item.quantity;
+                    this.gold += totalValue;
+                    
+                    // 移除物品
+                    this.items.splice(itemIndex, 1);
+                    
+                    saveGame();
+                    updateUI();
+                    
+                    showNotification(`出售成功！获得 ${totalValue} 金币`, false);
+                    return true;
+                }
+                return false;
+            },
+            
+            // 升级技能
+            upgradeSkill: function(skill) {
+                if (this.skills[skill] >= 30) {
+                    showNotification("该技能已达最高等级", true);
+                    return false;
+                }
+                
+                const cost = this.getUpgradeCost(this.skills[skill]);
+                if (this.gold >= cost) {
+                    this.gold -= cost;
+                    this.skills[skill]++;
+                    
+                    // 如果升级的是搜刮效率，重新设置自动搜刮
+                    if (skill === 'speed' && this.autoScavenge) {
+                        this.stopAutoScavenge();
+                        this.startAutoScavenge();
+                    }
+                    
+                    saveGame();
+                    updateUI();
+                    
+                    showNotification(`技能升级成功！`, false);
+                    return true;
+                } else {
+                    showNotification("金币不足", true);
+                    return false;
+                }
+            },
+            
+            // 重置游戏
+            resetGame: function() {
+                this.gold = 500;
+                this.scavengeCount = 0;
+                this.items = [];
+                this.skills = {
+                    quantity: 0,
+                    rarity: 0,
+                    speed: 0
+                };
+                this.scavengeStartTime = 0;
+                this.currentScavengeTime = 0;
+                this.isScavenging = false;
+                this.autoScavenge = false;
+                this.stopAutoScavenge();
+                this.lastPriceUpdate = Date.now();
+                this.priceMultiplier = 1.0;
+                this.lastSavedTime = Date.now();
+                this.offlineGains = [];
+                
+                saveGame();
+                updateUI();
+                
+                // 隐藏自动搜刮区域
+                document.getElementById('autoSection').style.display = 'none';
+                
+                showNotification("游戏已重置", false);
+            },
+            
+            // 更新市场价格
+            updatePrices: function() {
+                // 每5分钟更新一次价格
+                const now = Date.now();
+                if (now - this.lastPriceUpdate > 5 * 60 * 1000) {
+                    // 价格在0.7到1.3之间波动
+                    this.priceMultiplier = 0.7 + Math.random() * 0.6;
+                    this.lastPriceUpdate = now;
+                    
+                    // 更新所有物品的当前价格
+                    this.items.forEach(item => {
+                        item.currentPrice = Math.floor(item.basePrice * this.priceMultiplier);
+                    });
+                    
+                    saveGame();
+                    updateUI();
+                    
+                    const trend = this.priceMultiplier > 1 ? '上涨' : '下跌';
+                    const changePercent = Math.round((this.priceMultiplier - 1) * 100);
+                    showNotification(`市场价格已更新！${changePercent > 0 ? '+' : ''}${changePercent}%`, false);
+                }
+            },
+            
+            // 获取搜刮进度
+            getScavengeProgress: function() {
+                if (!this.isScavenging) return 0;
+                
+                const elapsed = Date.now() - this.scavengeStartTime;
+                return Math.min(100, (elapsed / this.currentScavengeTime) * 100);
+            },
+            
+            // 处理离线期间的自动搜刮
+            processOfflineScavenging: function() {
+                if (!this.autoScavenge) return;
+                
+                const now = Date.now();
+                const elapsed = now - this.lastSavedTime;
+                
+                // 计算可以完成多少次搜刮
+                const scavengeTime = this.getScavengeTime() * 1000;
+                const scavengeCount = Math.floor(elapsed / scavengeTime);
+                
+                if (scavengeCount > 0) {
+                    const gainedItems = [];
+                    
+                    for (let i = 0; i < scavengeCount; i++) {
+                        const quantity = this.getScavengeQuantity();
+                        for (let j = 0; j < quantity; j++) {
+                            const item = this.generateItem();
+                            this.addItemToInventory(item);
+                            gainedItems.push(item);
+                        }
+                        this.scavengeCount++;
+                    }
+                    
+                    // 统计离线获得的物品
+                    const itemStats = {};
+                    gainedItems.forEach(item => {
+                        const key = item.name + "|" + item.rarity;
+                        if (!itemStats[key]) {
+                            itemStats[key] = {
+                                name: item.name,
+                                rarity: item.rarity,
+                                count: 0
+                            };
+                        }
+                        itemStats[key].count++;
+                    });
+                    
+                    this.offlineGains = {
+                        count: scavengeCount,
+                        items: Object.values(itemStats),
+                        time: Math.floor(elapsed / 60000), // 分钟
+                        totalItems: gainedItems.length
+                    };
+                    
+                    saveGame();
+                    updateUI();
+                    
+                    // 显示离线收益弹窗
+                    showOfflineGains();
+                }
+            }
         };
 
-        // 鱼类数据
-        const fishData = [
-            { name: "小杂鱼", rarity: "common", icon: "🐟", probability: 50 },
-            { name: "鲫鱼", rarity: "common", icon: "🐠", probability: 30 },
-            { name: "鲤鱼", rarity: "uncommon", icon: "🐡", probability: 15 },
-            { name: "鲈鱼", rarity: "rare", icon: "🦈", probability: 4 },
-            { name: "金龙鱼", rarity: "epic", icon: "🐉", probability: 1 },
-            { name: "七彩神仙鱼", rarity: "legendary", icon: "✨", probability: 0.5 }
-        ];
-
-        // 材料数据
-        const materialData = [
-            { type: "grass", name: "普通水草", icon: "🌿", probability: 60 },
-            { type: "worm", name: "发光虫", icon: "🐛", probability: 25 },
-            { type: "minnow", name: "水晶鱼", icon: "🐟", probability: 9 },
-            { type: "pearl", name: "彩虹珍珠", icon: "✨", probability: 1.5 },
-            { type: "coin", name: "鱼币", icon: "💰", probability: 0.5 }
-        ];
+        // 显示离线收益
+        function showOfflineGains() {
+            if (GameData.offlineGains && GameData.offlineGains.count > 0) {
+                const gains = GameData.offlineGains;
+                
+                // 更新统计数据
+                document.getElementById('offlineCount').textContent = gains.count;
+                document.getElementById('offlineItems').textContent = gains.totalItems;
+                document.getElementById('offlineTime').textContent = gains.time + "分钟";
+                
+                // 清空物品网格
+                const itemsGrid = document.getElementById('offlineItemsGrid');
+                itemsGrid.innerHTML = '';
+                
+                // 添加物品
+                gains.items.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'offline-item';
+                    itemElement.innerHTML = `
+                        <div class="item-name rarity-${item.rarity}">${item.name}</div>
+                        <div class="item-rarity">${getRarityName(item.rarity)}</div>
+                        <div class="item-quantity">x${item.count}</div>
+                    `;
+                    itemsGrid.appendChild(itemElement);
+                });
+                
+                // 显示弹窗
+                document.getElementById('offlineModal').classList.add('active');
+                
+                // 清空离线收益数据
+                GameData.offlineGains = [];
+            }
+        }
 
         // 初始化游戏
         function initGame() {
             loadGame();
-            
-            // 设置材料采集定时器（每5秒采集一次）
-            startMaterialTimer(5);
-            
-            // 设置事件监听器
-            document.getElementById('craft-basic').addEventListener('click', () => craftBait('basic'));
-            document.getElementById('craft-advanced').addEventListener('click', () => craftBait('advanced'));
-            document.getElementById('craft-rare').addEventListener('click', () => craftBait('rare'));
-            document.getElementById('craft-epic').addEventListener('click', () => craftBait('epic'));
-            
-            document.getElementById('fish-btn').addEventListener('click', startFishing);
-            document.getElementById('reset-btn').addEventListener('click', resetGame);
-            document.getElementById('auto-fish').addEventListener('change', toggleAutoFish);
-            document.getElementById('sell-all-fish').addEventListener('click', sellAllFish);
-            document.getElementById('sell-all-materials').addEventListener('click', sellAllMaterials);
-            
-            // 自动制作开关
-            document.getElementById('auto-basic').addEventListener('change', (e) => toggleAutoCraft('basic', e.target.checked));
-            document.getElementById('auto-advanced').addEventListener('change', (e) => toggleAutoCraft('advanced', e.target.checked));
-            document.getElementById('auto-rare').addEventListener('change', (e) => toggleAutoCraft('rare', e.target.checked));
-            document.getElementById('auto-epic').addEventListener('change', (e) => toggleAutoCraft('epic', e.target.checked));
-            
-            // 导航点击事件
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    // 移除所有active类
-                    document.querySelectorAll('.nav-item').forEach(el => {
-                        el.classList.remove('active');
-                    });
-                    
-                    // 隐藏所有面板
-                    document.querySelectorAll('.panel').forEach(panel => {
-                        panel.classList.remove('active');
-                    });
-                    
-                    // 添加active类
-                    this.classList.add('active');
-                    
-                    // 显示对应面板
-                    const target = this.getAttribute('data-target');
-                    document.getElementById(target).classList.add('active');
-                });
-            });
-            
-            // 初始化鱼饵选择器
-            updateBaitSelector();
-            
-            // 更新UI
+            setupEventListeners();
             updateUI();
-            updateFishInventory();
-            updateMarket();
             
-            // 启动市场刷新定时器
-            startMarketTimer();
+            // 处理离线期间的自动搜刮
+            GameData.processOfflineScavenging();
+            
+            // 开始游戏循环
+            setInterval(gameLoop, 100);
         }
 
-        // 开始材料采集定时器
-        function startMaterialTimer(seconds) {
-            // 清除现有定时器
-            if (gameData.timers.material) {
-                clearInterval(gameData.timers.material);
+        // 游戏主循环
+        function gameLoop() {
+            GameData.updatePrices();
+            
+            // 更新搜刮进度
+            if (GameData.isScavenging) {
+                const progress = GameData.getScavengeProgress();
+                document.getElementById('scavengeProgress').style.width = progress + '%';
+                document.getElementById('progressText').textContent = Math.floor(progress) + '%';
+                
+                // 检查是否完成搜刮
+                if (progress >= 100) {
+                    GameData.completeScavenge();
+                }
             }
             
-            // 进度条更新
-            const progressInterval = setInterval(() => {
-                if (gameData.progress.material < 100) {
-                    gameData.progress.material += 100 / (seconds * 10);
-                    document.getElementById('global-progress').style.width = gameData.progress.material + '%';
-                    document.getElementById('progress-percent').textContent = Math.floor(gameData.progress.material) + '%';
-                }
-            }, 100);
+            updateUI();
             
-            // 采集定时器
-            gameData.timers.material = setInterval(() => {
-                // 随机选择一种材料
-                const totalProbability = materialData.reduce((sum, mat) => sum + mat.probability, 0);
-                let random = Math.random() * totalProbability;
-                let collectedMaterial = null;
-                
-                for (const mat of materialData) {
-                    if (random < mat.probability) {
-                        gameData.materials[mat.type]++;
-                        collectedMaterial = mat;
-                        break;
-                    }
-                    random -= mat.probability;
-                }
-                
-                updateUI();
+            // 每分钟自动保存一次
+            const now = Date.now();
+            if (now - GameData.lastSavedTime > 60 * 1000) {
+                GameData.lastSavedTime = now;
                 saveGame();
-                
-                // 显示通知
-                if (collectedMaterial) {
-                    // 如果是稀有材料，显示特殊通知
-                    if (collectedMaterial.probability < 2) {
-                        showNotification(`获得了稀有材料：${collectedMaterial.name}！`);
-                        document.getElementById(`${collectedMaterial.type}-count`).classList.add('flash');
-                        setTimeout(() => {
-                            document.getElementById(`${collectedMaterial.type}-count`).classList.remove('flash');
-                        }, 1500);
-                    } else {
-                        showNotification(`获得了材料：${collectedMaterial.name}！`);
-                    }
-                }
-                
-                // 重置进度
-                gameData.progress.material = 0;
-                
-                // 检查自动制作
-                checkAutoCraft();
-            }, seconds * 1000);
+            }
         }
 
-        // 制作鱼饵
-        function craftBait(baitType) {
-            let canCraft = false;
-            let baitName = getBaitName(baitType);
-            
-            switch(baitType) {
-                case 'basic':
-                    if (gameData.materials.grass >= 2) {
-                        gameData.materials.grass -= 2;
-                        gameData.baits.basic++;
-                        canCraft = true;
-                    }
-                    break;
-                case 'advanced':
-                    if (gameData.materials.grass >= 3 && gameData.materials.worm >= 2) {
-                        gameData.materials.grass -= 3;
-                        gameData.materials.worm -= 2;
-                        gameData.baits.advanced++;
-                        canCraft = true;
-                    }
-                    break;
-                case 'rare':
-                    if (gameData.materials.grass >= 5 && gameData.materials.worm >= 3 && gameData.materials.minnow >= 1) {
-                        gameData.materials.grass -= 5;
-                        gameData.materials.worm -= 3;
-                        gameData.materials.minnow -= 1;
-                        gameData.baits.rare++;
-                        canCraft = true;
-                    }
-                    break;
-                case 'epic':
-                    if (gameData.materials.worm >= 5 && gameData.materials.minnow >= 3 && gameData.materials.pearl >= 1) {
-                        gameData.materials.worm -= 5;
-                        gameData.materials.minnow -= 3;
-                        gameData.materials.pearl -= 1;
-                        gameData.baits.epic++;
-                        canCraft = true;
-                    }
-                    break;
-            }
-            
-            if (canCraft) {
-                updateUI();
-                saveGame();
-                updateBaitSelector();
-                showNotification(`${baitName} 制作成功！`);
-                return true;
-            } else {
-                showNotification("材料不足，无法制作！");
-                return false;
-            }
-        }
-        
-        // 检查自动制作
-        function checkAutoCraft() {
-            for (const baitType in gameData.autoCraft) {
-                if (gameData.autoCraft[baitType]) {
-                    // 尝试制作
-                    const crafted = craftBait(baitType);
-                    // 如果制作成功，更新UI后返回
-                    if (crafted) return;
+        // 加载游戏
+        function loadGame() {
+            const savedData = localStorage.getItem('scavengerGameData');
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                Object.assign(GameData, parsedData);
+                
+                // 恢复自动搜刮
+                if (GameData.autoScavenge) {
+                    GameData.startAutoScavenge();
+                }
+                
+                // 显示自动搜刮解锁区域
+                if (GameData.scavengeCount >= 10) {
+                    document.getElementById('autoSection').style.display = 'block';
                 }
             }
-        }
-        
-        // 切换自动制作
-        function toggleAutoCraft(baitType, enabled) {
-            gameData.autoCraft[baitType] = enabled;
-            if (enabled) {
-                // 立即尝试制作一次
-                craftBait(baitType);
-            }
-            saveGame();
         }
 
-        // 开始钓鱼
-        function startFishing() {
-            if (gameData.currentBait === "none") {
-                showResult("请先选择一种鱼饵！");
-                return;
-            }
-            
-            // 检查是否有该鱼饵
-            if (gameData.baits[gameData.currentBait] <= 0) {
-                showResult("没有可用的鱼饵了！");
-                // 如果开启了自动钓鱼，则关闭
-                if (gameData.autoFishing) {
-                    toggleAutoFish(false);
-                }
-                return;
-            }
-            
-            // 消耗一个鱼饵
-            gameData.baits[gameData.currentBait]--;
-            
-            // 钓鱼动画
-            const fishBtn = document.getElementById('fish-btn');
-            fishBtn.disabled = true;
-            fishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 钓鱼中...';
-            
-            // 重置进度条
-            gameData.progress.fishing = 0;
-            document.getElementById('fishing-progress').style.width = '0%';
-            document.getElementById('fishing-percent').textContent = '0%';
-            
-            // 钓鱼进度更新
-            const fishingInterval = setInterval(() => {
-                if (gameData.progress.fishing < 100) {
-                    gameData.progress.fishing += 5;
-                    document.getElementById('fishing-progress').style.width = gameData.progress.fishing + '%';
-                    document.getElementById('fishing-percent').textContent = gameData.progress.fishing + '%';
-                }
-            }, 100);
-            
-            // 模拟钓鱼过程
-            setTimeout(() => {
-                clearInterval(fishingInterval);
-                
-                const fish = catchFish();
-                // 添加到背包
-                if (!gameData.fishes[fish.name]) {
-                    gameData.fishes[fish.name] = 0;
-                }
-                gameData.fishes[fish.name]++;
-                
-                showResult(`钓到了一条<span class="${fish.rarity}">${fish.name}</span>！`);
-                fishBtn.disabled = false;
-                fishBtn.innerHTML = '<i class="fas fa-water"></i> 开始钓鱼';
-                updateUI();
-                saveGame();
-                updateFishInventory();
-                updateBaitSelector();
-                
-                // 如果开启了自动钓鱼，继续下一次
-                if (gameData.autoFishing) {
-                    setTimeout(() => startFishing(), 500);
-                }
-            }, 2000);
-        }
-        
-        // 切换自动钓鱼
-        function toggleAutoFish(event) {
-            if (event && event.target) {
-                gameData.autoFishing = event.target.checked;
-            } else {
-                gameData.autoFishing = !gameData.autoFishing;
-                document.getElementById('auto-fish').checked = gameData.autoFishing;
-            }
-            
-            if (gameData.autoFishing) {
-                showNotification("自动钓鱼已开启！");
-                // 如果当前没有在钓鱼，则开始钓鱼
-                if (!document.getElementById('fish-btn').disabled) {
-                    startFishing();
-                }
-            } else {
-                showNotification("自动钓鱼已关闭！");
-            }
-            saveGame();
-        }
-        
-        // 更换鱼饵
-        function changeBait(baitType) {
-            gameData.currentBait = baitType;
-            saveGame();
-        }
-        
-        // 更新鱼饵选择器
-        function updateBaitSelector() {
-            const selector = document.getElementById('bait-selector');
-            selector.innerHTML = '<option value="none">无</option>';
-            
-            // 添加可用的鱼饵选项
-            if (gameData.baits.basic > 0) {
-                const option = document.createElement('option');
-                option.value = "basic";
-                option.textContent = `普通鱼饵 (${gameData.baits.basic})`;
-                option.className = "common";
-                if (gameData.currentBait === "basic") option.selected = true;
-                selector.appendChild(option);
-            }
-            
-            if (gameData.baits.advanced > 0) {
-                const option = document.createElement('option');
-                option.value = "advanced";
-                option.textContent = `高级鱼饵 (${gameData.baits.advanced})`;
-                option.className = "uncommon";
-                if (gameData.currentBait === "advanced") option.selected = true;
-                selector.appendChild(option);
-            }
-            
-            if (gameData.baits.rare > 0) {
-                const option = document.createElement('option');
-                option.value = "rare";
-                option.textContent = `稀有鱼饵 (${gameData.baits.rare})`;
-                option.className = "rare";
-                if (gameData.currentBait === "rare") option.selected = true;
-                selector.appendChild(option);
-            }
-            
-            if (gameData.baits.epic > 0) {
-                const option = document.createElement('option');
-                option.value = "epic";
-                option.textContent = `史诗鱼饵 (${gameData.baits.epic})`;
-                option.className = "epic";
-                if (gameData.currentBait === "epic") option.selected = true;
-                selector.appendChild(option);
-            }
-            
-            // 更新事件监听器
-            selector.onchange = (e) => changeBait(e.target.value);
+        // 保存游戏
+        function saveGame() {
+            GameData.lastSavedTime = Date.now();
+            localStorage.setItem('scavengerGameData', JSON.stringify(GameData));
         }
 
-        // 根据鱼饵等级计算钓鱼结果
-        function catchFish() {
-            // 根据鱼饵等级调整概率
-            let adjustedFishData = [...fishData];
-            const baitRarity = getBaitRarity(gameData.currentBait);
+        // 设置事件监听
+        function setupEventListeners() {
+            // 菜单按钮
+            document.getElementById('scavengeBtn').addEventListener('click', () => showPanel('scavengePanel'));
+            document.getElementById('inventoryBtn').addEventListener('click', () => showPanel('inventoryPanel'));
+            document.getElementById('skillsBtn').addEventListener('click', () => showPanel('skillsPanel'));
+            document.getElementById('guideBtn').addEventListener('click', () => showPanel('guidePanel'));
+            document.getElementById('resetBtn').addEventListener('click', () => showPanel('resetPanel'));
             
-            // 鱼饵等级对稀有鱼概率的影响
-            let rarityMultiplier = 1;
-            switch(baitRarity) {
-                case "uncommon": rarityMultiplier = 1.5; break;
-                case "rare": rarityMultiplier = 2.5; break;
-                case "epic": rarityMultiplier = 4; break;
-            }
-            
-            adjustedFishData = adjustedFishData.map(fish => {
-                if (fish.rarity !== "common") {
-                    return {...fish, probability: fish.probability * rarityMultiplier};
-                }
-                return fish;
+            // 搜刮按钮
+            document.getElementById('startScavenge').addEventListener('click', () => {
+                GameData.startScavenge();
             });
             
-            // 计算总概率
-            const totalProbability = adjustedFishData.reduce((sum, fish) => sum + fish.probability, 0);
+            // 自动搜刮按钮
+            document.getElementById('toggleAuto').addEventListener('click', () => {
+                GameData.toggleAutoScavenge();
+            });
             
-            // 随机选择鱼
-            let random = Math.random() * totalProbability;
-            for (const fish of adjustedFishData) {
-                if (random < fish.probability) {
-                    return fish;
+            // 技能升级按钮
+            document.getElementById('upgradeQuantity').addEventListener('click', () => {
+                GameData.upgradeSkill('quantity');
+            });
+            
+            document.getElementById('upgradeRarity').addEventListener('click', () => {
+                GameData.upgradeSkill('rarity');
+            });
+            
+            document.getElementById('upgradeSpeed').addEventListener('click', () => {
+                GameData.upgradeSkill('speed');
+            });
+            
+            // 重置游戏按钮
+            document.getElementById('confirmReset').addEventListener('click', () => {
+                if (confirm('确定要重置游戏吗？所有进度都将丢失！')) {
+                    GameData.resetGame();
                 }
-                random -= fish.probability;
-            }
+            });
             
-            // 默认返回普通鱼
-            return adjustedFishData[0];
+            // 关闭离线收益弹窗
+            document.getElementById('closeOffline').addEventListener('click', () => {
+                document.getElementById('offlineModal').classList.remove('active');
+            });
         }
 
-        // 显示钓鱼结果
-        function showResult(message) {
-            const resultElement = document.getElementById('fish-result');
-            resultElement.innerHTML = message;
+        // 显示面板
+        function showPanel(panelId) {
+            // 隐藏所有面板
+            document.querySelectorAll('.panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
             
-            // 结果动画
-            resultElement.style.opacity = 0;
-            resultElement.style.transform = "translateY(20px)";
-            setTimeout(() => {
-                resultElement.style.transition = "all 0.5s ease";
-                resultElement.style.opacity = 1;
-                resultElement.style.transform = "translateY(0)";
-            }, 10);
-        }
-
-        // 获取鱼饵名称
-        function getBaitName(baitType) {
-            switch(baitType) {
-                case 'basic': return '普通鱼饵';
-                case 'advanced': return '高级鱼饵';
-                case 'rare': return '稀有鱼饵';
-                case 'epic': return '史诗鱼饵';
-                default: return '未知';
-            }
-        }
-
-        // 获取鱼饵稀有度
-        function getBaitRarity(baitType) {
-            switch(baitType) {
-                case 'basic': return 'common';
-                case 'advanced': return 'uncommon';
-                case 'rare': return 'rare';
-                case 'epic': return 'epic';
-                default: return 'common';
+            // 移除所有按钮的活动状态
+            document.querySelectorAll('.menu button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 显示选中的面板
+            document.getElementById(panelId).classList.add('active');
+            
+            // 设置按钮为活动状态
+            const buttonMap = {
+                'scavengePanel': 'scavengeBtn',
+                'inventoryPanel': 'inventoryBtn',
+                'skillsPanel': 'skillsBtn',
+                'guidePanel': 'guideBtn',
+                'resetPanel': 'resetBtn'
+            };
+            document.getElementById(buttonMap[panelId]).classList.add('active');
+            
+            // 如果是背包面板，更新物品列表
+            if (panelId === 'inventoryPanel') {
+                renderInventory();
             }
         }
 
         // 更新UI
         function updateUI() {
-            // 更新材料数量
-            document.getElementById('grass-count').textContent = gameData.materials.grass;
-            document.getElementById('worm-count').textContent = gameData.materials.worm;
-            document.getElementById('minnow-count').textContent = gameData.materials.minnow;
-            document.getElementById('pearl-count').textContent = gameData.materials.pearl;
-            document.getElementById('coin-count').textContent = gameData.materials.coin;
+            // 更新统计数据
+            document.getElementById('gold').textContent = GameData.gold;
+            document.getElementById('scavengeCount').textContent = GameData.scavengeCount;
             
-            // 更新背包
-            document.getElementById('inv-grass').textContent = gameData.materials.grass;
-            document.getElementById('inv-worm').textContent = gameData.materials.worm;
-            document.getElementById('inv-minnow').textContent = gameData.materials.minnow;
-            document.getElementById('inv-pearl').textContent = gameData.materials.pearl;
-            document.getElementById('inv-coin').textContent = gameData.materials.coin;
-            document.getElementById('inv-basic-bait').textContent = gameData.baits.basic;
-            document.getElementById('inv-advanced-bait').textContent = gameData.baits.advanced;
-            document.getElementById('inv-rare-bait').textContent = gameData.baits.rare;
-            document.getElementById('inv-epic-bait').textContent = gameData.baits.epic;
+            // 计算物品总数（考虑堆叠数量）
+            const totalItems = GameData.items.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('itemCount').textContent = totalItems;
             
-            // 更新市场显示
-            document.getElementById('market-coin').textContent = gameData.materials.coin;
+            document.getElementById('autoStatus').textContent = GameData.autoScavenge ? '开启' : '关闭';
             
-            // 更新制作按钮状态
-            document.getElementById('craft-basic').disabled = gameData.materials.grass < 2;
-            document.getElementById('craft-advanced').disabled = gameData.materials.grass < 3 || gameData.materials.worm < 2;
-            document.getElementById('craft-rare').disabled = gameData.materials.grass < 5 || gameData.materials.worm < 3 || gameData.materials.minnow < 1;
-            document.getElementById('craft-epic').disabled = gameData.materials.worm < 5 || gameData.materials.minnow < 3 || gameData.materials.pearl < 1;
+            // 更新搜刮按钮状态
+            const scavengeBtn = document.getElementById('startScavenge');
+            scavengeBtn.disabled = GameData.isScavenging;
             
-            // 更新自动制作开关状态
-            document.getElementById('auto-basic').checked = gameData.autoCraft.basic;
-            document.getElementById('auto-advanced').checked = gameData.autoCraft.advanced;
-            document.getElementById('auto-rare').checked = gameData.autoCraft.rare;
-            document.getElementById('auto-epic').checked = gameData.autoCraft.epic;
+            // 更新技能信息
+            document.getElementById('quantityLevel').textContent = GameData.skills.quantity;
+            document.getElementById('rarityLevel').textContent = GameData.skills.rarity;
+            document.getElementById('speedLevel').textContent = GameData.skills.speed;
+            
+            document.getElementById('quantityCost').textContent = GameData.getUpgradeCost(GameData.skills.quantity);
+            document.getElementById('rarityCost').textContent = GameData.getUpgradeCost(GameData.skills.rarity);
+            document.getElementById('speedCost').textContent = GameData.getUpgradeCost(GameData.skills.speed);
+            
+            // 更新技能进度条
+            document.getElementById('quantityProgress').style.width = (GameData.skills.quantity / 30) * 100 + '%';
+            document.getElementById('rarityProgress').style.width = (GameData.skills.rarity / 30) * 100 + '%';
+            document.getElementById('speedProgress').style.width = (GameData.skills.speed / 30) * 100 + '%';
+            
+            // 更新自动搜刮按钮文本
+            const autoBtn = document.getElementById('toggleAuto');
+            if (autoBtn) {
+                autoBtn.textContent = GameData.autoScavenge ? '关闭自动搜刮' : '开启自动搜刮';
+            }
         }
-        
-        // 更新鱼类背包
-        function updateFishInventory() {
-            const container = document.getElementById('fish-container');
-            container.innerHTML = '';
+
+        // 渲染背包
+        function renderInventory() {
+            const inventoryGrid = document.getElementById('inventoryGrid');
+            inventoryGrid.innerHTML = '';
             
-            if (Object.keys(gameData.fishes).length === 0) {
-                container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 20px;">还没有钓到鱼，快去钓鱼吧！</p>';
+            if (GameData.items.length === 0) {
+                inventoryGrid.innerHTML = '<p class="empty-message" style="grid-column:1/-1;text-align:center;padding:40px;color:#95a5a6;">背包空空如也，快去搜刮物资吧！</p>';
                 return;
             }
             
-            // 添加鱼类到背包
-            for (const fishName in gameData.fishes) {
-                const fishCount = gameData.fishes[fishName];
-                const fish = fishData.find(f => f.name === fishName);
+            GameData.items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
                 
-                if (fish) {
-                    const item = document.createElement('div');
-                    item.className = 'inventory-item';
-                    
-                    item.innerHTML = `
-                        <div class="item-icon fish-icon">${fish.icon}</div>
-                        <div class="item-name ${fish.rarity}">${fish.name}</div>
-                        <div class="item-count">${fishCount}</div>
-                    `;
-                    
-                    container.appendChild(item);
-                }
-            }
-        }
-        
-        // 更新市场
-        function updateMarket() {
-            const fishMarket = document.getElementById('fish-market');
-            const materialMarket = document.getElementById('material-market');
-            
-            fishMarket.innerHTML = '';
-            materialMarket.innerHTML = '';
-            
-            // 添加鱼类市场
-            for (const fishName in gameData.marketPrices) {
-                if (fishData.some(f => f.name === fishName)) {
-                    const priceInfo = gameData.marketPrices[fishName];
-                    const fish = fishData.find(f => f.name === fishName);
-                    
-                    const marketItem = document.createElement('div');
-                    marketItem.className = 'market-item';
-                    
-                    marketItem.innerHTML = `
-                        <div>
-                            <span class="${fish.rarity}">${fishName}</span>
-                            <div>数量: ${gameData.fishes[fishName] || 0}</div>
-                        </div>
-                        <div class="market-price ${priceInfo.trend > 0 ? 'price-up' : priceInfo.trend < 0 ? 'price-down' : ''}">
-                            ${priceInfo.current} 鱼币
-                        </div>
-                        <div class="market-actions">
-                            <button class="market-btn" onclick="sellItem('${fishName}', 1)">卖1</button>
-                            <button class="market-btn" onclick="sellItem('${fishName}', 5)">卖5</button>
-                            <button class="market-btn" onclick="sellItem('${fishName}', 10)">卖10</button>
-                        </div>
-                    `;
-                    
-                    fishMarket.appendChild(marketItem);
-                }
-            }
-            
-            // 添加材料市场
-            const materialItems = [
-                { name: "普通水草", type: "grass" },
-                { name: "发光虫", type: "worm" },
-                { name: "水晶鱼", type: "minnow" },
-                { name: "彩虹珍珠", type: "pearl" }
-            ];
-            
-            for (const item of materialItems) {
-                const priceInfo = gameData.marketPrices[item.name];
-                
-                const marketItem = document.createElement('div');
-                marketItem.className = 'market-item';
-                
-                marketItem.innerHTML = `
-                    <div>
-                        <span>${item.name}</span>
-                        <div>数量: ${gameData.materials[item.type]}</div>
-                    </div>
-                    <div class="market-price ${priceInfo.trend > 0 ? 'price-up' : priceInfo.trend < 0 ? 'price-down' : ''}">
-                        ${priceInfo.current} 鱼币
-                    </div>
-                    <div class="market-actions">
-                        <button class="market-btn" onclick="sellMaterial('${item.type}', 1)">卖1</button>
-                        <button class="market-btn" onclick="sellMaterial('${item.type}', 5)">卖5</button>
-                        <button class="market-btn" onclick="sellMaterial('${item.type}', 10)">卖10</button>
-                    </div>
+                // 添加物品信息
+                itemCard.innerHTML = `
+                    <div class="item-name rarity-${item.rarity}">${item.name}</div>
+                    <div class="item-rarity">${getRarityName(item.rarity)}</div>
+                    <div class="item-price">${item.currentPrice} 金币/个</div>
+                    <div class="item-quantity">x${item.quantity}</div>
+                    <button class="sell-btn" data-id="${item.id}"><i class="fas fa-coins"></i> 出售全部</button>
                 `;
                 
-                materialMarket.appendChild(marketItem);
-            }
+                inventoryGrid.appendChild(itemCard);
+            });
+            
+            // 添加出售事件监听
+            document.querySelectorAll('.sell-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const itemId = parseFloat(e.target.getAttribute('data-id'));
+                    GameData.sellItem(itemId);
+                    renderInventory(); // 重新渲染背包
+                });
+            });
         }
-        
-        // 出售物品
-        function sellItem(itemName, quantity) {
-            if (!gameData.fishes[itemName] || gameData.fishes[itemName] < quantity) {
-                showNotification(`没有足够的${itemName}可出售！`);
-                return;
-            }
-            
-            const price = gameData.marketPrices[itemName].current;
-            const totalValue = price * quantity;
-            
-            gameData.fishes[itemName] -= quantity;
-            if (gameData.fishes[itemName] <= 0) {
-                delete gameData.fishes[itemName];
-            }
-            
-            gameData.materials.coin += totalValue;
-            
-            showNotification(`成功出售 ${quantity} 条${itemName}，获得 ${totalValue} 鱼币！`);
-            updateUI();
-            updateFishInventory();
-            updateMarket();
-            saveGame();
+
+        // 获取稀有度名称
+        function getRarityName(rarity) {
+            const names = ['普通', '优秀', '精良', '史诗', '传奇', '神话'];
+            return names[rarity];
         }
-        
-        // 出售材料
-        function sellMaterial(materialType, quantity) {
-            const materialName = materialData.find(m => m.type === materialType).name;
-            
-            if (gameData.materials[materialType] < quantity) {
-                showNotification(`没有足够的${materialName}可出售！`);
-                return;
-            }
-            
-            const price = gameData.marketPrices[materialName].current;
-            const totalValue = price * quantity;
-            
-            gameData.materials[materialType] -= quantity;
-            gameData.materials.coin += totalValue;
-            
-            showNotification(`成功出售 ${quantity} 个${materialName}，获得 ${totalValue} 鱼币！`);
-            updateUI();
-            updateMarket();
-            saveGame();
-        }
-        
-        // 出售所有鱼
-        function sellAllFish() {
-            let totalEarnings = 0;
-            let itemsSold = 0;
-            
-            for (const fishName in gameData.fishes) {
-                const quantity = gameData.fishes[fishName];
-                const price = gameData.marketPrices[fishName].current;
-                const value = price * quantity;
-                
-                totalEarnings += value;
-                itemsSold += quantity;
-                
-                delete gameData.fishes[fishName];
-            }
-            
-            if (itemsSold > 0) {
-                gameData.materials.coin += totalEarnings;
-                showNotification(`成功出售所有鱼，共 ${itemsSold} 条，获得 ${totalEarnings} 鱼币！`);
-                updateUI();
-                updateFishInventory();
-                updateMarket();
-                saveGame();
-            } else {
-                showNotification("没有鱼可以出售！");
-            }
-        }
-        
-        // 出售所有材料
-        function sellAllMaterials() {
-            const materialsToSell = [
-                { type: "grass", name: "普通水草" },
-                { type: "worm", name: "发光虫" },
-                { type: "minnow", name: "水晶鱼" },
-                { type: "pearl", name: "彩虹珍珠" }
-            ];
-            
-            let totalEarnings = 0;
-            let itemsSold = 0;
-            
-            for (const material of materialsToSell) {
-                const quantity = gameData.materials[material.type];
-                if (quantity > 0) {
-                    const price = gameData.marketPrices[material.name].current;
-                    const value = price * quantity;
-                    
-                    totalEarnings += value;
-                    itemsSold += quantity;
-                    
-                    gameData.materials[material.type] = 0;
-                }
-            }
-            
-            if (itemsSold > 0) {
-                gameData.materials.coin += totalEarnings;
-                showNotification(`成功出售所有材料，共 ${itemsSold} 个，获得 ${totalEarnings} 鱼币！`);
-                updateUI();
-                updateMarket();
-                saveGame();
-            } else {
-                showNotification("没有材料可以出售！");
-            }
-        }
-        
-        // 随机刷新市场价格
-        function refreshMarketPrices() {
-            for (const item in gameData.marketPrices) {
-                const priceInfo = gameData.marketPrices[item];
-                
-                // 随机波动（-20% 到 +20%）
-                const fluctuation = (Math.random() * 0.4 - 0.2);
-                const newPrice = Math.max(1, Math.round(priceInfo.base * (1 + fluctuation)));
-                
-                // 记录趋势
-                priceInfo.trend = newPrice - priceInfo.current;
-                priceInfo.current = newPrice;
-            }
-            
-            showNotification("市场价格已刷新！");
-            updateMarket();
-            saveGame();
-        }
-        
-        // 启动市场定时器
-        function startMarketTimer() {
-            // 先刷新一次价格
-            refreshMarketPrices();
-            
-            // 设置定时器（5分钟）
-            gameData.timers.market = setInterval(() => {
-                refreshMarketPrices();
-            }, 300000); // 5分钟 = 300,000毫秒
-            
-            // 更新倒计时显示
-            setInterval(() => {
-                gameData.marketRefresh--;
-                if (gameData.marketRefresh < 0) {
-                    gameData.marketRefresh = 300;
-                }
-                
-                const minutes = Math.floor(gameData.marketRefresh / 60);
-                const seconds = gameData.marketRefresh % 60;
-                document.getElementById('refresh-timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            }, 1000);
-        }
-        
+
         // 显示通知
-        function showNotification(message) {
+        function showNotification(message, isError) {
             const notification = document.getElementById('notification');
-            notification.querySelector('span').textContent = message;
+            const text = document.getElementById('notificationText');
+            const icon = notification.querySelector('i');
+            
+            text.textContent = message;
+            
+            if (isError) {
+                notification.className = 'notification error';
+                icon.className = 'fas fa-exclamation-circle';
+            } else {
+                notification.className = 'notification';
+                icon.className = 'fas fa-check-circle';
+            }
+            
             notification.classList.add('show');
             
             setTimeout(() => {
@@ -1984,74 +1628,13 @@
             }, 3000);
         }
 
-        // 保存游戏
-        function saveGame() {
-            localStorage.setItem('fishingGameData', JSON.stringify(gameData));
-        }
-
-        // 加载游戏
-        function loadGame() {
-            const savedData = localStorage.getItem('fishingGameData');
-            if (savedData) {
-                try {
-                    const parsedData = JSON.parse(savedData);
-                    Object.assign(gameData, parsedData);
-                    
-                    // 兼容旧版本数据结构
-                    if (Array.isArray(gameData.fishes)) {
-                        const oldFishes = gameData.fishes;
-                        gameData.fishes = {};
-                        
-                        oldFishes.forEach(fish => {
-                            if (!gameData.fishes[fish.name]) {
-                                gameData.fishes[fish.name] = 0;
-                            }
-                            gameData.fishes[fish.name]++;
-                        });
-                    }
-                } catch (e) {
-                    console.error('加载游戏数据失败，使用默认数据');
-                }
-            }
-        }
+        // 启动游戏
+        window.addEventListener('DOMContentLoaded', initGame);
         
-        // 重置游戏
-        function resetGame() {
-            if (confirm('确定要重置游戏数据吗？所有进度都将丢失！')) {
-                gameData.materials = { grass: 0, worm: 0, minnow: 0, pearl: 0, coin: 100 };
-                gameData.baits = { basic: 0, advanced: 0, rare: 0, epic: 0 };
-                gameData.fishes = {};
-                gameData.currentBait = "none";
-                gameData.progress.material = 0;
-                gameData.progress.fishing = 0;
-                gameData.autoFishing = false;
-                gameData.autoCraft = {
-                    basic: false,
-                    advanced: false,
-                    rare: false,
-                    epic: false
-                };
-                
-                document.getElementById('auto-fish').checked = false;
-                
-                // 重置自动制作开关
-                document.getElementById('auto-basic').checked = false;
-                document.getElementById('auto-advanced').checked = false;
-                document.getElementById('auto-rare').checked = false;
-                document.getElementById('auto-epic').checked = false;
-                
-                saveGame();
-                updateUI();
-                updateBaitSelector();
-                updateFishInventory();
-                updateMarket();
-                
-                showNotification('游戏数据已重置！');
-            }
-        }
-
-        // 页面加载时初始化游戏
-        window.addEventListener('load', initGame);
+        // 页面关闭前保存游戏
+        window.addEventListener('beforeunload', () => {
+            saveGame();
+        });
     </script>
 </body>
 </html>
