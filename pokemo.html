@@ -641,12 +641,12 @@
                 <div class="gacha-container">
                     <div class="gacha-buttons">
                         <button class="gacha-btn" id="single-gacha">
-                            <span>单抽</span>
-                            <div class="gacha-cost">消耗: <span>100</span> 积分</div>
+                            <span>【单抽】消耗100积分</span>
+
                         </button>
                         <button class="gacha-btn" id="multi-gacha">
-                            <span>十连抽</span>
-                            <div class="gacha-cost">消耗: <span>1000</span> 积分</div>
+                            <span>【十抽】消耗999积分</span>
+
                         </button>
                     </div>
                     
@@ -682,12 +682,12 @@
             
             // 稀有度配置
             rarities: [
-                { name: '灰色', color: 'gray', rate: 50, earning: 1, value: 5 },
-                { name: '绿色', color: 'green', rate: 25, earning: 2, value: 10 },
-                { name: '蓝色', color: 'blue', rate: 15, earning: 3, value: 20 },
-                { name: '紫色', color: 'purple', rate: 7, earning: 5, value: 50 },
-                { name: '红色', color: 'red', rate: 2.5, earning: 10, value: 100 },
-                { name: '彩色', color: 'rainbow', rate: 0.5, earning: 20, value: 500 }
+                { name: '灰色', color: 'gray', rate: 70, earning: 1, value: 5 },
+                { name: '绿色', color: 'green', rate: 20, earning: 2, value: 10 },
+                { name: '蓝色', color: 'blue', rate: 10, earning: 3, value: 20 },
+                { name: '紫色', color: 'purple', rate: 5, earning: 5, value: 50 },
+                { name: '红色', color: 'red', rate: 2, earning: 10, value: 100 },
+                { name: '彩色', color: 'rainbow', rate: 0.1, earning: 20, value: 500 }
             ],
             
             // 完整的151只第一代宝可梦
@@ -1029,7 +1029,7 @@
         
         // 抽卡功能
         function performGacha(count) {
-            const cost = count === 1 ? 100 : 1000;
+            const cost = count === 1 ? 100 : 999;
             
             if (gameData.points < cost) {
                 showNotification('积分不足！');
