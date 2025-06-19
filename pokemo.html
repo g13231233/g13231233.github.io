@@ -108,6 +108,19 @@
             height: calc(100vh - 130px);
         }
         
+        /* 移除所有内部滚动条 */
+        .pokemon-grid, .gacha-results, .collection-grid {
+            overflow-y: visible !important;
+            max-height: none !important;
+        }
+        
+        /* 移除滚动条样式 */
+        .pokemon-grid::-webkit-scrollbar, 
+        .gacha-results::-webkit-scrollbar, 
+        .collection-grid::-webkit-scrollbar {
+            display: none;
+        }
+        
         .pokeball-bg {
             position: absolute;
             top: 0;
@@ -158,7 +171,7 @@
         
         .working-slots {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 15px;
         }
@@ -229,23 +242,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 12px;
-            max-height: 300px;
-            overflow-y: auto;
             padding: 8px;
-        }
-        
-        .pokemon-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .pokemon-grid::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-        }
-        
-        .pokemon-grid::-webkit-scrollbar-thumb {
-            background: #4169e1;
-            border-radius: 3px;
         }
         
         .pokemon-card {
@@ -328,24 +325,8 @@
             gap: 15px;
             min-height: 180px;
             margin-top: 15px;
-            max-height: 400px;
-            overflow-y: auto;
             padding: 10px;
             width: 100%;
-        }
-        
-        .gacha-results::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .gacha-results::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-        }
-        
-        .gacha-results::-webkit-scrollbar-thumb {
-            background: #ff8c00;
-            border-radius: 3px;
         }
         
         .gacha-card {
@@ -428,23 +409,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 15px;
-            max-height: 500px;
-            overflow-y: auto;
             padding: 8px;
-        }
-        
-        .collection-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .collection-grid::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-        }
-        
-        .collection-grid::-webkit-scrollbar-thumb {
-            background: #78c850;
-            border-radius: 3px;
         }
         
         .collection-card {
@@ -711,6 +676,9 @@
                     <div class="slot" id="slot-3">
                         <div class="slot-content"></div>
                     </div>
+                    <div class="slot" id="slot-4">
+                        <div class="slot-content"></div>
+                    </div>
                 </div>
                 
                 <div class="available-pokemon">
@@ -728,11 +696,11 @@
             <div class="gacha-container">
                 <div class="gacha-buttons">
                     <button class="gacha-btn pulse" id="single-gacha">
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-dice"></i>
                         <span>单抽 (100)</span>
                     </button>
                     <button class="gacha-btn pulse" id="multi-gacha">
-                        <i class="fas fa-gem"></i>
+                        <i class="fas fa-dice-d20"></i>
                         <span>十抽 (999)</span>
                     </button>
                 </div>
@@ -765,7 +733,7 @@
             <span>打工</span>
         </button>
         <button class="tab-btn" data-section="gacha">
-            <i class="fas fa-cards"></i>
+            <i class="fas fa-dice"></i>
             <span>抽卡</span>
         </button>
         <button class="tab-btn" data-section="collection">
@@ -795,7 +763,7 @@
         const gameData = {
             points: 100,
             pokemons: [],
-            workingSlots: [null, null, null],
+            workingSlots: [null, null, null, null], // 增加为4个槽位
             lastUpdate: Date.now(),
             
             // 稀有度配置
@@ -804,8 +772,8 @@
                 { name: '绿色', color: 'green', rate: 30, earning: 2, value: 10 },
                 { name: '蓝色', color: 'blue', rate: 20, earning: 3, value: 20 },
                 { name: '紫色', color: 'purple', rate: 10, earning: 5, value: 50 },
-                { name: '红色', color: 'red', rate: 5, earning: 10, value: 100 },
-                { name: '彩色', color: 'rainbow', rate: 1, earning: 20, value: 500 }
+                { name: '红色', color: 'red', rate: 2.5, earning: 10, value: 100 },
+                { name: '彩色', color: 'rainbow', rate: 0.1, earning: 20, value: 500 }
             ],
             
             // 完整的151只第一代宝可梦
@@ -1072,7 +1040,7 @@
             
             availableContainer.innerHTML = '';
             
-            // 渲染打工槽位
+            // 渲染打工槽位（现在有4个）
             gameData.workingSlots.forEach((slot, index) => {
                 const slotElement = document.getElementById(`slot-${index+1}`);
                 const content = slotElement.querySelector('.slot-content');
@@ -1318,7 +1286,7 @@
                 // 重置游戏数据
                 gameData.points = 100;
                 gameData.pokemons = [];
-                gameData.workingSlots = [null, null, null];
+                gameData.workingSlots = [null, null, null, null]; // 4个槽位
                 gameData.lastUpdate = Date.now();
                 
                 // 更新UI
