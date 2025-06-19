@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>宝可梦抽卡游戏</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -24,6 +24,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;
+            touch-action: manipulation;
         }
         
         body {
@@ -31,7 +32,8 @@
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
-            padding-bottom: 70px; /* 为底部导航栏留出空间 */
+            padding-bottom: 70px;
+            overscroll-behavior: none;
         }
         
         /* 顶部应用栏 */
@@ -763,7 +765,7 @@
         const gameData = {
             points: 100,
             pokemons: [],
-            workingSlots: [null, null, null, null], // 增加为4个槽位
+            workingSlots: [null, null, null, null],
             lastUpdate: Date.now(),
             
             // 稀有度配置
@@ -1028,6 +1030,14 @@
             document.getElementById('points').textContent = gameData.points;
         }
         
+        // 按稀有度排序宝可梦
+        function sortPokemonsByRarity(pokemons) {
+            const rarityOrder = ['rainbow', 'red', 'purple', 'blue', 'green', 'gray'];
+            return [...pokemons].sort((a, b) => {
+                return rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
+            });
+        }
+        
         // 渲染打工区域
         function renderWorkingSection() {
             const slotsContainer = document.querySelector('.working-slots');
@@ -1040,7 +1050,7 @@
             
             availableContainer.innerHTML = '';
             
-            // 渲染打工槽位（现在有4个）
+            // 渲染打工槽位
             gameData.workingSlots.forEach((slot, index) => {
                 const slotElement = document.getElementById(`slot-${index+1}`);
                 const content = slotElement.querySelector('.slot-content');
@@ -1069,26 +1079,28 @@
                 }
             });
             
-            // 渲染可用宝可梦
-            gameData.pokemons.forEach(pokemon => {
-                // 检查是否已在打工
-                const isWorking = gameData.workingSlots.some(slot => slot && slot.id === pokemon.id);
+            // 获取未在打工的宝可梦并按稀有度排序
+            const availablePokemons = gameData.pokemons.filter(pokemon => {
+                return !gameData.workingSlots.some(slot => slot && slot.id === pokemon.id);
+            });
+            
+            const sortedPokemons = sortPokemonsByRarity(availablePokemons);
+            
+            // 渲染可用宝可梦（按稀有度排序）
+            sortedPokemons.forEach(pokemon => {
+                const card = document.createElement('div');
+                card.className = 'pokemon-card';
+                card.dataset.id = pokemon.id;
+                card.innerHTML = `
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}">
+                    <div class="name rarity-${pokemon.rarity}">${pokemon.name}</div>
+                `;
                 
-                if (!isWorking) {
-                    const card = document.createElement('div');
-                    card.className = 'pokemon-card';
-                    card.dataset.id = pokemon.id;
-                    card.innerHTML = `
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}">
-                        <div class="name rarity-${pokemon.rarity}">${pokemon.name}</div>
-                    `;
-                    
-                    card.addEventListener('click', () => {
-                        assignToWorkingSlot(pokemon.id);
-                    });
-                    
-                    availableContainer.appendChild(card);
-                }
+                card.addEventListener('click', () => {
+                    assignToWorkingSlot(pokemon.id);
+                });
+                
+                availableContainer.appendChild(card);
             });
         }
         
@@ -1218,6 +1230,9 @@
                 // 保存并更新UI
                 saveGameData();
                 renderCollectionSection();
+                
+                // 刷新打工区域（显示新抽到的宝可梦）
+                renderWorkingSection();
             }, count * 300 + 1000);
         }
         
@@ -1227,10 +1242,7 @@
             collectionContainer.innerHTML = '';
             
             // 按稀有度排序
-            const sortedPokemons = [...gameData.pokemons].sort((a, b) => {
-                const rarityOrder = ['rainbow', 'red', 'purple', 'blue', 'green', 'gray'];
-                return rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
-            });
+            const sortedPokemons = sortPokemonsByRarity(gameData.pokemons);
             
             // 渲染收藏的宝可梦
             sortedPokemons.forEach(pokemon => {
@@ -1286,7 +1298,7 @@
                 // 重置游戏数据
                 gameData.points = 100;
                 gameData.pokemons = [];
-                gameData.workingSlots = [null, null, null, null]; // 4个槽位
+                gameData.workingSlots = [null, null, null, null];
                 gameData.lastUpdate = Date.now();
                 
                 // 更新UI
