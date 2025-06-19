@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>宝可梦抽卡游戏</title>
+    <title>精灵宝可梦</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -647,7 +647,7 @@
     <div class="app-header">
         <div class="logo">
             <i class="fas fa-dragon logo-icon"></i>
-            <h1>宝可梦抽卡</h1>
+            <h1>精灵宝可梦</h1>
         </div>
         
         <div class="points-display">
@@ -713,9 +713,9 @@
             </div>
         </div>
         
-        <!-- 宠物仓库 -->
+        <!-- 精灵仓库 -->
         <div class="section" id="collection-section">
-            <h2 class="section-title">宠物</h2>
+            <h2 class="section-title">精灵</h2>
             <div class="collection-container">
                 <div class="collection-stats">
                     <div>已收集: <span id="total-pokemon">0</span>/151 只</div>
@@ -740,7 +740,7 @@
         </button>
         <button class="tab-btn" data-section="collection">
             <i class="fas fa-dragon"></i>
-            <span>宠物</span>
+            <span>精灵</span>
         </button>
     </div>
     
@@ -770,11 +770,11 @@
             
             // 稀有度配置
             rarities: [
-                { name: '灰色', color: 'gray', rate: 40, earning: 1, value: 5 },
-                { name: '绿色', color: 'green', rate: 30, earning: 2, value: 10 },
-                { name: '蓝色', color: 'blue', rate: 20, earning: 3, value: 20 },
-                { name: '紫色', color: 'purple', rate: 10, earning: 5, value: 50 },
-                { name: '红色', color: 'red', rate: 2.5, earning: 10, value: 100 },
+                { name: '灰色', color: 'gray', rate: 50, earning: 1, value: 5 },
+                { name: '绿色', color: 'green', rate: 25, earning: 2, value: 10 },
+                { name: '蓝色', color: 'blue', rate: 15, earning: 3, value: 20 },
+                { name: '紫色', color: 'purple', rate: 7, earning: 5, value: 50 },
+                { name: '红色', color: 'red', rate: 1, earning: 10, value: 100 },
                 { name: '彩色', color: 'rainbow', rate: 0.1, earning: 20, value: 500 }
             ],
             
