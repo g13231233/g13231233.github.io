@@ -1,719 +1,545 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>实时金币点击游戏 - P2P版</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        
-        header {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            color: #ff9f43;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .player-info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        #player-name {
-            padding: 10px 15px;
-            border: 2px solid #ff9f43;
-            border-radius: 50px;
-            font-size: 1rem;
-            width: 200px;
-        }
-        
-        #save-name {
-            background: #ff9f43;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-        
-        #save-name:hover {
-            background: #ff7f17;
-        }
-        
-        .connection-panel {
-            background: #e8f4fc;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .connection-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ccc;
-        }
-        
-        .status-indicator.connected {
-            background: #2ecc71;
-        }
-        
-        .game-area {
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
-        
-        .clicker-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .coin {
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(135deg, #ffd700 0%, #ff9d00 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-            border: 8px solid #daa520;
-            transition: transform 0.2s;
-        }
-        
-        .coin:active {
-            transform: scale(0.95);
-        }
-        
-        .coin i {
-            font-size: 5rem;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin-top: 20px;
-        }
-        
-        .stat-box {
-            text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            width: 45%;
-        }
-        
-        .stat-box h3 {
-            color: #6c757d;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-        
-        .stat-box p {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ff9f43;
-        }
-        
-        .leaderboard-section {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .leaderboard-section h2 {
-            color: #ff9f43;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-        
-        #players-list {
-            list-style: none;
-        }
-        
-        .player-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            animation: fadeIn 0.5s;
-        }
-        
-        .player-item.me {
-            background: linear-gradient(135deg, #d4edff 0%, #a7d9ff 100%);
-            border: 2px solid #4a9eff;
-        }
-        
-        .player-item.offline {
-            opacity: 0.6;
-        }
-        
-        .player-item:nth-child(1) {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        
-        .player-item:nth-child(2) {
-            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
-        }
-        
-        .player-item:nth-child(3) {
-            background: linear-gradient(135deg, #fdcb6e 0%, #ff9f43 100%);
-        }
-        
-        .player-name {
-            font-weight: 500;
-        }
-        
-        .player-coins {
-            color: #ff9f43;
-            font-weight: bold;
-        }
-        
-        .instructions {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .instructions h2 {
-            color: #ff9f43;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .instructions ul {
-            list-style: none;
-            padding: 0 15px;
-        }
-        
-        .instructions li {
-            margin-bottom: 10px;
-            padding-left: 25px;
-            position: relative;
-        }
-        
-        .instructions li i {
-            position: absolute;
-            left: 0;
-            top: 3px;
-            color: #ff9f43;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .pulse {
-            animation: pulse 1s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .last-updated {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 10px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        
-        #reset-game {
-            background: #ff6b6b;
-            color: white;
-        }
-        
-        #reset-game:hover {
-            background: #ff5252;
-        }
-        
-        #copy-link {
-            background: #4a9eff;
-            color: white;
-        }
-        
-        #copy-link:hover {
-            background: #3a8aee;
-        }
-        
-        @media (max-width: 768px) {
-            .game-area {
-                flex-direction: column;
+    <title>简易联机游戏</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#8B5CF6',
+                        dark: '#1E293B',
+                    },
+                    fontFamily: {
+                        game: ['"Press Start 2P"', 'cursive', 'sans-serif'],
+                    },
+                }
             }
-            
-            h1 {
-                font-size: 2rem;
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .game-shadow {
+                box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
             }
-            
-            .coin {
-                width: 150px;
-                height: 150px;
+            .player-shadow {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
             }
-            
-            .coin i {
-                font-size: 4rem;
+            .control-btn {
+                @apply w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center text-white text-2xl md:text-3xl 
+                       active:scale-95 transition-transform duration-100 shadow-lg;
             }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>实时金币点击游戏</h1>
-            <p>点击金币赚取财富，与朋友们一较高下！</p>
-            <div class="player-info">
-                <input type="text" id="player-name" placeholder="输入你的玩家名称" maxlength="15">
-                <button id="save-name">保存名称</button>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <header class="bg-dark py-4 px-6 flex justify-between items-center">
+        <h1 class="text-primary text-xl md:text-2xl font-game">联机小游戏</h1>
+        <div class="flex items-center gap-4">
+            <div id="status" class="flex items-center gap-2">
+                <span class="inline-block w-3 h-3 rounded-full bg-red-500" id="connection-indicator"></span>
+                <span id="status-text">未连接</span>
             </div>
-            <div class="connection-panel">
-                <div class="connection-status">
-                    <div class="status-indicator" id="status-indicator"></div>
-                    <span id="connection-status-text">未连接</span>
-                </div>
-                <p id="player-count">已连接玩家: 0</p>
-                <div class="action-buttons">
-                    <button id="copy-link">复制邀请链接</button>
-                    <button id="reset-game">重置游戏</button>
-                </div>
+            <div id="players-count" class="flex items-center gap-1">
+                <i class="fa fa-users text-secondary"></i>
+                <span id="player-count">0</span>
             </div>
-        </header>
-        
-        <div class="game-area">
-            <div class="clicker-section">
-                <h2>点击金币！</h2>
-                <div class="coin" id="coin">
-                    <i class="fas fa-coins"></i>
-                </div>
-                <div class="stats">
-                    <div class="stat-box">
-                        <h3>你的金币</h3>
-                        <p id="coins-count">0</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>点击次数</h3>
-                        <p id="clicks-count">0</p>
-                    </div>
-                </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex flex-col md:flex-row gap-6 p-4 md:p-8">
+        <div class="w-full md:w-3/4 relative">
+            <div class="relative w-full" style="padding-top: 75%;">
+                <canvas id="gameCanvas" class="absolute top-0 left-0 w-full h-full bg-dark rounded-lg game-shadow"></canvas>
             </div>
-            
-            <div class="leaderboard-section">
-                <h2>实时排行榜</h2>
-                <ul id="players-list">
-                    <li class="player-item">
-                        <span class="player-name">等待连接...</span>
-                        <span class="player-coins">0 金币</span>
-                    </li>
+            <div class="mt-4 flex justify-between items-center">
+                <div>
+                    <p>使用方向键或WASD移动</p>
+                    <p>你的颜色: <span id="your-color" class="inline-block w-4 h-4 rounded-full bg-primary"></span></p>
+                </div>
+                <button id="join-btn" class="bg-primary hover:bg-primary/80 py-2 px-4 rounded-lg transition-colors">
+                    加入游戏
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/4 flex flex-col">
+            <div class="bg-dark rounded-lg p-4 flex-1">
+                <h2 class="text-xl font-bold mb-4 text-secondary">玩家列表</h2>
+                <ul id="players-list" class="space-y-2">
+                    <!-- 玩家列表将在这里动态生成 -->
                 </ul>
-                <div class="last-updated" id="last-updated">最后更新: --</div>
+            </div>
+
+            <!-- 移动控制区 - 仅在移动设备上显示 -->
+            <div class="md:hidden mt-6 grid grid-cols-3 gap-2 justify-items-center">
+                <div></div>
+                <button id="up" class="control-btn bg-primary">
+                    <i class="fa fa-arrow-up"></i>
+                </button>
+                <div></div>
+                
+                <button id="left" class="control-btn bg-primary">
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button id="down" class="control-btn bg-primary">
+                    <i class="fa fa-arrow-down"></i>
+                </button>
+                <button id="right" class="control-btn bg-primary">
+                    <i class="fa fa-arrow-right"></i>
+                </button>
             </div>
         </div>
-        
-        <div class="instructions">
-            <h2>游戏说明</h2>
-            <ul>
-                <li><i class="fas fa-info-circle"></i> 点击中央的金币可以增加你的金币数量</li>
-                <li><i class="fas fa-trophy"></i> 与同一网络下的其他玩家竞争排行榜首位</li>
-                <li><i class="fas fa-plug"></i> 使用P2P技术，无需服务器即可实时同步</li>
-                <li><i class="fas fa-user"></i> 请先在上方输入你的玩家名称并保存</li>
-                <li><i class="fas fa-share-alt"></i> 点击"复制邀请链接"分享给朋友一起玩</li>
-            </ul>
-        </div>
-    </div>
+    </main>
+
+    <footer class="bg-dark py-4 px-6 text-center text-gray-400">
+        <p>简易联机游戏演示 | 使用WebSocket实现实时多人连接</p>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 玩家数据
-            let player = {
-                name: '',
-                coins: 0,
-                clicks: 0,
-                id: generatePlayerId(),
-                lastSeen: Date.now()
+        // 游戏配置
+        const config = {
+            canvasWidth: 800,
+            canvasHeight: 600,
+            playerSize: 20,
+            playerSpeed: 5,
+            // 使用公共WebSocket服务作为中继
+            wsServer: 'wss://echo.websocket.events/' // 公共测试服务器，实际使用时应更换为自己的服务器
+            // 注意：公共服务器会广播所有消息，且有连接限制，仅用于演示
+        };
+
+        // 游戏状态
+        const gameState = {
+            canvas: null,
+            ctx: null,
+            socket: null,
+            connected: false,
+            playerId: null,
+            players: {},
+            keys: {
+                up: false,
+                down: false,
+                left: false,
+                right: false
+            },
+            lastUpdateTime: 0,
+            yourColor: `hsl(${Math.random() * 360}, 70%, 50%)`
+        };
+
+        // DOM元素
+        const elements = {
+            connectionIndicator: document.getElementById('connection-indicator'),
+            statusText: document.getElementById('status-text'),
+            playerCount: document.getElementById('player-count'),
+            playersList: document.getElementById('players-list'),
+            joinBtn: document.getElementById('join-btn'),
+            yourColor: document.getElementById('your-color'),
+            controls: {
+                up: document.getElementById('up'),
+                down: document.getElementById('down'),
+                left: document.getElementById('left'),
+                right: document.getElementById('right')
+            }
+        };
+
+        // 初始化游戏
+        function initGame() {
+            // 设置画布
+            gameState.canvas = document.getElementById('gameCanvas');
+            gameState.ctx = gameState.canvas.getContext('2d');
+            
+            // 设置画布尺寸
+            gameState.canvas.width = config.canvasWidth;
+            gameState.canvas.height = config.canvasHeight;
+            
+            // 显示玩家颜色
+            elements.yourColor.style.backgroundColor = gameState.yourColor;
+            
+            // 注册事件监听
+            registerEventListeners();
+            
+            // 开始游戏循环
+            requestAnimationFrame(gameLoop);
+        }
+
+        // 注册事件监听
+        function registerEventListeners() {
+            // 加入游戏按钮
+            elements.joinBtn.addEventListener('click', connectToServer);
+            
+            // 键盘控制
+            window.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowUp':
+                    case 'w':
+                    case 'W':
+                        gameState.keys.up = true;
+                        break;
+                    case 'ArrowDown':
+                    case 's':
+                    case 'S':
+                        gameState.keys.down = true;
+                        break;
+                    case 'ArrowLeft':
+                    case 'a':
+                    case 'A':
+                        gameState.keys.left = true;
+                        break;
+                    case 'ArrowRight':
+                    case 'd':
+                    case 'D':
+                        gameState.keys.right = true;
+                        break;
+                }
+            });
+            
+            window.addEventListener('keyup', (e) => {
+                switch(e.key) {
+                    case 'ArrowUp':
+                    case 'w':
+                    case 'W':
+                        gameState.keys.up = false;
+                        break;
+                    case 'ArrowDown':
+                    case 's':
+                    case 'S':
+                        gameState.keys.down = false;
+                        break;
+                    case 'ArrowLeft':
+                    case 'a':
+                    case 'A':
+                        gameState.keys.left = false;
+                        break;
+                    case 'ArrowRight':
+                    case 'd':
+                    case 'D':
+                        gameState.keys.right = false;
+                        break;
+                }
+            });
+            
+            // 触摸控制
+            const handleTouch = (direction, isPressed) => {
+                return () => {
+                    gameState.keys[direction] = isPressed;
+                };
             };
             
-            // 连接的其他玩家
-            let connectedPlayers = {};
-            let peer = null;
-            let connections = [];
+            // 触摸开始
+            elements.controls.up.addEventListener('touchstart', handleTouch('up', true));
+            elements.controls.down.addEventListener('touchstart', handleTouch('down', true));
+            elements.controls.left.addEventListener('touchstart', handleTouch('left', true));
+            elements.controls.right.addEventListener('touchstart', handleTouch('right', true));
             
-            // DOM元素
-            const coinElement = document.getElementById('coin');
-            const coinsCountElement = document.getElementById('coins-count');
-            const clicksCountElement = document.getElementById('clicks-count');
-            const playerNameInput = document.getElementById('player-name');
-            const saveNameButton = document.getElementById('save-name');
-            const playersListElement = document.getElementById('players-list');
-            const lastUpdatedElement = document.getElementById('last-updated');
-            const resetButton = document.getElementById('reset-game');
-            const copyLinkButton = document.getElementById('copy-link');
-            const statusIndicator = document.getElementById('status-indicator');
-            const statusText = document.getElementById('connection-status-text');
-            const playerCountElement = document.getElementById('player-count');
+            // 触摸结束
+            elements.controls.up.addEventListener('touchend', handleTouch('up', false));
+            elements.controls.down.addEventListener('touchend', handleTouch('down', false));
+            elements.controls.left.addEventListener('touchend', handleTouch('left', false));
+            elements.controls.right.addEventListener('touchend', handleTouch('right', false));
             
-            // 初始化
-            loadPlayerData();
-            updateDisplay();
-            initializePeerConnection();
+            // 鼠标点击控制（移动设备模拟）
+            elements.controls.up.addEventListener('mousedown', handleTouch('up', true));
+            elements.controls.down.addEventListener('mousedown', handleTouch('down', true));
+            elements.controls.left.addEventListener('mousedown', handleTouch('left', true));
+            elements.controls.right.addEventListener('mousedown', handleTouch('right', true));
             
-            // 生成玩家ID
-            function generatePlayerId() {
-                return 'player-' + Math.floor(Math.random() * 1000000);
-            }
+            elements.controls.up.addEventListener('mouseup', handleTouch('up', false));
+            elements.controls.down.addEventListener('mouseup', handleTouch('down', false));
+            elements.controls.left.addEventListener('mouseup', handleTouch('left', false));
+            elements.controls.right.addEventListener('mouseup', handleTouch('right', false));
             
-            // 加载玩家数据
-            function loadPlayerData() {
-                const savedData = localStorage.getItem('coinClickerPlayer');
-                if (savedData) {
-                    const data = JSON.parse(savedData);
-                    player.name = data.name || '';
-                    player.coins = data.coins || 0;
-                    player.clicks = data.clicks || 0;
-                    playerNameInput.value = player.name;
-                }
-            }
-            
-            // 保存玩家数据
-            function savePlayerData() {
-                localStorage.setItem('coinClickerPlayer', JSON.stringify({
-                    name: player.name,
-                    coins: player.coins,
-                    clicks: player.clicks,
-                    id: player.id
-                }));
-            }
-            
-            // 更新显示
-            function updateDisplay() {
-                coinsCountElement.textContent = player.coins;
-                clicksCountElement.textContent = player.clicks;
-            }
-            
-            // 初始化Peer连接
-            function initializePeerConnection() {
-                // 从URL获取房间ID或生成新的
-                const urlParams = new URLSearchParams(window.location.search);
-                let roomId = urlParams.get('room');
-                
-                if (!roomId) {
-                    roomId = 'coin-clicker-default-room';
-                    window.history.replaceState({}, '', `${window.location.pathname}?room=${roomId}`);
-                }
-                
-                // 使用房间ID作为PeerID，确保所有玩家连接到同一个"房间"
-                peer = new Peer(`${roomId}-${player.id}`);
-                
-                peer.on('open', function(id) {
-                    console.log('Peer连接已建立，ID:', id);
-                    statusIndicator.classList.add('connected');
-                    statusText.textContent = '已连接';
-                    
-                    // 监听其他玩家的连接
-                    peer.on('connection', function(conn) {
-                        console.log('收到连接来自:', conn.peer);
-                        setupConnection(conn);
-                    });
-                    
-                    // 尝试连接到房间主机
-                    if (!id.endsWith(player.id)) { // 如果不是主机自己
-                        const hostConn = peer.connect(roomId);
-                        setupConnection(hostConn);
-                    }
-                    
-                    // 广播自己的存在
-                    broadcastPlayerData();
-                });
-                
-                peer.on('error', function(err) {
-                    console.error('Peer错误:', err);
-                    statusText.textContent = '连接错误: ' + err.type;
-                });
-            }
-            
-            // 设置连接
-            function setupConnection(conn) {
-                conn.on('open', function() {
-                    console.log('连接已建立:', conn.peer);
-                    connections.push(conn);
-                    updatePlayerCount();
-                    
-                    // 发送自己的数据给新连接的玩家
-                    conn.send({
-                        type: 'player-data',
-                        player: player
-                    });
-                    
-                    // 请求对方发送其玩家数据
-                    conn.send({
-                        type: 'request-data'
-                    });
-                });
-                
-                conn.on('data', function(data) {
-                    handleData(data, conn);
-                });
-                
-                conn.on('close', function() {
-                    console.log('连接已关闭:', conn.peer);
-                    connections = connections.filter(c => c !== conn);
-                    updatePlayerCount();
-                    updateLeaderboard();
-                });
-                
-                conn.on('error', function(err) {
-                    console.error('连接错误:', err);
-                });
-            }
-            
-            // 处理收到的数据
-            function handleData(data, conn) {
-                switch(data.type) {
-                    case 'player-data':
-                        connectedPlayers[data.player.id] = {
-                            ...data.player,
-                            conn: conn,
-                            lastSeen: Date.now()
-                        };
-                        updateLeaderboard();
-                        break;
-                        
-                    case 'request-data':
-                        // 收到数据请求，发送自己的数据
-                        conn.send({
-                            type: 'player-data',
-                            player: player
-                        });
-                        break;
-                        
-                    case 'player-update':
-                        if (connectedPlayers[data.player.id]) {
-                            connectedPlayers[data.player.id] = {
-                                ...connectedPlayers[data.player.id],
-                                ...data.player,
-                                lastSeen: Date.now()
-                            };
-                            updateLeaderboard();
-                        }
-                        break;
-                }
-            }
-            
-            // 广播玩家数据
-            function broadcastPlayerData() {
-                connections.forEach(conn => {
-                    if (conn.open) {
-                        conn.send({
-                            type: 'player-update',
-                            player: player
-                        });
-                    }
-                });
-            }
-            
-            // 更新排行榜
-            function updateLeaderboard() {
-                // 合并所有玩家数据
-                const allPlayers = [player, ...Object.values(connectedPlayers)];
-                
-                // 按金币数量排序
-                const sortedPlayers = allPlayers.sort((a, b) => b.coins - a.coins);
-                
-                // 清空列表
-                playersListElement.innerHTML = '';
-                
-                // 添加玩家到排行榜
-                sortedPlayers.forEach((p, index) => {
-                    const li = document.createElement('li');
-                    li.className = 'player-item';
-                    
-                    // 标记自己
-                    if (p.id === player.id) {
-                        li.classList.add('me');
-                    }
-                    
-                    // 标记离线玩家（超过30秒未更新）
-                    if (p.id !== player.id && Date.now() - p.lastSeen > 30000) {
-                        li.classList.add('offline');
-                    }
-                    
-                    li.innerHTML = `
-                        <span class="player-name">${p.name} ${p.id === player.id ? '(你)' : ''}</span>
-                        <span class="player-coins">${p.coins} 金币</span>
-                    `;
-                    
-                    playersListElement.appendChild(li);
-                });
-                
-                // 更新最后同步时间
-                lastUpdatedElement.textContent = `最后更新: ${new Date().toLocaleTimeString()}`;
-            }
-            
-            // 更新玩家计数
-            function updatePlayerCount() {
-                playerCountElement.textContent = `已连接玩家: ${connections.length + 1}`;
-            }
-            
-            // 事件监听
-            coinElement.addEventListener('click', function() {
-                if (!player.name) {
-                    alert('请先输入你的玩家名称并保存！');
-                    return;
-                }
-                
-                player.coins++;
-                player.clicks++;
-                updateDisplay();
-                savePlayerData();
-                broadcastPlayerData();
-                updateLeaderboard();
-                
-                // 添加点击动画效果
-                coinElement.classList.add('pulse');
-                setTimeout(() => coinElement.classList.remove('pulse'), 1000);
+            // 防止触摸事件冒泡导致页面滚动
+            const controlButtons = document.querySelectorAll('.control-btn');
+            controlButtons.forEach(btn => {
+                btn.addEventListener('touchmove', (e) => e.preventDefault());
             });
+        }
+
+        // 连接到服务器
+        function connectToServer() {
+            if (gameState.connected) return;
             
-            saveNameButton.addEventListener('click', function() {
-                const name = playerNameInput.value.trim();
-                if (name) {
-                    player.name = name;
-                    savePlayerData();
-                    broadcastPlayerData();
-                    updateLeaderboard();
-                    alert('玩家名称已保存！');
-                } else {
-                    alert('请输入有效的玩家名称');
-                }
-            });
+            // 创建WebSocket连接
+            gameState.socket = new WebSocket(config.wsServer);
             
-            resetButton.addEventListener('click', function() {
-                if (confirm('确定要重置游戏吗？你的金币和点击次数将清零，但玩家名称会保留。')) {
-                    player.coins = 0;
-                    player.clicks = 0;
-                    updateDisplay();
-                    savePlayerData();
-                    broadcastPlayerData();
-                }
-            });
-            
-            copyLinkButton.addEventListener('click', function() {
-                const url = window.location.href;
-                navigator.clipboard.writeText(url).then(function() {
-                    alert('邀请链接已复制！分享此链接给朋友一起玩吧！');
-                }, function() {
-                    alert('复制失败，请手动复制地址栏中的URL分享给朋友。');
+            // 连接打开时
+            gameState.socket.onopen = () => {
+                console.log('已连接到服务器');
+                gameState.connected = true;
+                updateConnectionStatus(true);
+                
+                // 生成玩家ID
+                gameState.playerId = 'player_' + Math.random().toString(36).substr(2, 9);
+                
+                // 初始化玩家位置
+                gameState.players[gameState.playerId] = {
+                    x: config.canvasWidth / 2,
+                    y: config.canvasHeight / 2,
+                    color: gameState.yourColor,
+                    isYou: true
+                };
+                
+                // 发送加入游戏消息
+                sendMessage({
+                    type: 'join',
+                    id: gameState.playerId,
+                    x: gameState.players[gameState.playerId].x,
+                    y: gameState.players[gameState.playerId].y,
+                    color: gameState.yourColor
                 });
-            });
-            
-            // 定期清理不活跃的玩家
-            setInterval(() => {
-                const now = Date.now();
-                let updated = false;
                 
-                for (const id in connectedPlayers) {
-                    if (now - connectedPlayers[id].lastSeen > 30000) { // 30秒无更新视为离线
-                        delete connectedPlayers[id];
-                        updated = true;
+                // 禁用加入按钮
+                elements.joinBtn.disabled = true;
+                elements.joinBtn.textContent = "已加入";
+                elements.joinBtn.classList.add('bg-gray-500');
+                elements.joinBtn.classList.remove('bg-primary', 'hover:bg-primary/80');
+            };
+            
+            // 收到消息时
+            gameState.socket.onmessage = (event) => {
+                try {
+                    const message = JSON.parse(event.data);
+                    handleMessage(message);
+                } catch (e) {
+                    console.log('收到非JSON消息:', event.data);
+                }
+            };
+            
+            // 连接关闭时
+            gameState.socket.onclose = () => {
+                console.log('与服务器的连接已关闭');
+                gameState.connected = false;
+                updateConnectionStatus(false);
+                resetGameState();
+            };
+            
+            // 连接出错时
+            gameState.socket.onerror = (error) => {
+                console.error('WebSocket错误:', error);
+                gameState.connected = false;
+                updateConnectionStatus(false);
+            };
+        }
+
+        // 处理收到的消息
+        function handleMessage(message) {
+            // 忽略自己发送的消息
+            if (message.id === gameState.playerId) return;
+            
+            switch(message.type) {
+                case 'join':
+                    // 新玩家加入
+                    gameState.players[message.id] = {
+                        x: message.x,
+                        y: message.y,
+                        color: message.color,
+                        isYou: false
+                    };
+                    console.log(`玩家 ${message.id} 已加入`);
+                    break;
+                    
+                case 'move':
+                    // 玩家移动
+                    if (gameState.players[message.id]) {
+                        gameState.players[message.id].x = message.x;
+                        gameState.players[message.id].y = message.y;
                     }
+                    break;
+                    
+                case 'leave':
+                    // 玩家离开
+                    if (gameState.players[message.id]) {
+                        delete gameState.players[message.id];
+                        console.log(`玩家 ${message.id} 已离开`);
+                    }
+                    break;
+            }
+            
+            // 更新玩家列表显示
+            updatePlayersList();
+        }
+
+        // 发送消息
+        function sendMessage(data) {
+            if (gameState.connected && gameState.socket) {
+                try {
+                    gameState.socket.send(JSON.stringify(data));
+                } catch (error) {
+                    console.error('发送消息失败:', error);
+                }
+            }
+        }
+
+        // 更新连接状态显示
+        function updateConnectionStatus(connected) {
+            if (connected) {
+                elements.connectionIndicator.className = 'inline-block w-3 h-3 rounded-full bg-green-500';
+                elements.statusText.textContent = '已连接';
+            } else {
+                elements.connectionIndicator.className = 'inline-block w-3 h-3 rounded-full bg-red-500';
+                elements.statusText.textContent = '未连接';
+                
+                // 重新启用加入按钮
+                elements.joinBtn.disabled = false;
+                elements.joinBtn.textContent = "加入游戏";
+                elements.joinBtn.classList.remove('bg-gray-500');
+                elements.joinBtn.classList.add('bg-primary', 'hover:bg-primary/80');
+            }
+        }
+
+        // 更新玩家列表显示
+        function updatePlayersList() {
+            // 清空列表
+            elements.playersList.innerHTML = '';
+            
+            // 更新玩家数量
+            elements.playerCount.textContent = Object.keys(gameState.players).length;
+            
+            // 添加每个玩家到列表
+            Object.keys(gameState.players).forEach(id => {
+                const player = gameState.players[id];
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-2 p-2 bg-gray-800 rounded';
+                
+                const colorDot = document.createElement('span');
+                colorDot.className = 'inline-block w-3 h-3 rounded-full';
+                colorDot.style.backgroundColor = player.color;
+                
+                const playerName = document.createElement('span');
+                playerName.textContent = player.isYou ? '你' : `玩家 ${id.substr(-4)}`;
+                if (player.isYou) {
+                    playerName.className = 'font-bold text-primary';
                 }
                 
-                if (updated) {
-                    updateLeaderboard();
-                    updatePlayerCount();
-                }
-            }, 10000);
-            
-            // 在页面关闭前保存数据
-            window.addEventListener('beforeunload', function() {
-                savePlayerData();
+                li.appendChild(colorDot);
+                li.appendChild(playerName);
+                elements.playersList.appendChild(li);
             });
+        }
+
+        // 重置游戏状态
+        function resetGameState() {
+            gameState.players = {};
+            gameState.playerId = null;
+            updatePlayersList();
+        }
+
+        // 更新游戏状态
+        function update(deltaTime) {
+            if (!gameState.connected || !gameState.playerId) return;
+            
+            const player = gameState.players[gameState.playerId];
+            if (!player) return;
+            
+            let moved = false;
+            
+            // 根据按键状态移动玩家
+            if (gameState.keys.up && player.y > config.playerSize) {
+                player.y -= config.playerSpeed;
+                moved = true;
+            }
+            if (gameState.keys.down && player.y < config.canvasHeight - config.playerSize) {
+                player.y += config.playerSpeed;
+                moved = true;
+            }
+            if (gameState.keys.left && player.x > config.playerSize) {
+                player.x -= config.playerSpeed;
+                moved = true;
+            }
+            if (gameState.keys.right && player.x < config.canvasWidth - config.playerSize) {
+                player.x += config.playerSpeed;
+                moved = true;
+            }
+            
+            // 定期发送位置更新（限制发送频率）
+            const now = Date.now();
+            if (moved && now - gameState.lastUpdateTime > 50) { // 每50ms最多发送一次
+                sendMessage({
+                    type: 'move',
+                    id: gameState.playerId,
+                    x: player.x,
+                    y: player.y
+                });
+                gameState.lastUpdateTime = now;
+            }
+        }
+
+        // 渲染游戏
+        function render() {
+            // 清空画布
+            gameState.ctx.fillStyle = '#1E293B';
+            gameState.ctx.fillRect(0, 0, config.canvasWidth, config.canvasHeight);
+            
+            // 绘制网格背景
+            drawGrid();
+            
+            // 绘制所有玩家
+            Object.values(gameState.players).forEach(player => {
+                gameState.ctx.fillStyle = player.color;
+                gameState.ctx.beginPath();
+                gameState.ctx.arc(player.x, player.y, config.playerSize, 0, Math.PI * 2);
+                gameState.ctx.fill();
+                
+                // 为自己的玩家绘制标识
+                if (player.isYou) {
+                    gameState.ctx.strokeStyle = 'white';
+                    gameState.ctx.lineWidth = 2;
+                    gameState.ctx.beginPath();
+                    gameState.ctx.arc(player.x, player.y, config.playerSize + 5, 0, Math.PI * 2);
+                    gameState.ctx.stroke();
+                }
+            });
+        }
+
+        // 绘制网格背景
+        function drawGrid() {
+            gameState.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            gameState.ctx.lineWidth = 1;
+            
+            const gridSize = 40;
+            
+            // 绘制水平线
+            for (let y = 0; y <= config.canvasHeight; y += gridSize) {
+                gameState.ctx.beginPath();
+                gameState.ctx.moveTo(0, y);
+                gameState.ctx.lineTo(config.canvasWidth, y);
+                gameState.ctx.stroke();
+            }
+            
+            // 绘制垂直线
+            for (let x = 0; x <= config.canvasWidth; x += gridSize) {
+                gameState.ctx.beginPath();
+                gameState.ctx.moveTo(x, 0);
+                gameState.ctx.lineTo(x, config.canvasHeight);
+                gameState.ctx.stroke();
+            }
+        }
+
+        // 游戏主循环
+        function gameLoop(timestamp) {
+            update();
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // 页面加载完成后初始化游戏
+        window.addEventListener('load', initGame);
+        
+        // 页面关闭时发送离开消息
+        window.addEventListener('beforeunload', () => {
+            if (gameState.connected && gameState.playerId) {
+                sendMessage({
+                    type: 'leave',
+                    id: gameState.playerId
+                });
+            }
         });
     </script>
 </body>
