@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实时金币点击游戏</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #ff9f43;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .player-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        #player-name {
+            padding: 10px 15px;
+            border: 2px solid #ff9f43;
+            border-radius: 50px;
+            font-size: 1rem;
+            width: 200px;
+        }
+        
+        #save-name {
+            background: #ff9f43;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        #save-name:hover {
+            background: #ff7f17;
+        }
+        
+        .connection-info {
+            background: #e8f4fc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .game-area {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .clicker-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .coin {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #ffd700 0%, #ff9d00 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            border: 8px solid #daa520;
+            transition: transform 0.2s;
+        }
+        
+        .coin:active {
+            transform: scale(0.95);
+        }
+        
+        .coin i {
+            font-size: 5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            width: 45%;
+        }
+        
+        .stat-box h3 {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-box p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff9f43;
+        }
+        
+        .leaderboard-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leaderboard-section h2 {
+            color: #ff9f43;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        #players-list {
+            list-style: none;
+        }
+        
+        .player-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .player-item.me {
+            background: linear-gradient(135deg, #d4edff 0%, #a7d9ff 100%);
+            border: 2px solid #4a9eff;
+        }
+        
+        .player-item:nth-child(1) {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .player-item:nth-child(2) {
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+        }
+        
+        .player-item:nth-child(3) {
+            background: linear-gradient(135deg, #fdcb6e 0%, #ff9f43 100%);
+        }
+        
+        .player-name {
+            font-weight: 500;
+        }
+        
+        .player-coins {
+            color: #ff9f43;
+            font-weight: bold;
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .instructions h2 {
+            color: #ff9f43;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            padding: 0 15px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .instructions li i {
+            position: absolute;
+            left: 0;
+            top: 3px;
+            color: #ff9f43;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .last-updated {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .coin {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .coin i {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>实时金币点击游戏</h1>
+            <p>点击金币赚取财富，与朋友们一较高下！</p>
+            <div class="player-info">
+                <input type="text" id="player-name" placeholder="输入你的玩家名称" maxlength="15">
+                <button id="save-name">保存名称</button>
+            </div>
+            <div class="connection-info">
+                <p>分享此页面给同一WiFi下的朋友，即可一起游戏！</p>
+            </div>
+        </header>
+        
+        <div class="game-area">
+            <div class="clicker-section">
+                <h2>点击金币！</h2>
+                <div class="coin" id="coin">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="stats">
+                    <div class="stat-box">
+                        <h3>你的金币</h3>
+                        <p id="coins-count">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>点击次数</h3>
+                        <p id="clicks-count">0</p>
+                    </div>
+                </div>
+                <button id="reset-game" style="margin-top: 15px; background: #ff6b6b;">重置游戏</button>
+            </div>
+            
+            <div class="leaderboard-section">
+                <h2>实时排行榜</h2>
+                <ul id="players-list">
+                    <li class="player-item">
+                        <span class="player-name">加载中...</span>
+                        <span class="player-coins">0 金币</span>
+                    </li>
+                </ul>
+                <div class="last-updated" id="last-updated">最后更新: --</div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>游戏说明</h2>
+            <ul>
+                <li><i class="fas fa-info-circle"></i> 点击中央的金币可以增加你的金币数量</li>
+                <li><i class="fas fa-trophy"></i> 与同一WiFi下的其他玩家竞争排行榜首位</li>
+                <li><i class="fas fa-sync-alt"></i> 页面会自动同步数据（每10秒同步一次）</li>
+                <li><i class="fas fa-user"></i> 请先在上方输入你的玩家名称并保存</li>
+                <li><i class="fas fa-share-alt"></i> 将本页面网址分享给同一网络的朋友一起玩</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 玩家数据
+            let player = {
+                name: '',
+                coins: 0,
+                clicks: 0,
+                lastActive: Date.now(),
+                id: generatePlayerId()
+            };
+            
+            // DOM元素
+            const coinElement = document.getElementById('coin');
+            const coinsCountElement = document.getElementById('coins-count');
+            const clicksCountElement = document.getElementById('clicks-count');
+            const playerNameInput = document.getElementById('player-name');
+            const saveNameButton = document.getElementById('save-name');
+            const playersListElement = document.getElementById('players-list');
+            const lastUpdatedElement = document.getElementById('last-updated');
+            const resetButton = document.getElementById('reset-game');
+            
+            // 初始化
+            loadPlayerData();
+            updateDisplay();
+            loadLeaderboard();
+            
+            // 设置定时器，定期同步数据
+            setInterval(() => {
+                savePlayerData();
+                loadLeaderboard();
+            }, 10000); // 每10秒同步一次
+            
+            // 生成玩家ID
+            function generatePlayerId() {
+                return 'player-' + Math.floor(Math.random() * 1000000);
+            }
+            
+            // 加载玩家数据
+            function loadPlayerData() {
+                const savedData = localStorage.getItem('coinClickerPlayer');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    player.name = data.name || '';
+                    player.coins = data.coins || 0;
+                    player.clicks = data.clicks || 0;
+                    playerNameInput.value = player.name;
+                }
+            }
+            
+            // 保存玩家数据
+            function savePlayerData() {
+                player.lastActive = Date.now();
+                localStorage.setItem('coinClickerPlayer', JSON.stringify({
+                    name: player.name,
+                    coins: player.coins,
+                    clicks: player.clicks,
+                    id: player.id
+                }));
+                
+                // 同时保存到共享空间
+                const allPlayers = getAllPlayers();
+                const existingIndex = allPlayers.findIndex(p => p.id === player.id);
+                
+                if (existingIndex >= 0) {
+                    allPlayers[existingIndex] = {...player};
+                } else {
+                    allPlayers.push({...player});
+                }
+                
+                // 移除不活跃的玩家（5分钟无活动）
+                const now = Date.now();
+                const activePlayers = allPlayers.filter(p => now - p.lastActive < 300000);
+                
+                localStorage.setItem('coinClickerLeaderboard', JSON.stringify(activePlayers));
+            }
+            
+            // 获取所有玩家数据
+            function getAllPlayers() {
+                const playersData = localStorage.getItem('coinClickerLeaderboard');
+                return playersData ? JSON.parse(playersData) : [];
+            }
+            
+            // 加载排行榜
+            function loadLeaderboard() {
+                const allPlayers = getAllPlayers();
+                
+                // 按金币数量排序
+                const sortedPlayers = allPlayers.sort((a, b) => b.coins - a.coins);
+                
+                // 清空列表
+                playersListElement.innerHTML = '';
+                
+                // 添加玩家到排行榜
+                sortedPlayers.forEach((p, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'player-item';
+                    
+                    if (p.id === player.id) {
+                        li.classList.add('me');
+                    }
+                    
+                    li.innerHTML = `
+                        <span class="player-name">${p.name} ${p.id === player.id ? '(你)' : ''}</span>
+                        <span class="player-coins">${p.coins} 金币</span>
+                    `;
+                    
+                    playersListElement.appendChild(li);
+                });
+                
+                // 更新最后同步时间
+                lastUpdatedElement.textContent = `最后更新: ${new Date().toLocaleTimeString()}`;
+            }
+            
+            // 更新显示
+            function updateDisplay() {
+                coinsCountElement.textContent = player.coins;
+                clicksCountElement.textContent = player.clicks;
+            }
+            
+            // 事件监听
+            coinElement.addEventListener('click', function() {
+                if (!player.name) {
+                    alert('请先输入你的玩家名称并保存！');
+                    return;
+                }
+                
+                player.coins++;
+                player.clicks++;
+                updateDisplay();
+                savePlayerData();
+                
+                // 添加点击动画效果
+                coinElement.classList.add('pulse');
+                setTimeout(() => coinElement.classList.remove('pulse'), 1000);
+            });
+            
+            saveNameButton.addEventListener('click', function() {
+                const name = playerNameInput.value.trim();
+                if (name) {
+                    player.name = name;
+                    savePlayerData();
+                    loadLeaderboard();
+                    alert('玩家名称已保存！');
+                } else {
+                    alert('请输入有效的玩家名称');
+                }
+            });
+            
+            resetButton.addEventListener('click', function() {
+                if (confirm('确定要重置游戏吗？你的金币和点击次数将清零，但玩家名称会保留。')) {
+                    player.coins = 0;
+                    player.clicks = 0;
+                    updateDisplay();
+                    savePlayerData();
+                }
+            });
+            
+            // 在页面关闭前保存数据
+            window.addEventListener('beforeunload', function() {
+                savePlayerData();
+            });
+            
+            // 初始加载后立即保存一次
+            savePlayerData();
+        });
+    </script>
+</body>
+</html>
