@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>三角裤行动</title>
+    <title>探索冒险家</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -259,6 +259,40 @@
             width: 0%;
             transition: width 0.1s linear;
             border-radius: 3px;
+        }
+        
+        .mass-loot-btn {
+            background: linear-gradient(to right, var(--secondary), var(--secondary-dark));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .mass-loot-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        .mass-loot-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .mass-loot-btn i {
+            margin-right: 8px;
         }
         
         .backpack-grid {
@@ -576,7 +610,7 @@
 </head>
 <body>
     <div class="header">
-        <h1><i class="fas fa-map-marked-alt"></i> 三角裤行动</h1>
+        <h1><i class="fas fa-map-marked-alt"></i> 探索冒险家</h1>
         <button class="reset-btn" id="reset-btn">重置游戏</button>
     </div>
     
@@ -602,6 +636,9 @@
             <div class="map-container" id="map-grid">
                 <!-- 地图项目将通过JavaScript动态生成 -->
             </div>
+            <button class="mass-loot-btn" id="mass-loot-btn">
+                <i class="fas fa-bolt"></i> 一键搜刮 (消耗 5000 金币)
+            </button>
         </div>
         
         <div id="backpack-container" class="container">
@@ -689,7 +726,6 @@
                     </div>
                     <div class="player-gold">100金</div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -734,7 +770,7 @@
     <script>
         // 游戏数据模型
         const gameData = {
-            gold: 100,
+            gold: 10000,
             energy: 100,
             maxEnergy: 100,
             skillPoints: 5,
@@ -749,17 +785,18 @@
             },
             mapItems: [],
             lastMapRefresh: Date.now(),
-            isLooting: false // 标记是否正在开启箱子
+            isLooting: false, // 标记是否正在开启箱子
+            isMassLooting: false // 标记是否正在一键搜刮
         };
 
         // 物品稀有度配置
         const itemRarity = {
             common: { name: "普通", textClass: "common-text", chance: 55, valueMultiplier: 1 },
             uncommon: { name: "精良", textClass: "uncommon-text", chance: 25, valueMultiplier: 3 },
-            rare: { name: "稀有", textClass: "rare-text", chance: 12, valueMultiplier: 6 },
-            epic: { name: "史诗", textClass: "epic-text", chance: 5, valueMultiplier: 12 },
-            legendary: { name: "传说", textClass: "legendary-text", chance: 2.4, valueMultiplier: 24 },
-            mythic: { name: "神话", textClass: "mythic-text", chance: 0.05, valueMultiplier: 48 }
+            rare: { name: "稀有", textClass: "rare-text", chance: 12, valueMultiplier: 10 },
+            epic: { name: "史诗", textClass: "epic-text", chance: 5, valueMultiplier: 25 },
+            legendary: { name: "传说", textClass: "legendary-text", chance: 2.4, valueMultiplier: 100 },
+            mythic: { name: "神话", textClass: "mythic-text", chance: 0.6, valueMultiplier: 500 }
         };
 
         // 物品配置
@@ -786,9 +823,9 @@
 
         // 商店物品
         const shopItems = [
-            { id: 1, name: "体力药水", description: "立即恢复全部体力", price: 1000, type: "energy", icon: "fa-wine-bottle" },
-            { id: 2, name: "技能点", description: "获得1点技能点", price: 1000, type: "skillPoint", icon: "fa-star" },
-            { id: 3, name: "地图刷新卷轴", description: "立即刷新地图上的所有容器", price: 1000, type: "mapRefresh", icon: "fa-sync" }
+            { id: 1, name: "体力药水", description: "立即恢复全部体力", price: 50, type: "energy", icon: "fa-wine-bottle" },
+            { id: 2, name: "技能点", description: "获得1点技能点", price: 100, type: "skillPoint", icon: "fa-star" },
+            { id: 3, name: "地图刷新", description: "立即刷新地图", price: 30, type: "mapRefresh", icon: "fa-sync" }
         ];
 
         // 技能配置
@@ -872,6 +909,9 @@
             // 绑定重置按钮事件
             document.getElementById('reset-btn').addEventListener('click', showPasswordModal);
             
+            // 绑定一键搜刮按钮事件
+            document.getElementById('mass-loot-btn').addEventListener('click', startMassLooting);
+            
             // 绑定模态框事件
             document.getElementById('cancel-reset').addEventListener('click', hidePasswordModal);
             document.getElementById('confirm-reset').addEventListener('click', resetGame);
@@ -921,7 +961,8 @@
             };
             gameData.mapItems = [];
             gameData.lastMapRefresh = Date.now();
-            gameData.isLooting = false; // 重置开箱状态
+            gameData.isLooting = false;
+            gameData.isMassLooting = false;
             
             // 保存重置后的数据
             saveGameData();
@@ -934,6 +975,54 @@
             hidePasswordModal();
             
             showNotification('游戏已重置！');
+        }
+
+        // 开始一键搜刮
+        function startMassLooting() {
+            if (gameData.isMassLooting || gameData.isLooting) {
+                showNotification("正在搜刮中，请稍候！");
+                return;
+            }
+            
+            if (gameData.gold < 5000) {
+                showNotification("金币不足！一键搜刮需要5000金币。");
+                return;
+            }
+            
+            // 检查是否有可搜刮的容器
+            const availableContainers = gameData.mapItems.filter(item => !item.looted && !item.looting);
+            if (availableContainers.length === 0) {
+                showNotification("没有可搜刮的容器！");
+                return;
+            }
+            
+            // 设置一键搜刮状态
+            gameData.isMassLooting = true;
+            gameData.gold -= 5000;
+            
+            // 禁用一键搜刮按钮
+            document.getElementById('mass-loot-btn').disabled = true;
+            
+            // 更新UI
+            updateUI();
+            
+            // 开始搜刮所有容器
+            let completedCount = 0;
+            const totalContainers = availableContainers.length;
+            
+            availableContainers.forEach(item => {
+                startLooting(item.id, true, () => {
+                    completedCount++;
+                    if (completedCount === totalContainers) {
+                        // 所有容器搜刮完成
+                        gameData.isMassLooting = false;
+                        document.getElementById('mass-loot-btn').disabled = false;
+                        showNotification("一键搜刮完成！");
+                    }
+                });
+            });
+            
+            showNotification("开始一键搜刮！");
         }
 
         // 加载游戏数据
@@ -985,33 +1074,45 @@
                     ${item.looting ? '<div class="progress-bar"><div class="progress" id="progress-' + item.id + '"></div></div>' : ''}
                 `;
                 
-                if (!item.looted && !item.looting && !gameData.isLooting) {
+                if (!item.looted && !item.looting && !gameData.isLooting && !gameData.isMassLooting) {
                     mapItem.addEventListener('click', () => startLooting(item.id));
                 }
                 
                 mapGrid.appendChild(mapItem);
             });
+            
+            // 更新一键搜刮按钮状态
+            const massLootBtn = document.getElementById('mass-loot-btn');
+            const availableContainers = gameData.mapItems.filter(item => !item.looted && !item.looting).length;
+            
+            if (gameData.isMassLooting || gameData.gold < 5000 || availableContainers === 0) {
+                massLootBtn.disabled = true;
+            } else {
+                massLootBtn.disabled = false;
+            }
         }
 
         // 开始搜索容器
-        function startLooting(itemId) {
-            if (gameData.energy <= 0) {
-                showNotification("体力不足！");
-                return;
-            }
-            
-            if (gameData.isLooting) {
-                showNotification("正在开启其他箱子，请稍候！");
-                return;
+        function startLooting(itemId, isMassLoot = false, onComplete = null) {
+            if (!isMassLoot) {
+                if (gameData.energy <= 0) {
+                    showNotification("体力不足！");
+                    return;
+                }
+                
+                if (gameData.isLooting || gameData.isMassLooting) {
+                    showNotification("正在开启其他箱子，请稍候！");
+                    return;
+                }
+                
+                gameData.isLooting = true;
+                gameData.energy--;
             }
             
             const item = gameData.mapItems.find(i => i.id === itemId);
             if (!item || item.looted || item.looting) return;
             
-            // 设置开箱状态
-            gameData.isLooting = true;
             item.looting = true;
-            gameData.energy--;
             
             // 更新UI
             updateUI();
@@ -1024,37 +1125,48 @@
             let progress = 0;
             const interval = setInterval(() => {
                 progress += 100 / (lootingTime * 10); // 10秒 = 100次更新
-                progressBar.style.width = `${progress}%`;
+                if (progressBar) {
+                    progressBar.style.width = `${progress}%`;
+                }
                 
                 if (progress >= 100) {
                     clearInterval(interval);
-                    finishLooting(itemId);
+                    finishLooting(itemId, isMassLoot, onComplete);
                 }
             }, 100);
         }
 
         // 完成搜索容器
-        function finishLooting(itemId) {
+        function finishLooting(itemId, isMassLoot = false, onComplete = null) {
             const item = gameData.mapItems.find(i => i.id === itemId);
             if (!item) return;
             
             item.looting = false;
             item.looted = true;
             
-            // 重置开箱状态
-            gameData.isLooting = false;
+            if (!isMassLoot) {
+                // 重置开箱状态（仅对单个开箱）
+                gameData.isLooting = false;
+            }
             
             // 生成随机物品
             const foundItem = generateRandomItem();
             gameData.backpack.push(foundItem);
             
-            // 显示通知
-            showNotification(`获得了: <span class="${foundItem.rarity.textClass}">${foundItem.name}</span> - 价值 ${foundItem.value} 金币`);
+            // 显示通知（仅在单个开箱时显示）
+            if (!isMassLoot) {
+                showNotification(`获得了: <span class="${foundItem.rarity.textClass}">${foundItem.name}</span> - 价值 ${foundItem.value} 金币`);
+            }
             
             // 更新UI
             updateUI();
             generateMap();
             saveGameData();
+            
+            // 调用完成回调（一键搜刮时使用）
+            if (onComplete) {
+                onComplete();
+            }
         }
 
         // 生成随机物品
