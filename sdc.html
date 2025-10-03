@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捡垃圾行动 - 搜打撤</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #2c4a72;
+            --secondary: #e67e22;
+            --secondary-dark: #d35400;
+            --success: #2ecc71;
+            --info: #3498db;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --mythic: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #a1c4fd, #c2e9fb);
+            --common-color: #8c8c8c;
+            --uncommon-color: #2ecc71;
+            --rare-color: #3498db;
+            --epic-color: #9b59b6;
+            --legendary-color: #f1c40f;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .status-item i {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+        
+        .gold-display {
+            color: var(--warning);
+        }
+        
+        .energy-display {
+            color: var(--success);
+        }
+        
+        .skill-points-display {
+            color: var(--info);
+        }
+        
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .function-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .function-btn {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+        }
+        
+        .function-btn i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .function-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .function-btn:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .container {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .container.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container h2 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 8px;
+        }
+        
+        .container p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .map-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .map-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .map-item.looted {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .map-item.looted:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .map-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            width: 80%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--info), var(--primary));
+            width: 0%;
+            transition: width 0.1s linear;
+            border-radius: 3px;
+        }
+        
+        .backpack-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            height: 85px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .item img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+        
+        .item-value {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 5px;
+            border-radius: 10px;
+        }
+        
+        .skill-item, .shop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .skill-info, .shop-info {
+            flex: 1;
+        }
+        
+        .skill-name, .shop-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .skill-desc, .shop-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 3px;
+        }
+        
+        .skill-level {
+            font-size: 0.9rem;
+            margin-right: 10px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .upgrade-btn, .buy-btn {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .upgrade-btn:hover, .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .upgrade-btn:disabled, .buy-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(to right, var(--secondary), var(--secondary-dark));
+        }
+        
+        .shop-price {
+            margin-right: 10px;
+            font-weight: bold;
+            color: var(--warning);
+        }
+        
+        .leaderboard-list {
+            margin-top: 10px;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .leaderboard-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .rank {
+            width: 30px;
+            text-align: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .rank-1 {
+            color: var(--warning);
+        }
+        
+        .rank-2 {
+            color: var(--gray);
+        }
+        
+        .rank-3 {
+            color: #cd7f32; /* 青铜色 */
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            margin-right: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .player-info {
+            flex: 1;
+        }
+        
+        .player-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .player-stats {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 3px;
+        }
+        
+        .player-gold {
+            font-weight: bold;
+            color: var(--warning);
+            font-size: 1rem;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 1000;
+            display: none;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-left: 4px solid var(--info);
+            max-width: 80%;
+        }
+        
+        .notification.show {
+            display: block;
+            animation: fadeInOut 2.5s ease;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -40%); }
+            20% { opacity: 1; transform: translate(-50%, -50%); }
+            80% { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; transform: translate(-50%, -60%); }
+        }
+        
+        /* 稀有度文字颜色 */
+        .common-text {
+            color: var(--common-color);
+        }
+        
+        .uncommon-text {
+            color: var(--uncommon-color);
+        }
+        
+        .rare-text {
+            color: var(--rare-color);
+        }
+        
+        .epic-text {
+            color: var(--epic-color);
+        }
+        
+        .legendary-text {
+            color: var(--legendary-color);
+        }
+        
+        .mythic-text {
+            background: var(--mythic);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .backpack-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .function-btn {
+                font-size: 0.7rem;
+                padding: 8px 5px;
+            }
+            
+            .function-btn i {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .backpack-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .map-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-map-marked-alt"></i> 捡垃圾行动 - 搜打撤</h1>
+    </div>
+    
+    <div class="status-bar">
+        <div class="status-item">
+            <i class="fas fa-coins gold-display"></i>
+            <span class="gold-display" id="gold-value">0</span>
+        </div>
+        <div class="status-item">
+            <i class="fas fa-bolt energy-display"></i>
+            <span class="energy-display" id="energy-value">100/100</span>
+        </div>
+        <div class="status-item">
+            <i class="fas fa-star skill-points-display"></i>
+            <span class="skill-points-display" id="skill-points-value">0</span>
+        </div>
+    </div>
+    
+    <div class="content-area">
+        <div id="map-container" class="container active">
+            <h2><i class="fas fa-map"></i> 地图探索</h2>
+            <p>地图上的容器会定期刷新，点击容器进行搜索</p>
+            <div class="map-container" id="map-grid">
+                <!-- 地图项目将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div id="backpack-container" class="container">
+            <h2><i class="fas fa-briefcase"></i> 背包</h2>
+            <div class="backpack-grid" id="backpack-grid">
+                <!-- 背包物品将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div id="shop-container" class="container">
+            <h2><i class="fas fa-store"></i> 商店</h2>
+            <div id="shop-items">
+                <!-- 商店物品将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div id="skills-container" class="container">
+            <h2><i class="fas fa-cogs"></i> 技能</h2>
+            <p>技能总等级: <span id="total-skill-level">0</span></p>
+            <div id="skills-list">
+                <!-- 技能列表将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div id="leaderboard-container" class="container">
+            <h2><i class="fas fa-trophy"></i> 排行榜</h2>
+            <div class="leaderboard-list" id="leaderboard-list">
+                <!-- 排行榜条目将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="function-area">
+        <button class="function-btn active" data-target="map-container">
+            <i class="fas fa-map"></i>
+            <span>地图</span>
+        </button>
+        <button class="function-btn" data-target="backpack-container">
+            <i class="fas fa-briefcase"></i>
+            <span>背包</span>
+        </button>
+        <button class="function-btn" data-target="shop-container">
+            <i class="fas fa-store"></i>
+            <span>商店</span>
+        </button>
+        <button class="function-btn" data-target="skills-container">
+            <i class="fas fa-cogs"></i>
+            <span>技能</span>
+        </button>
+        <button class="function-btn" data-target="leaderboard-container">
+            <i class="fas fa-trophy"></i>
+            <span>排行榜</span>
+        </button>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // 游戏数据模型
+        const gameData = {
+            gold: 100,
+            energy: 100,
+            maxEnergy: 100,
+            skillPoints: 5,
+            totalSkillLevel: 0,
+            backpack: [],
+            skills: {
+                energyMax: 0,        // 体力上限
+                lootingSpeed: 0,     // 开箱速度
+                rareChance: 0,       // 稀有物品概率
+                mapRefresh: 0,       // 地图刷新时间
+                energyRecovery: 0    // 体力恢复时间
+            },
+            mapItems: [],
+            lastMapRefresh: Date.now(),
+            leaderboard: []
+        };
+
+        // 物品稀有度配置
+        const itemRarity = {
+            common: { name: "普通", textClass: "common-text", chance: 55, valueMultiplier: 1 },
+            uncommon: { name: "精良", textClass: "uncommon-text", chance: 25, valueMultiplier: 3 },
+            rare: { name: "稀有", textClass: "rare-text", chance: 12, valueMultiplier: 10 },
+            epic: { name: "史诗", textClass: "epic-text", chance: 5, valueMultiplier: 25 },
+            legendary: { name: "传说", textClass: "legendary-text", chance: 2.4, valueMultiplier: 100 },
+            mythic: { name: "神话", textClass: "mythic-text", chance: 0.6, valueMultiplier: 500 }
+        };
+
+        // 物品配置
+        const items = [
+            { id: 1, name: "旧硬币", baseValue: 5, image: "wp.png" },
+            { id: 2, name: "铜戒指", baseValue: 10, image: "wp.png" },
+            { id: 3, name: "银项链", baseValue: 25, image: "wp.png" },
+            { id: 4, name: "金手镯", baseValue: 50, image: "wp.png" },
+            { id: 5, name: "宝石胸针", baseValue: 100, image: "wp.png" },
+            { id: 6, name: "古董怀表", baseValue: 200, image: "wp.png" },
+            { id: 7, name: "珍珠耳环", baseValue: 150, image: "wp.png" },
+            { id: 8, name: "钻石戒指", baseValue: 500, image: "wp.png" },
+            { id: 9, name: "神秘卷轴", baseValue: 300, image: "wp.png" },
+            { id: 10, name: "古老钥匙", baseValue: 400, image: "wp.png" },
+            { id: 11, name: "魔法水晶", baseValue: 600, image: "wp.png" },
+            { id: 12, name: "龙之鳞片", baseValue: 800, image: "wp.png" }
+        ];
+
+        // 容器类型
+        const containerTypes = [
+            { name: "箱子", image: "xz.png" },
+            { name: "柜子", image: "xz.png" },
+            { name: "垃圾桶", image: "xz.png" },
+            { name: "袋子", image: "xz.png" },
+            { name: "罐子", image: "xz.png" },
+            { name: "保险箱", image: "xz.png" },
+            { name: "宝箱", image: "xz.png" },
+            { name: "旅行包", image: "xz.png" }
+        ];
+
+        // 商店物品
+        const shopItems = [
+            { id: 1, name: "体力药水", description: "立即恢复全部体力", price: 50, type: "energy", icon: "fa-wine-bottle" },
+            { id: 2, name: "技能点", description: "获得1点技能点", price: 100, type: "skillPoint", icon: "fa-star" },
+            { id: 3, name: "地图刷新卷轴", description: "立即刷新地图上的所有容器", price: 30, type: "mapRefresh", icon: "fa-sync" }
+        ];
+
+        // 技能配置
+        const skillsConfig = [
+            { 
+                id: "energyMax", 
+                name: "体力上限", 
+                description: "提升体力上限", 
+                maxLevel: 100,
+                baseValue: 100,
+                upgradeValue: 1,
+                icon: "fa-bolt"
+            },
+            { 
+                id: "lootingSpeed", 
+                name: "开箱速度", 
+                description: "缩短开箱所需时间", 
+                maxLevel: 100,
+                baseValue: 10,
+                upgradeValue: 0.05,
+                icon: "fa-running"
+            },
+            { 
+                id: "rareChance", 
+                name: "幸运探索", 
+                description: "提高获得稀有物品的概率", 
+                maxLevel: 100,
+                baseValue: 0,
+                upgradeValue: 0.1,
+                icon: "fa-clover"
+            },
+            { 
+                id: "mapRefresh", 
+                name: "地图刷新", 
+                description: "缩短地图刷新时间", 
+                maxLevel: 100,
+                baseValue: 10,
+                upgradeValue: 0.05,
+                icon: "fa-sync"
+            },
+            { 
+                id: "energyRecovery", 
+                name: "体力恢复", 
+                description: "缩短体力恢复时间", 
+                maxLevel: 100,
+                baseValue: 10,
+                upgradeValue: 0.05,
+                icon: "fa-heartbeat"
+            }
+        ];
+
+        // 初始化游戏
+        function initGame() {
+            loadGameData();
+            generateMap();
+            updateUI();
+            startGameLoop();
+            
+            // 绑定功能区按钮事件
+            document.querySelectorAll('.function-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    document.querySelectorAll('.function-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // 添加当前按钮的active类
+                    this.classList.add('active');
+                    
+                    // 隐藏所有容器
+                    document.querySelectorAll('.container').forEach(container => {
+                        container.classList.remove('active');
+                    });
+                    
+                    // 显示目标容器
+                    const targetId = this.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        }
+
+        // 加载游戏数据
+        function loadGameData() {
+            const savedData = localStorage.getItem('explorerGameData');
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                Object.assign(gameData, parsedData);
+            }
+            
+            // 初始化排行榜（如果为空）
+            if (gameData.leaderboard.length === 0) {
+                gameData.leaderboard = [
+                    { name: "冒险家", avatar: "A", skillLevel: 0, gold: 0 },
+                    { name: "探索者", avatar: "B", skillLevel: 12, gold: 450 },
+                    { name: "宝藏猎人", avatar: "C", skillLevel: 25, gold: 1200 },
+                    { name: "新手玩家", avatar: "D", skillLevel: 5, gold: 150 },
+                    { name: "收藏家", avatar: "E", skillLevel: 40, gold: 2800 }
+                ];
+            }
+        }
+
+        // 保存游戏数据
+        function saveGameData() {
+            localStorage.setItem('explorerGameData', JSON.stringify(gameData));
+        }
+
+        // 生成地图
+        function generateMap() {
+            const mapGrid = document.getElementById('map-grid');
+            mapGrid.innerHTML = '';
+            
+            // 检查是否需要刷新地图
+            const mapRefreshTime = getMapRefreshTime();
+            const timeSinceLastRefresh = Date.now() - gameData.lastMapRefresh;
+            
+            if (timeSinceLastRefresh >= mapRefreshTime * 60000 || gameData.mapItems.length === 0) {
+                gameData.mapItems = [];
+                gameData.lastMapRefresh = Date.now();
+                
+                // 生成9个随机容器
+                for (let i = 0; i < 9; i++) {
+                    const containerType = containerTypes[Math.floor(Math.random() * containerTypes.length)];
+                    gameData.mapItems.push({
+                        id: i,
+                        type: containerType,
+                        looted: false,
+                        looting: false
+                    });
+                }
+            }
+            
+            // 渲染地图项目
+            gameData.mapItems.forEach(item => {
+                const mapItem = document.createElement('div');
+                mapItem.className = `map-item ${item.looted ? 'looted' : ''}`;
+                mapItem.innerHTML = `
+                    <img src="${item.type.image}" alt="${item.type.name}">
+                    <div>${item.type.name}</div>
+                    ${item.looting ? '<div class="progress-bar"><div class="progress" id="progress-' + item.id + '"></div></div>' : ''}
+                `;
+                
+                if (!item.looted && !item.looting) {
+                    mapItem.addEventListener('click', () => startLooting(item.id));
+                }
+                
+                mapGrid.appendChild(mapItem);
+            });
+        }
+
+        // 开始搜索容器
+        function startLooting(itemId) {
+            if (gameData.energy <= 0) {
+                showNotification("体力不足！");
+                return;
+            }
+            
+            const item = gameData.mapItems.find(i => i.id === itemId);
+            if (!item || item.looted || item.looting) return;
+            
+            item.looting = true;
+            gameData.energy--;
+            
+            // 更新UI
+            updateUI();
+            generateMap();
+            
+            // 计算开箱时间（考虑技能影响）
+            const lootingTime = getLootingTime();
+            const progressBar = document.getElementById(`progress-${itemId}`);
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 100 / (lootingTime * 10); // 10秒 = 100次更新
+                progressBar.style.width = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    finishLooting(itemId);
+                }
+            }, 100);
+        }
+
+        // 完成搜索容器
+        function finishLooting(itemId) {
+            const item = gameData.mapItems.find(i => i.id === itemId);
+            if (!item) return;
+            
+            item.looting = false;
+            item.looted = true;
+            
+            // 生成随机物品
+            const foundItem = generateRandomItem();
+            gameData.backpack.push(foundItem);
+            
+            // 显示通知
+            showNotification(`获得了: <span class="${foundItem.rarity.textClass}">${foundItem.name}</span> - 价值 ${foundItem.value} 金币`);
+            
+            // 更新UI
+            updateUI();
+            generateMap();
+            saveGameData();
+        }
+
+        // 生成随机物品
+        function generateRandomItem() {
+            // 计算稀有度（考虑技能影响）
+            const rareChanceBonus = gameData.skills.rareChance * skillsConfig.find(s => s.id === "rareChance").upgradeValue;
+            
+            let rarityRoll = Math.random() * 100;
+            let selectedRarity;
+            
+            const adjustedChances = {
+                common: itemRarity.common.chance - rareChanceBonus,
+                uncommon: itemRarity.uncommon.chance - rareChanceBonus/2,
+                rare: itemRarity.rare.chance - rareChanceBonus/3,
+                epic: itemRarity.epic.chance - rareChanceBonus/4,
+                legendary: itemRarity.legendary.chance - rareChanceBonus/5,
+                mythic: itemRarity.mythic.chance
+            };
+            
+            if (rarityRoll < adjustedChances.common) {
+                selectedRarity = itemRarity.common;
+            } else if (rarityRoll < adjustedChances.common + adjustedChances.uncommon) {
+                selectedRarity = itemRarity.uncommon;
+            } else if (rarityRoll < adjustedChances.common + adjustedChances.uncommon + adjustedChances.rare) {
+                selectedRarity = itemRarity.rare;
+            } else if (rarityRoll < adjustedChances.common + adjustedChances.uncommon + adjustedChances.rare + adjustedChances.epic) {
+                selectedRarity = itemRarity.epic;
+            } else if (rarityRoll < adjustedChances.common + adjustedChances.uncommon + adjustedChances.rare + adjustedChances.epic + adjustedChances.legendary) {
+                selectedRarity = itemRarity.legendary;
+            } else {
+                selectedRarity = itemRarity.mythic;
+            }
+            
+            // 随机选择物品
+            const baseItem = items[Math.floor(Math.random() * items.length)];
+            
+            return {
+                id: Date.now() + Math.random(),
+                name: baseItem.name,
+                baseValue: baseItem.baseValue,
+                rarity: selectedRarity,
+                value: Math.floor(baseItem.baseValue * selectedRarity.valueMultiplier),
+                image: baseItem.image
+            };
+        }
+
+        // 出售物品
+        function sellItem(itemId) {
+            const itemIndex = gameData.backpack.findIndex(item => item.id === itemId);
+            if (itemIndex === -1) return;
+            
+            const item = gameData.backpack[itemIndex];
+            gameData.gold += item.value;
+            gameData.backpack.splice(itemIndex, 1);
+            
+            // 更新排行榜
+            updateLeaderboard();
+            
+            // 更新UI
+            updateUI();
+            renderBackpack();
+            saveGameData();
+            
+            showNotification(`出售了 <span class="${item.rarity.textClass}">${item.name}</span>，获得 ${item.value} 金币`);
+        }
+
+        // 购买商店物品
+        function buyShopItem(itemId) {
+            const shopItem = shopItems.find(item => item.id === itemId);
+            if (!shopItem) return;
+            
+            if (gameData.gold < shopItem.price) {
+                showNotification("金币不足！");
+                return;
+            }
+            
+            gameData.gold -= shopItem.price;
+            
+            if (shopItem.type === "energy") {
+                gameData.energy = gameData.maxEnergy;
+                showNotification("体力已恢复！");
+            } else if (shopItem.type === "skillPoint") {
+                gameData.skillPoints++;
+                showNotification("获得1点技能点！");
+            } else if (shopItem.type === "mapRefresh") {
+                // 立即刷新地图
+                gameData.lastMapRefresh = 0;
+                generateMap();
+                showNotification("地图已刷新！");
+            }
+            
+            // 更新UI
+            updateUI();
+            saveGameData();
+        }
+
+        // 升级技能
+        function upgradeSkill(skillId) {
+            if (gameData.skillPoints <= 0) {
+                showNotification("技能点不足！");
+                return;
+            }
+            
+            const skill = gameData.skills[skillId];
+            const skillConfig = skillsConfig.find(s => s.id === skillId);
+            
+            if (skill >= skillConfig.maxLevel) {
+                showNotification("该技能已满级！");
+                return;
+            }
+            
+            gameData.skills[skillId]++;
+            gameData.skillPoints--;
+            gameData.totalSkillLevel++;
+            
+            // 特殊处理：体力上限技能
+            if (skillId === "energyMax") {
+                gameData.maxEnergy = skillConfig.baseValue + (gameData.skills[skillId] * skillConfig.upgradeValue);
+                gameData.energy = gameData.maxEnergy; // 升级时恢复全部体力
+            }
+            
+            // 更新UI
+            updateUI();
+            saveGameData();
+            
+            showNotification(`升级了 ${skillConfig.name} 技能！`);
+        }
+
+        // 更新排行榜
+        function updateLeaderboard() {
+            // 更新当前玩家数据
+            const currentPlayer = gameData.leaderboard.find(p => p.name === "冒险家");
+            if (currentPlayer) {
+                currentPlayer.skillLevel = gameData.totalSkillLevel;
+                currentPlayer.gold = gameData.gold;
+            }
+            
+            // 按金币排序
+            gameData.leaderboard.sort((a, b) => b.gold - a.gold);
+            
+            // 渲染排行榜
+            renderLeaderboard();
+        }
+
+        // 渲染背包
+        function renderBackpack() {
+            const backpackGrid = document.getElementById('backpack-grid');
+            backpackGrid.innerHTML = '';
+            
+            if (gameData.backpack.length === 0) {
+                // 移除提示文字，只显示空网格
+                return;
+            }
+            
+            gameData.backpack.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="${item.rarity.textClass}" style="font-size: 0.7rem; margin-top: 5px;">${item.name}</div>
+                    <div class="item-value">${item.value}金</div>
+                `;
+                
+                itemElement.addEventListener('click', () => sellItem(item.id));
+                backpackGrid.appendChild(itemElement);
+            });
+        }
+
+        // 渲染商店
+        function renderShop() {
+            const shopItemsContainer = document.getElementById('shop-items');
+            shopItemsContainer.innerHTML = '';
+            
+            shopItems.forEach(item => {
+                const shopItemElement = document.createElement('div');
+                shopItemElement.className = 'shop-item';
+                shopItemElement.innerHTML = `
+                    <div class="shop-info">
+                        <div class="shop-name"><i class="fas ${item.icon}"></i> ${item.name}</div>
+                        <div class="shop-desc">${item.description}</div>
+                    </div>
+                    <div class="shop-price">${item.price}金</div>
+                    <button class="buy-btn" ${gameData.gold < item.price ? 'disabled' : ''}>购买</button>
+                `;
+                
+                shopItemElement.querySelector('.buy-btn').addEventListener('click', () => buyShopItem(item.id));
+                shopItemsContainer.appendChild(shopItemElement);
+            });
+        }
+
+        // 渲染技能
+        function renderSkills() {
+            const skillsList = document.getElementById('skills-list');
+            skillsList.innerHTML = '';
+            
+            skillsConfig.forEach(skillConfig => {
+                const skillLevel = gameData.skills[skillConfig.id];
+                const skillElement = document.createElement('div');
+                skillElement.className = 'skill-item';
+                
+                // 计算当前效果
+                let currentEffect;
+                if (skillConfig.id === "energyMax") {
+                    currentEffect = skillConfig.baseValue + (skillLevel * skillConfig.upgradeValue);
+                } else if (skillConfig.id === "lootingSpeed") {
+                    currentEffect = (skillConfig.baseValue - (skillLevel * skillConfig.upgradeValue)).toFixed(1);
+                } else if (skillConfig.id === "rareChance") {
+                    currentEffect = (skillLevel * skillConfig.upgradeValue).toFixed(1) + "%";
+                } else if (skillConfig.id === "mapRefresh" || skillConfig.id === "energyRecovery") {
+                    currentEffect = (skillConfig.baseValue - (skillLevel * skillConfig.upgradeValue)).toFixed(1);
+                }
+                
+                skillElement.innerHTML = `
+                    <div class="skill-info">
+                        <div class="skill-name"><i class="fas ${skillConfig.icon}"></i> ${skillConfig.name}</div>
+                        <div class="skill-desc">${skillConfig.description} (${skillLevel}/${skillConfig.maxLevel})</div>
+                        <div class="skill-desc">当前效果: ${currentEffect}</div>
+                    </div>
+                    <div class="skill-level">Lv.${skillLevel}</div>
+                    <button class="upgrade-btn" ${skillLevel >= skillConfig.maxLevel || gameData.skillPoints <= 0 ? 'disabled' : ''}>升级</button>
+                `;
+                
+                skillElement.querySelector('.upgrade-btn').addEventListener('click', () => upgradeSkill(skillConfig.id));
+                skillsList.appendChild(skillElement);
+            });
+        }
+
+        // 渲染排行榜
+        function renderLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+            
+            gameData.leaderboard.forEach((player, index) => {
+                const rank = index + 1;
+                const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
+                const leaderboardItem = document.createElement('div');
+                leaderboardItem.className = 'leaderboard-item';
+                leaderboardItem.innerHTML = `
+                    <div class="rank ${rankClass}">${rank}</div>
+                    <div class="avatar">${player.avatar}</div>
+                    <div class="player-info">
+                        <div class="player-name">${player.name}</div>
+                        <div class="player-stats">技能等级: ${player.skillLevel}</div>
+                    </div>
+                    <div class="player-gold">${player.gold}金</div>
+                `;
+                
+                leaderboardList.appendChild(leaderboardItem);
+            });
+        }
+
+        // 更新UI
+        function updateUI() {
+            // 更新状态栏
+            document.getElementById('gold-value').textContent = gameData.gold;
+            document.getElementById('energy-value').textContent = `${gameData.energy}/${gameData.maxEnergy}`;
+            document.getElementById('skill-points-value').textContent = gameData.skillPoints;
+            
+            // 更新技能界面
+            document.getElementById('total-skill-level').textContent = gameData.totalSkillLevel;
+            
+            // 渲染各个界面
+            renderBackpack();
+            renderShop();
+            renderSkills();
+            updateLeaderboard();
+        }
+
+        // 显示通知
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2500);
+        }
+
+        // 获取开箱时间（考虑技能影响）
+        function getLootingTime() {
+            const baseTime = skillsConfig.find(s => s.id === "lootingSpeed").baseValue;
+            const skillBonus = gameData.skills.lootingSpeed * skillsConfig.find(s => s.id === "lootingSpeed").upgradeValue;
+            return Math.max(baseTime - skillBonus, 5); // 最低5秒
+        }
+
+        // 获取地图刷新时间（考虑技能影响）
+        function getMapRefreshTime() {
+            const baseTime = skillsConfig.find(s => s.id === "mapRefresh").baseValue;
+            const skillBonus = gameData.skills.mapRefresh * skillsConfig.find(s => s.id === "mapRefresh").upgradeValue;
+            return Math.max(baseTime - skillBonus, 5); // 最低5分钟
+        }
+
+        // 获取体力恢复时间（考虑技能影响）
+        function getEnergyRecoveryTime() {
+            const baseTime = skillsConfig.find(s => s.id === "energyRecovery").baseValue;
+            const skillBonus = gameData.skills.energyRecovery * skillsConfig.find(s => s.id === "energyRecovery").upgradeValue;
+            return Math.max(baseTime - skillBonus, 5); // 最低5分钟
+        }
+
+        // 游戏主循环
+        function startGameLoop() {
+            setInterval(() => {
+                // 体力恢复
+                if (gameData.energy < gameData.maxEnergy) {
+                    gameData.energy++;
+                    updateUI();
+                    saveGameData();
+                }
+                
+                // 地图刷新检查
+                const mapRefreshTime = getMapRefreshTime();
+                const timeSinceLastRefresh = Date.now() - gameData.lastMapRefresh;
+                
+                if (timeSinceLastRefresh >= mapRefreshTime * 60000) {
+                    generateMap();
+                }
+            }, getEnergyRecoveryTime() * 60000); // 根据技能调整恢复间隔
+        }
+
+        // 初始化游戏
+        window.onload = initGame;
+    </script>
+</body>
+</html>
