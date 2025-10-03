@@ -996,7 +996,29 @@
             renderLeaderboard();
         }
 
-
+        // 渲染背包
+        function renderBackpack() {
+            const backpackGrid = document.getElementById('backpack-grid');
+            backpackGrid.innerHTML = '';
+            
+            if (gameData.backpack.length === 0) {
+                // 移除提示文字，只显示空网格
+                return;
+            }
+            
+            gameData.backpack.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="${item.rarity.textClass}" style="font-size: 0.7rem; margin-top: 5px;">${item.name}</div>
+                    <div class="item-value">${item.value}</div>
+                `;
+                
+                itemElement.addEventListener('click', () => sellItem(item.id));
+                backpackGrid.appendChild(itemElement);
+            });
+        }
 
         // 渲染商店
         function renderShop() {
