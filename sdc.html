@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>探索冒险家</title>
+    <title>三角裤行动</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -225,6 +225,11 @@
         .map-item.looted {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+        
+        .map-item.looting {
+            cursor: not-allowed;
+            background: rgba(74, 111, 165, 0.2);
         }
         
         .map-item.looted:hover {
@@ -571,7 +576,7 @@
 </head>
 <body>
     <div class="header">
-        <h1><i class="fas fa-map-marked-alt"></i> 探索冒险家</h1>
+        <h1><i class="fas fa-map-marked-alt"></i> 三角裤行动</h1>
         <button class="reset-btn" id="reset-btn">重置游戏</button>
     </div>
     
@@ -624,7 +629,67 @@
         <div id="leaderboard-container" class="container">
             <h2><i class="fas fa-trophy"></i> 排行榜</h2>
             <div class="leaderboard-list" id="leaderboard-list">
-                <!-- 排行榜条目将通过JavaScript动态生成 -->
+                <!-- 排行榜条目将通过HTML直接编写 -->
+                <div class="leaderboard-item">
+                    <div class="rank rank-1">1</div>
+                    <div class="avatar">JJ</div>
+                    <div class="player-info">
+                        <div class="player-name">金杰</div>
+                        <div class="player-stats">技能等级: 0</div>
+                    </div>
+                    <div class="player-gold">100金</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank rank-2">2</div>
+                    <div class="avatar">JC</div>
+                    <div class="player-info">
+                        <div class="player-name">金超</div>
+                        <div class="player-stats">技能等级: 0</div>
+                    </div>
+                    <div class="player-gold">100金</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank rank-3">3</div>
+                    <div class="avatar">YD</div>
+                    <div class="player-info">
+                        <div class="player-name">迎冬</div>
+                        <div class="player-stats">技能等级: 0</div>
+                    </div>
+                    <div class="player-gold">100金</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank">4</div>
+                    <div class="avatar">KK</div>
+                    <div class="player-info">
+                        <div class="player-name">可可</div>
+                        <div class="player-stats">技能等级: 0</div>
+                    </div>
+                    <div class="player-gold">100金</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank">5</div>
+                    <div class="avatar">YY</div>
+                    <div class="player-info">
+                        <div class="player-name">洋洋</div>
+                        <div class="player-stats">技能等级: 0</div>
+                    </div>
+                    <div class="player-gold">100金</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank">6</div>
+                    <div class="avatar">WZ</div>
+                    <div class="player-info">
+                        <div class="player-name">未知</div>
+                        <div class="player-stats">技能等级: 0</div>
+                    </div>
+                    <div class="player-gold">100金</div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -684,52 +749,52 @@
             },
             mapItems: [],
             lastMapRefresh: Date.now(),
-            leaderboard: []
+            isLooting: false // 标记是否正在开启箱子
         };
 
         // 物品稀有度配置
         const itemRarity = {
             common: { name: "普通", textClass: "common-text", chance: 55, valueMultiplier: 1 },
             uncommon: { name: "精良", textClass: "uncommon-text", chance: 25, valueMultiplier: 3 },
-            rare: { name: "稀有", textClass: "rare-text", chance: 12, valueMultiplier: 10 },
-            epic: { name: "史诗", textClass: "epic-text", chance: 5, valueMultiplier: 25 },
-            legendary: { name: "传说", textClass: "legendary-text", chance: 2.4, valueMultiplier: 100 },
-            mythic: { name: "神话", textClass: "mythic-text", chance: 0.6, valueMultiplier: 500 }
+            rare: { name: "稀有", textClass: "rare-text", chance: 12, valueMultiplier: 6 },
+            epic: { name: "史诗", textClass: "epic-text", chance: 5, valueMultiplier: 12 },
+            legendary: { name: "传说", textClass: "legendary-text", chance: 2.4, valueMultiplier: 24 },
+            mythic: { name: "神话", textClass: "mythic-text", chance: 0.05, valueMultiplier: 48 }
         };
 
         // 物品配置
         const items = [
-            { id: 1, name: "洋洋的鼻屎", baseValue: 5, image: "yydbs.jpg" },
-            { id: 2, name: "可可的内裤", baseValue: 10, image: "wp.png" },
-            { id: 3, name: "金超的臭袜子", baseValue: 25, image: "wp.png" },
-            { id: 4, name: "金杰的甲沟炎", baseValue: 50, image: "wp.png" },
-            { id: 5, name: "克头子", baseValue: 100, image: "wp.png" },
-            { id: 6, name: "狗屎", baseValue: 200, image: "wp.png" },
-            { id: 7, name: "牛屎", baseValue: 150, image: "wp.png" },
-            { id: 8, name: "吊毛", baseValue: 500, image: "wp.png" },
-            { id: 9, name: "半瓶安慕希", baseValue: 300, image: "wp.png" },
-            { id: 10, name: "带泡沫的冰红茶", baseValue: 400, image: "wp.png" },
-            { id: 11, name: "充气娃娃", baseValue: 600, image: "wp.png" },
-            { id: 12, name: "一条大鱼", baseValue: 800, image: "wp.png" }
+            { id: 1, name: "旧硬币", baseValue: 1, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=硬币" },
+            { id: 2, name: "铜戒指", baseValue: 2, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=戒指" },
+            { id: 3, name: "银项链", baseValue: 4, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=项链" },
+            { id: 4, name: "金手镯", baseValue: 8, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=手镯" },
+            { id: 5, name: "宝石胸针", baseValue: 16, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=胸针" },
+            { id: 6, name: "古董怀表", baseValue: 32, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=怀表" },
+            { id: 7, name: "珍珠耳环", baseValue: 64, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=耳环" },
+            { id: 8, name: "钻石戒指", baseValue: 128, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=钻戒" },
+            { id: 9, name: "神秘卷轴", baseValue: 256, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=卷轴" },
+            { id: 10, name: "古老钥匙", baseValue: 512, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=钥匙" },
+            { id: 11, name: "魔法水晶", baseValue: 1024, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=水晶" },
+            { id: 12, name: "龙之鳞片", baseValue: 2048, image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=鳞片" }
         ];
 
         // 容器类型
         const containerTypes = [
-            { name: "厕所", image: "xz.png" },
-            { name: "柜子", image: "xz.png" },
-            { name: "垃圾桶", image: "xz.png" },
-            { name: "袋子", image: "xz.png" },
-            { name: "罐子", image: "xz.png" },
-            { name: "保险箱", image: "xz.png" },
-            { name: "宝箱", image: "xz.png" },
-            { name: "旅行包", image: "xz.png" }
+            { name: "箱子", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=箱子" },
+            { name: "柜子", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=柜子" },
+            { name: "垃圾桶", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=垃圾桶" },
+            { name: "袋子", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=袋子" },
+            { name: "罐子", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=罐子" },
+            { name: "保险箱", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=保险箱" },
+            { name: "宝箱", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=宝箱" },
+            { name: "旅行包", image: "https://via.placeholder.com/40x40/8c8c8c/FFFFFF?text=旅行包" }
         ];
 
         // 商店物品
         const shopItems = [
-            { id: 1, name: "体力药水", description: "立即恢复全部体力", price: 50, type: "energy", icon: "fa-wine-bottle" },
-            { id: 2, name: "技能点", description: "获得1点技能点", price: 100, type: "skillPoint", icon: "fa-star" },
-            { id: 3, name: "地图刷新卷轴", description: "立即刷新地图上的所有容器", price: 30, type: "mapRefresh", icon: "fa-sync" }
+            { id: 1, name: "体力药水", description: "立即恢复全部体力", price: 1000, type: "energy", icon: "fa-wine-bottle" },
+            { id: 2, name: "技能点", description: "获得1点技能点", price: 1000, type: "skillPoint", icon: "fa-star" },
+            { id: 3, name: "地图刷新卷轴", description: "立即刷新地图上的所有容器", price: 1000, type: "mapRefresh", icon: "fa-sync" }
         ];
 
         // 技能配置
@@ -862,6 +927,7 @@
             };
             gameData.mapItems = [];
             gameData.lastMapRefresh = Date.now();
+            gameData.isLooting = false; // 重置开箱状态
             
             // 保存重置后的数据
             saveGameData();
@@ -882,16 +948,6 @@
             if (savedData) {
                 const parsedData = JSON.parse(savedData);
                 Object.assign(gameData, parsedData);
-            }
-            
-            // 初始化排行榜（如果为空）
-            if (gameData.leaderboard.length === 0) {
-                gameData.leaderboard = [
-                    { name: "探索者", avatar: "B", skillLevel: 12, gold: 450 },
-                    { name: "宝藏猎人", avatar: "C", skillLevel: 25, gold: 1200 },
-                    { name: "新手玩家", avatar: "D", skillLevel: 5, gold: 150 },
-                    { name: "收藏家", avatar: "E", skillLevel: 40, gold: 2800 }
-                ];
             }
         }
 
@@ -928,14 +984,14 @@
             // 渲染地图项目
             gameData.mapItems.forEach(item => {
                 const mapItem = document.createElement('div');
-                mapItem.className = `map-item ${item.looted ? 'looted' : ''}`;
+                mapItem.className = `map-item ${item.looted ? 'looted' : ''} ${item.looting ? 'looting' : ''}`;
                 mapItem.innerHTML = `
                     <img src="${item.type.image}" alt="${item.type.name}">
                     <div>${item.type.name}</div>
                     ${item.looting ? '<div class="progress-bar"><div class="progress" id="progress-' + item.id + '"></div></div>' : ''}
                 `;
                 
-                if (!item.looted && !item.looting) {
+                if (!item.looted && !item.looting && !gameData.isLooting) {
                     mapItem.addEventListener('click', () => startLooting(item.id));
                 }
                 
@@ -950,9 +1006,16 @@
                 return;
             }
             
+            if (gameData.isLooting) {
+                showNotification("正在开启其他箱子，请稍候！");
+                return;
+            }
+            
             const item = gameData.mapItems.find(i => i.id === itemId);
             if (!item || item.looted || item.looting) return;
             
+            // 设置开箱状态
+            gameData.isLooting = true;
             item.looting = true;
             gameData.energy--;
             
@@ -983,6 +1046,9 @@
             
             item.looting = false;
             item.looted = true;
+            
+            // 重置开箱状态
+            gameData.isLooting = false;
             
             // 生成随机物品
             const foundItem = generateRandomItem();
@@ -1202,30 +1268,6 @@
             });
         }
 
-        // 渲染排行榜
-        function renderLeaderboard() {
-            const leaderboardList = document.getElementById('leaderboard-list');
-            leaderboardList.innerHTML = '';
-            
-            gameData.leaderboard.forEach((player, index) => {
-                const rank = index + 1;
-                const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
-                const leaderboardItem = document.createElement('div');
-                leaderboardItem.className = 'leaderboard-item';
-                leaderboardItem.innerHTML = `
-                    <div class="rank ${rankClass}">${rank}</div>
-                    <div class="avatar">${player.avatar}</div>
-                    <div class="player-info">
-                        <div class="player-name">${player.name}</div>
-                        <div class="player-stats">技能等级: ${player.skillLevel}</div>
-                    </div>
-                    <div class="player-gold">${player.gold}金</div>
-                `;
-                
-                leaderboardList.appendChild(leaderboardItem);
-            });
-        }
-
         // 更新UI
         function updateUI() {
             // 更新状态栏
@@ -1240,7 +1282,6 @@
             renderBackpack();
             renderShop();
             renderSkills();
-            renderLeaderboard();
         }
 
         // 显示通知
