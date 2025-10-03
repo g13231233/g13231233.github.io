@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>捡垃圾行动 - 搜打撤</title>
+    <title>探索冒险家</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -56,6 +56,24 @@
         .header h1 {
             font-size: 1.5rem;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .reset-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
         
         .status-bar {
@@ -271,17 +289,6 @@
             margin-bottom: 5px;
         }
         
-        .item-value {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.8);
-            background: rgba(0, 0, 0, 0.4);
-            padding: 2px 5px;
-            border-radius: 10px;
-        }
-        
         .skill-item, .shop-item {
             display: flex;
             justify-content: space-between;
@@ -440,6 +447,65 @@
             animation: fadeInOut 2.5s ease;
         }
         
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .modal-content {
+            background: #2c3e50;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        
+        .modal h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #34495e;
+            color: white;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .modal-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .modal-confirm {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .modal-cancel {
+            background: var(--gray);
+            color: white;
+        }
+        
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translate(-50%, -40%); }
             20% { opacity: 1; transform: translate(-50%, -50%); }
@@ -505,7 +571,8 @@
 </head>
 <body>
     <div class="header">
-        <h1><i class="fas fa-map-marked-alt"></i> 捡垃圾行动 - 搜打撤</h1>
+        <h1><i class="fas fa-map-marked-alt"></i> 探索冒险家</h1>
+        <button class="reset-btn" id="reset-btn">重置游戏</button>
     </div>
     
     <div class="status-bar">
@@ -586,6 +653,18 @@
     </div>
     
     <div class="notification" id="notification"></div>
+    
+    <div class="modal" id="password-modal">
+        <div class="modal-content">
+            <h3>重置游戏</h3>
+            <p>请输入管理员密码：</p>
+            <input type="password" id="password-input" placeholder="密码">
+            <div class="modal-buttons">
+                <button class="modal-btn modal-cancel" id="cancel-reset">取消</button>
+                <button class="modal-btn modal-confirm" id="confirm-reset">确认</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // 游戏数据模型
@@ -730,6 +809,71 @@
                     document.getElementById(targetId).classList.add('active');
                 });
             });
+            
+            // 绑定重置按钮事件
+            document.getElementById('reset-btn').addEventListener('click', showPasswordModal);
+            
+            // 绑定模态框事件
+            document.getElementById('cancel-reset').addEventListener('click', hidePasswordModal);
+            document.getElementById('confirm-reset').addEventListener('click', resetGame);
+            
+            // 按回车确认密码
+            document.getElementById('password-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    resetGame();
+                }
+            });
+        }
+
+        // 显示密码输入模态框
+        function showPasswordModal() {
+            document.getElementById('password-modal').style.display = 'flex';
+            document.getElementById('password-input').focus();
+        }
+
+        // 隐藏密码输入模态框
+        function hidePasswordModal() {
+            document.getElementById('password-modal').style.display = 'none';
+            document.getElementById('password-input').value = '';
+        }
+
+        // 重置游戏
+        function resetGame() {
+            const password = document.getElementById('password-input').value;
+            
+            if (password !== 'admin') {
+                showNotification('密码错误！');
+                return;
+            }
+            
+            // 重置游戏数据
+            gameData.gold = 100;
+            gameData.energy = 100;
+            gameData.maxEnergy = 100;
+            gameData.skillPoints = 5;
+            gameData.totalSkillLevel = 0;
+            gameData.backpack = [];
+            gameData.skills = {
+                energyMax: 0,
+                lootingSpeed: 0,
+                rareChance: 0,
+                mapRefresh: 0,
+                energyRecovery: 0
+            };
+            gameData.mapItems = [];
+            gameData.lastMapRefresh = Date.now();
+            
+            // 保存重置后的数据
+            saveGameData();
+            
+            // 更新UI
+            generateMap();
+            updateUI();
+            
+            // 隐藏模态框
+            hidePasswordModal();
+            
+            showNotification('游戏已重置！');
         }
 
         // 加载游戏数据
@@ -743,7 +887,6 @@
             // 初始化排行榜（如果为空）
             if (gameData.leaderboard.length === 0) {
                 gameData.leaderboard = [
-                    { name: "冒险家", avatar: "A", skillLevel: 0, gold: 0 },
                     { name: "探索者", avatar: "B", skillLevel: 12, gold: 450 },
                     { name: "宝藏猎人", avatar: "C", skillLevel: 25, gold: 1200 },
                     { name: "新手玩家", avatar: "D", skillLevel: 5, gold: 150 },
@@ -907,9 +1050,6 @@
             gameData.gold += item.value;
             gameData.backpack.splice(itemIndex, 1);
             
-            // 更新排行榜
-            updateLeaderboard();
-            
             // 更新UI
             updateUI();
             renderBackpack();
@@ -980,22 +1120,6 @@
             showNotification(`升级了 ${skillConfig.name} 技能！`);
         }
 
-        // 更新排行榜
-        function updateLeaderboard() {
-            // 更新当前玩家数据
-            const currentPlayer = gameData.leaderboard.find(p => p.name === "冒险家");
-            if (currentPlayer) {
-                currentPlayer.skillLevel = gameData.totalSkillLevel;
-                currentPlayer.gold = gameData.gold;
-            }
-            
-            // 按金币排序
-            gameData.leaderboard.sort((a, b) => b.gold - a.gold);
-            
-            // 渲染排行榜
-            renderLeaderboard();
-        }
-
         // 渲染背包
         function renderBackpack() {
             const backpackGrid = document.getElementById('backpack-grid');
@@ -1012,7 +1136,6 @@
                 itemElement.innerHTML = `
                     <img src="${item.image}" alt="${item.name}">
                     <div class="${item.rarity.textClass}" style="font-size: 0.7rem; margin-top: 5px;">${item.name}</div>
-                    <div class="item-value">${item.value}</div>
                 `;
                 
                 itemElement.addEventListener('click', () => sellItem(item.id));
@@ -1117,7 +1240,7 @@
             renderBackpack();
             renderShop();
             renderSkills();
-            updateLeaderboard();
+            renderLeaderboard();
         }
 
         // 显示通知
