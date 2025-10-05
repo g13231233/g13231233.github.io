@@ -17,10 +17,13 @@
             line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
             background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -66,6 +69,7 @@
             color: #2575fc;
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
         .timer-container {
             text-align: center;
@@ -77,12 +81,14 @@
             color: #ff4757;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             margin: 10px 0;
+            transition: all 0.3s ease;
         }
         .controls {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         button {
             padding: 12px 25px;
@@ -113,21 +119,6 @@
             background: linear-gradient(to right, #ff9f43, #ff4757);
             color: white;
         }
-        .difficulty-selector {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        .diff-btn {
-            padding: 8px 20px;
-            background: #e0e0e0;
-            color: #555;
-        }
-        .diff-btn.active {
-            background: #2575fc;
-            color: white;
-        }
         .score-container {
             text-align: center;
             font-size: 1.5rem;
@@ -135,12 +126,13 @@
             color: #2575fc;
             font-weight: bold;
         }
-        .instructions {
-            background: #e3f2fd;
-            border-left: 5px solid #2575fc;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 10px 10px 0;
+        .game-status {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            min-height: 30px;
+            color: #6a11cb;
+            font-weight: bold;
         }
         footer {
             text-align: center;
@@ -166,6 +158,10 @@
                 padding: 10px 20px;
                 font-size: 1rem;
             }
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -178,14 +174,11 @@
 
         <div class="game-area">
             <div class="card">
-                <div class="difficulty-selector">
-                    <button class="diff-btn active" data-difficulty="easy">基础词汇</button>
-                    <button class="diff-btn" data-difficulty="hard">高难度短语</button>
-                </div>
-                
                 <div class="word-display" id="wordDisplay">
                     点击开始游戏
                 </div>
+                
+                <div class="game-status" id="gameStatus"></div>
                 
                 <div class="timer-container">
                     <div>剩余时间</div>
@@ -202,15 +195,6 @@
                     <button id="resetBtn">重新开始</button>
                 </div>
             </div>
-            
-            <div class="instructions card">
-                <h3>游戏规则：</h3>
-                <p>1. 点击"开始挑战"按钮，系统会随机显示一个词语</p>
-                <p>2. 玩家需在2分钟内，仅用口型（不能发出声音）让同伴猜出词语</p>
-                <p>3. 猜对后点击"下一个词"继续挑战</p>
-                <p>4. 时间用完前猜对越多词语得分越高</p>
-                <p>5. 可选择"基础词汇"或"高难度短语"两种难度</p>
-            </div>
         </div>
         
         <footer>
@@ -219,26 +203,25 @@
     </div>
 
     <script>
-        // 词库数据
-        const wordLists = {
-            easy: [
-                "香蕉", "阳光", "西瓜", "独角兽", "蝴蝶", "果冻豆", "披萨", 
-                "超级英雄", "傻笑", "龙卷风", "冰淇淋", "烟花", "彩虹", 
-                "大象", "海盗", "爆米花", "宇航员", "汉堡", "蜘蛛", "侦探",
-                "猫咪踩键盘", "小猪戴礼帽", "兔子戴围巾", "乌鸦穿黑衣", "麻雀偷稻谷",
-                "青蛙跳荷叶", "金鱼撞鱼缸", "螃蟹过马路", "海豹拍肚皮", "熊猫啃竹子"
-            ],
-            hard: [
-                "小菜一碟", "天下着倾盆大雨", "早起的鸟儿有虫吃", 
-                "行动胜于雄辩", "硬着头皮", "一分钱换你一个想法", 
-                "字里行间", "泄露秘密", "一张图片胜过千言万语", 
-                "一针见血", "不要为打翻的牛奶哭泣", "心急的锅永远不开",
-                "云中漫步", "狐狸给鸡拜年", "大腿上把脉", 
-                "开水锅里洗澡", "梦里当新郎", "老鼠替猫刮胡子", 
-                "粪堆上开花", "浑身贴膏药", "芝麻做饼", 
-                "刮风扫地", "冷水泡鸡", "抱着干柴救火"
-            ]
-        };
+        // 合并词库
+        const wordList = [
+            // 基础词汇
+            "香蕉", "阳光", "西瓜", "独角兽", "蝴蝶", "果冻豆", "披萨", 
+            "超级英雄", "傻笑", "龙卷风", "冰淇淋", "烟花", "彩虹", 
+            "大象", "海盗", "爆米花", "宇航员", "汉堡", "蜘蛛", "侦探",
+            "猫咪踩键盘", "小猪戴礼帽", "兔子戴围巾", "乌鸦穿黑衣", "麻雀偷稻谷",
+            "青蛙跳荷叶", "金鱼撞鱼缸", "螃蟹过马路", "海豹拍肚皮", "熊猫啃竹子",
+            
+            // 高难度短语
+            "小菜一碟", "天下着倾盆大雨", "早起的鸟儿有虫吃", 
+            "行动胜于雄辩", "硬着头皮", "一分钱换你一个想法", 
+            "字里行间", "泄露秘密", "一张图片胜过千言万语", 
+            "一针见血", "不要为打翻的牛奶哭泣", "心急的锅永远不开",
+            "云中漫步", "狐狸给鸡拜年", "大腿上把脉", 
+            "开水锅里洗澡", "梦里当新郎", "老鼠替猫刮胡子", 
+            "粪堆上开花", "浑身贴膏药", "芝麻做饼", 
+            "刮风扫地", "冷水泡鸡", "抱着干柴救火"
+        ];
 
         // DOM元素
         const wordDisplay = document.getElementById('wordDisplay');
@@ -247,28 +230,20 @@
         const nextBtn = document.getElementById('nextBtn');
         const resetBtn = document.getElementById('resetBtn');
         const scoreDisplay = document.getElementById('score');
-        const diffBtns = document.querySelectorAll('.diff-btn');
+        const gameStatus = document.getElementById('gameStatus');
 
         // 游戏变量
         let currentWord = '';
         let score = 0;
         let timeLeft = 120; // 2分钟
         let timerId = null;
-        let currentDifficulty = 'easy';
         let usedWords = [];
+        let isGameActive = false;
 
         // 事件监听
         startBtn.addEventListener('click', startGame);
         nextBtn.addEventListener('click', nextWord);
         resetBtn.addEventListener('click', resetGame);
-        
-        diffBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                diffBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentDifficulty = this.getAttribute('data-difficulty');
-            });
-        });
 
         // 开始游戏
         function startGame() {
@@ -279,8 +254,11 @@
             score = 0;
             usedWords = [];
             timeLeft = 120;
+            isGameActive = true;
+            
             updateScore();
             updateTimerDisplay();
+            updateGameStatus("游戏开始！");
             
             startBtn.disabled = true;
             nextBtn.disabled = false;
@@ -299,15 +277,19 @@
 
         // 下一个词
         function nextWord() {
-            if (usedWords.length >= wordLists[currentDifficulty].length) {
+            if (!isGameActive) return;
+            
+            if (usedWords.length >= wordList.length) {
                 endGame();
+                updateGameStatus("所有词语已用完！");
                 return;
             }
             
-            let availableWords = wordLists[currentDifficulty].filter(word => !usedWords.includes(word));
+            let availableWords = wordList.filter(word => !usedWords.includes(word));
             
             if (availableWords.length === 0) {
                 endGame();
+                updateGameStatus("所有词语已用完！");
                 return;
             }
             
@@ -315,12 +297,18 @@
             currentWord = availableWords[randomIndex];
             usedWords.push(currentWord);
             
+            // 重置计时器
+            timeLeft = 120;
+            updateTimerDisplay();
+            
             wordDisplay.textContent = currentWord;
             wordDisplay.style.color = '#2575fc';
             
             // 增加得分
-            score += currentDifficulty === 'easy' ? 1 : 2;
+            score += 1;
             updateScore();
+            
+            updateGameStatus("继续挑战！");
         }
 
         // 更新计时器显示
@@ -343,11 +331,17 @@
         function updateScore() {
             scoreDisplay.textContent = score;
         }
+        
+        // 更新游戏状态
+        function updateGameStatus(message) {
+            gameStatus.textContent = message;
+        }
 
         // 结束游戏
         function endGame() {
             clearInterval(timerId);
             timerId = null;
+            isGameActive = false;
             
             wordDisplay.textContent = "游戏结束！";
             wordDisplay.style.color = '#ff4757';
@@ -355,16 +349,14 @@
             startBtn.disabled = false;
             nextBtn.disabled = true;
             
-            // 显示最终得分
-            setTimeout(() => {
-                alert(`游戏结束！\n你的最终得分是: ${score}`);
-            }, 500);
+            updateGameStatus(`游戏结束！你的最终得分是: ${score}`);
         }
 
         // 重置游戏
         function resetGame() {
             clearInterval(timerId);
             timerId = null;
+            isGameActive = false;
             
             wordDisplay.textContent = "点击开始游戏";
             wordDisplay.style.color = '#2575fc';
@@ -378,6 +370,7 @@
             nextBtn.disabled = true;
             
             usedWords = [];
+            updateGameStatus("");
         }
     </script>
 </body>
