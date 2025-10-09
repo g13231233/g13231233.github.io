@@ -1,0 +1,47 @@
+<!-- index.html 修改后 -->
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金牌牌之战</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .header-links {
+            position: absolute;
+            top: 20px;
+            width: calc(100% - 40px);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .header-link {
+            color: #6172b7;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .header-link:hover {
+            color: #5161a3;
+            text-decoration: underline;
+        }
+        .card-game {
+            margin-top: 60px; /* 为顶部链接留出空间 */
+        }
+    </style>
+</head>
+<body>
+    <div class="header-links">
+        <a href="sms.html" class="header-link">说明书</a>
+        <a href="phb.html" class="header-link">排行榜</a>
+    </div>
+    
+    <div class="card-game">
+        <h1>金牌牌之战</h1>
+        <div id="cardContainer" class="card-container"></div>
+        <button id="drawButton" class="draw-button">启用海克斯科技</button>
+        <h6>当前海克斯科技总数量：54个</h6>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
